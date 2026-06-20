@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trailmark — Concept Notes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="inner">
+    <a class="brand" href="index.html">Trailmark<span>.</span></a>
+    <div class="links">
+      <a href="index.html">Home</a>
+      <a href="trailmark-curriculum.html">Curriculum</a>
+      <a href="setup-guide.html">Setup</a>
+      <a href="teaching-guide.html">Build Guide</a>
+      <a href="concepts.html" class="active">Concepts</a>
+      <a href="assignments.html">Assignments</a>
+      <a href="final-reports.html">Final Reports</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <p class="eyebrow">Supplemental material · read alongside each session</p>
+    <h1>Concept Notes</h1>
+    <p class="pitch">The "why" behind every class. For each session: what each concept is, why it matters, how it works in code, and the gotchas that bite people. Pair this with the <a href="teaching-guide.html" style="color:#fff;text-decoration:underline">Build Guide</a> (the "what to build") and the <a href="trailmark-curriculum.html" style="color:#fff;text-decoration:underline">Curriculum</a> (the arc).</p>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+
+    <section>
+      <p class="kicker">Jump to a session</p>
+      <div class="grid">
+        <div class="card c1">
+          <b>Course 1 · iOS</b>
+          <ul class="out">
+            <li><a href="#c1-1">1.1 · Architecture &amp; HealthKit foundation</a></li>
+            <li><a href="#c1-2">1.2 · Media capture &amp; storage</a></li>
+            <li><a href="#c1-3">1.3 · Two-way HealthKit &amp; charts</a></li>
+            <li><a href="#c1-4">1.4 · Location, MapKit &amp; the unified model</a></li>
+          </ul>
+        </div>
+        <div class="card c2">
+          <b>Course 2 · watchOS</b>
+          <ul class="out">
+            <li><a href="#c2-1">2.1 · Wearable design &amp; code reuse</a></li>
+            <li><a href="#c2-2">2.2 · Media under wrist constraints</a></li>
+            <li><a href="#c2-3">2.3 · HealthKit on the watch</a></li>
+            <li><a href="#c2-4">2.4 · Core Motion</a></li>
+          </ul>
+        </div>
+        <div class="card c3">
+          <b>Course 3 · intermediate</b>
+          <ul class="out">
+            <li><a href="#c3-1">3.1 · WatchConnectivity</a></li>
+            <li><a href="#c3-2">3.2 · Live workout sessions</a></li>
+            <li><a href="#c3-3">3.3 · Performance &amp; power</a></li>
+            <li><a href="#c3-4">3.4 · Complications &amp; WidgetKit</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="note info">
+        <span class="t">How to use these notes</span>
+        Each concept block ends with <b>Key APIs</b> (what to look up in Apple's docs) and, where it matters, a <b>Watch out</b> with the common mistake. Code fragments are illustrative, not the full implementation — the working version lives in <span class="mono">TrailmarkCore</span> and the app targets.
+      </div>
+    </section>
+
+    <!-- ===================== COURSE 1 ===================== -->
+    <section>
+      <p class="kicker">Course One · iOS — Foundations &amp; the Shared Core</p>
+      <h2 class="sec">Course 1</h2>
+
+      <!-- 1.1 -->
+      <div class="card c1" id="c1-1">
+        <span class="badge c1">1.1</span> &nbsp;<b>Architecture &amp; the HealthKit foundation</b>
+        <div class="chips"><span class="chip">Swift Package</span><span class="chip">HealthKit auth</span><span class="chip">HKStatisticsQuery</span><span class="chip">@Observable</span></div>
+
+        <h4>Shared Swift package architecture</h4>
+        <p>A <b>Swift package</b> is a self-contained module of code with its own <span class="mono">Package.swift</span> manifest. A <em>local</em> package lives inside your repo and is linked by one or more app targets. Putting models + managers in <span class="mono">TrailmarkCore</span> means the iPhone app and the watch app import the <em>same</em> types — fix a bug once, both platforms get it. The alternative (copy-pasting logic into each target) is where two-platform projects rot.</p>
+        <p>The rule we enforce all program long: <b>views never import HealthKit/CoreLocation/etc.</b> They read published state from a manager in the package. This keeps platform-specific frameworks out of the UI and makes the logic testable and reusable.</p>
+        <p><b>Key APIs:</b> <span class="mono">Package.swift</span> · <span class="mono">platforms</span> · <span class="mono">.library</span> / <span class="mono">.target</span> · "Add Local…" package dependency.</p>
+
+        <h4>HealthKit's authorization &amp; privacy model</h4>
+        <p>HealthKit gates every data type behind explicit user permission, split into <b>read</b> and <b>write</b> (share) sets. You request access with <span class="mono">requestAuthorization(toShare:read:)</span>. The deliberate privacy twist: to avoid leaking what conditions a user might have, iOS <b>never tells you whether READ access was granted</b> — <span class="mono">authorizationStatus(for:)</span> only reports your <em>write</em> status. So you design for "the request finished," and treat a zeroed result as either "denied" or "genuinely no data." Never block the UI on a read-permission check.</p>
+        <p>Each requested type needs a <b>purpose string</b> in Info.plist (<span class="mono">NSHealthShareUsageDescription</span> / <span class="mono">NSHealthUpdateUsageDescription</span>) — without it the permission sheet silently never appears.</p>
+        <div class="note warn"><span class="t">Watch out</span> "The user denied read" and "there's no data yet" look identical to your code. Build one graceful empty state that covers both — don't show an error that implies a bug.</div>
+        <p><b>Key APIs:</b> <span class="mono">HKHealthStore</span> · <span class="mono">isHealthDataAvailable()</span> · <span class="mono">requestAuthorization(toShare:read:)</span> · <span class="mono">HKQuantityType(.stepCount)</span>.</p>
+
+        <h4>Reading totals with HKStatisticsQuery</h4>
+        <p>For "how many steps today" you don't want every individual sample — you want a <b>sum</b>. <span class="mono">HKStatisticsQuery</span> with the <span class="mono">.cumulativeSum</span> option asks HealthKit to do the aggregation for you over a date predicate. You read the result out in a specific <b>unit</b> (<span class="mono">.count()</span>, <span class="mono">.meter()</span>, <span class="mono">.kilocalorie()</span>). Quantities are always unit-typed — there is no "raw number," which prevents mixing meters and miles by accident.</p>
+        <pre><code>let predicate = HKQuery.predicateForSamples(withStart: startOfDay, end: Date())
+let q = HKStatisticsQuery(quantityType: HKQuantityType(.stepCount),
+                          quantitySamplePredicate: predicate,
+                          options: .cumulativeSum) { _, stats, _ in
+    let steps = stats?.sumQuantity()?.doubleValue(for: .count()) ?? 0
+}
+store.execute(q)</code></pre>
+        <p><b>Key APIs:</b> <span class="mono">HKStatisticsQuery</span> · <span class="mono">.cumulativeSum</span> · <span class="mono">HKQuery.predicateForSamples</span> · <span class="mono">HKQuantity.doubleValue(for:)</span>.</p>
+
+        <h4>SwiftUI data flow with @Observable</h4>
+        <p>Managers are marked <span class="mono">@Observable</span> (the Observation framework) and <span class="mono">@MainActor</span>. SwiftUI automatically re-renders a view when a property it actually read in <span class="mono">body</span> changes — no <span class="mono">@Published</span>, no <span class="mono">ObservableObject</span> boilerplate. HealthKit callbacks arrive on a background queue, so the manager hops back to the main actor before mutating published state.</p>
+        <p><b>Key APIs:</b> <span class="mono">@Observable</span> · <span class="mono">@MainActor</span> · <span class="mono">@State</span> for ownership · <span class="mono">.environment(_:)</span> to inject · <span class="mono">.task</span> / <span class="mono">.refreshable</span>.</p>
+        <p class="kicker" style="margin-top:14px">See also: <a href="teaching-guide.html#s1-1">Build Guide 1.1</a> · <a href="assignments.html#a1-1">Assignment 1.1</a></p>
+      </div>
+
+      <!-- 1.2 -->
+      <div class="card c1" id="c1-2">
+        <span class="badge c1">1.2</span> &nbsp;<b>Capturing the moment — media management</b>
+        <div class="chips"><span class="chip">AVAudioRecorder</span><span class="chip">AVAudioSession</span><span class="chip">FileManager</span><span class="chip">AVAssetImageGenerator</span></div>
+
+        <h4>Recording audio with AVFoundation</h4>
+        <p><span class="mono">AVAudioRecorder</span> writes microphone input straight to a file given a settings dictionary (format, sample rate, channels, quality). For voice memos, mono AAC in an <span class="mono">.m4a</span> container at 44.1 kHz is the sweet spot — small files, universal playback.</p>
+        <h4>The audio session</h4>
+        <p>Before recording or playing, you tell the system <em>how</em> your app uses audio via <span class="mono">AVAudioSession</span>: a <b>category</b> (<span class="mono">.playAndRecord</span> to record, <span class="mono">.playback</span> to play), a mode, and options like <span class="mono">.duckOthers</span>. You must <span class="mono">setActive(true)</span> to claim the session and deactivate when done so other apps' audio resumes. This is the single most common source of "my recording is silent / won't start" bugs.</p>
+        <div class="note warn"><span class="t">Watch out</span> Recording needs <span class="mono">NSMicrophoneUsageDescription</span>; the first <span class="mono">record()</span> triggers the mic permission prompt. No string → instant silent failure.</div>
+
+        <h4>Persisting files &amp; modeling metadata</h4>
+        <p>The recorder writes to a temporary file; you <b>move</b> it into a durable location (we use <span class="mono">Application Support/Media</span>) and store metadata separately in a small JSON index. Critical detail: store the file's <b>name</b>, not an absolute URL. The app's container path changes between launches and across devices, so a saved absolute URL becomes a dangling pointer. Resolve name → live URL on demand.</p>
+        <div class="note tip"><span class="t">Why this matters later</span> Storing relative names is exactly what lets a memo recorded on the watch be transferred to the phone (Course 3.1) and still resolve correctly in the phone's container.</div>
+
+        <h4>Video thumbnails &amp; playback</h4>
+        <p><span class="mono">AVAssetImageGenerator</span> extracts a still frame from a video asset at a given time — your list thumbnail. Set <span class="mono">appliesPreferredTrackTransform = true</span> so portrait videos aren't rotated. Playback uses AVKit's <span class="mono">VideoPlayer</span> (video) or <span class="mono">AVAudioPlayer</span> (audio). Note <span class="mono">AVAssetImageGenerator</span> is <b>iOS-only</b> — guard it so the shared package still compiles for watchOS.</p>
+        <p><b>Key APIs:</b> <span class="mono">AVAudioRecorder</span> · <span class="mono">AVAudioSession</span> · <span class="mono">FileManager.url(for:in:)</span> · <span class="mono">AVAssetImageGenerator.image(at:)</span> · <span class="mono">AVPlayer</span> / <span class="mono">VideoPlayer</span>.</p>
+        <p class="kicker" style="margin-top:14px">See also: <a href="teaching-guide.html#s1-2">Build Guide 1.2</a> · <a href="assignments.html#a1-2">Assignment 1.2</a></p>
+      </div>
+
+      <!-- 1.3 -->
+      <div class="card c1" id="c1-3">
+        <span class="badge c1">1.3</span> &nbsp;<b>Two-way HealthKit — workouts in, sleep &amp; recovery out</b>
+        <div class="chips"><span class="chip">HKWorkoutBuilder</span><span class="chip">sleepAnalysis</span><span class="chip">HKStatisticsCollectionQuery</span><span class="chip">Swift Charts</span></div>
+
+        <h4>Writing a workout</h4>
+        <p>Reading was half the story; now you <b>write</b>. The modern API is <span class="mono">HKWorkoutBuilder</span> (the old <span class="mono">HKWorkout</span> initializers are deprecated): <span class="mono">beginCollection</span> → add quantity samples (energy, distance) → <span class="mono">endCollection</span> → <span class="mono">finishWorkout</span>. Writing requires the <b>share</b> permission for those types. The payoff is verifiable: the workout shows up in Apple's Health app, proving your write path is real.</p>
+
+        <h4>Sleep via category types</h4>
+        <p>Not all health data is a number. <b>Category types</b> represent discrete states; <span class="mono">sleepAnalysis</span> samples carry a value like <span class="mono">.asleepCore</span>, <span class="mono">.asleepDeep</span>, <span class="mono">.asleepREM</span>, <span class="mono">.inBed</span>, <span class="mono">.awake</span>. "Last night's sleep" = sum the durations of the <em>asleep</em> stages within a sensible window (e.g. 6pm→noon) — bracketing the night correctly is the genuinely tricky part, since people sleep across midnight and nap.</p>
+
+        <h4>Daily buckets with HKStatisticsCollectionQuery</h4>
+        <p>For a 7-day trend you want one number <em>per day</em>. <span class="mono">HKStatisticsCollectionQuery</span> takes an <b>anchor date</b> and an <b>interval</b> (<span class="mono">DateComponents(day: 1)</span>) and returns a collection you enumerate to get per-bucket sums. It's the right tool any time you'd otherwise be tempted to run a query in a loop.</p>
+
+        <h4>Visualizing with Swift Charts</h4>
+        <p>Swift Charts turns an array of <span class="mono">Identifiable</span> points into a chart declaratively. A <span class="mono">BarMark</span> with <span class="mono">x: .value("Day", day, unit: .day)</span> and <span class="mono">y: .value("kcal", energy)</span> is the whole 7-day energy chart. Axis marks + <span class="mono">.dateTime.weekday()</span> label the days.</p>
+        <p><b>Key APIs:</b> <span class="mono">HKWorkoutBuilder</span> · <span class="mono">HKCategoryType(.sleepAnalysis)</span> · <span class="mono">HKCategoryValueSleepAnalysis</span> · <span class="mono">HKStatisticsCollectionQuery</span> · <span class="mono">Chart</span> / <span class="mono">BarMark</span>.</p>
+        <p class="kicker" style="margin-top:14px">See also: <a href="teaching-guide.html#s1-3">Build Guide 1.3</a> · <a href="assignments.html#a1-3">Assignment 1.3</a></p>
+      </div>
+
+      <!-- 1.4 -->
+      <div class="card c1" id="c1-4">
+        <span class="badge c1">1.4</span> &nbsp;<b>Where it happened — location &amp; the unified journey</b>
+        <div class="chips"><span class="chip">CoreLocation</span><span class="chip">CLLocationManager</span><span class="chip">MapKit</span><span class="chip">MapPolyline</span></div>
+
+        <h4>Location authorization &amp; recording a track</h4>
+        <p>CoreLocation has two authorization levels: <b>When In Use</b> (only while the app is foregrounded/active) and <b>Always</b>. We request <em>when-in-use</em> — enough to record a route while the user watches, and far less invasive. <span class="mono">CLLocationManager</span> is delegate-based: set <span class="mono">desiredAccuracy</span> and a <span class="mono">distanceFilter</span> (only report after moving N meters), call <span class="mono">startUpdatingLocation()</span>, and accumulate <span class="mono">didUpdateLocations</span> callbacks into a track.</p>
+        <div class="note tip"><span class="t">First taste of the power tradeoff</span> A bigger <span class="mono">distanceFilter</span> and coarser accuracy = fewer callbacks = less battery, at the cost of a blockier track. This is the exact knob Course 3.3 profiles.</div>
+
+        <h4>Geotagging media</h4>
+        <p>Because the <span class="mono">LocationManager</span> exposes the current coordinate, capturing a memo can stamp it with <em>where</em> it happened — just pass <span class="mono">location.currentCoordinate</span> into the media store. Coordinates are stored as plain lat/long doubles on the model (Codable-friendly), not as a CoreLocation type.</p>
+
+        <h4>Drawing the route in MapKit</h4>
+        <p>SwiftUI's <span class="mono">Map</span> takes a content builder. <span class="mono">MapPolyline(coordinates:)</span> draws the route line; <span class="mono">Marker</span> / <span class="mono">Annotation</span> drop memo pins. The "Journey detail" screen composes all three Course-1 builds — route + health + media — into one view, which is also the payload that later syncs to the watch.</p>
+        <p><b>Key APIs:</b> <span class="mono">CLLocationManager</span> · <span class="mono">requestWhenInUseAuthorization()</span> · <span class="mono">CLLocationManagerDelegate</span> · <span class="mono">Map</span> · <span class="mono">MapPolyline</span> · <span class="mono">Marker</span>.</p>
+        <p class="kicker" style="margin-top:14px">See also: <a href="teaching-guide.html#s1-4">Build Guide 1.4</a> (integration day)</p>
+      </div>
+    </section>
+
+    <!-- ===================== COURSE 2 ===================== -->
+    <section>
+      <p class="kicker">Course Two · watchOS — Designing &amp; Building for the Wrist</p>
+      <h2 class="sec">Course 2</h2>
+
+      <!-- 2.1 -->
+      <div class="card c2" id="c2-1">
+        <span class="badge c2">2.1</span> &nbsp;<b>Design for wearables + reusing the core</b>
+        <div class="chips"><span class="chip">watchOS HIG</span><span class="chip">Glanceability</span><span class="chip">Digital Crown</span><span class="chip">Code reuse</span></div>
+
+        <h4>Wearable design principles</h4>
+        <p>The watch is not a small phone. Apple's watchOS guidelines push four ideas: <b>glanceability</b> (the key info readable in ~2 seconds), <b>focused tasks</b> (one job per screen), clear <b>hierarchy</b> (one dominant element), and <b>deferring to the phone</b> for anything long or text-heavy. The <b>Digital Crown</b> is the precise scroll/adjust input — use it for values and long lists rather than tiny touch targets.</p>
+
+        <h4>Adding a watch target &amp; reusing TrailmarkCore</h4>
+        <p>The watch app is a <b>target in the same project</b>, not a new project, created as a "Watch App for an Existing iOS App" so it's paired to the phone (<span class="mono">WKCompanionAppBundleIdentifier</span>). It links the <em>same</em> <span class="mono">TrailmarkCore</span> package, so models and managers are imported, not rewritten. The watch only adds new <em>views</em> and the occasional watch-specific manager method.</p>
+        <div class="note warn"><span class="t">Watch out</span> Translate, don't shrink. A glanceable headline metric (one big number) beats cramming the iPhone dashboard onto a 1.9″ screen.</div>
+        <p><b>Key APIs:</b> watchOS target template · <span class="mono">WKCompanionAppBundleIdentifier</span> · shared package linking · SwiftUI on watchOS (<span class="mono">List</span>, <span class="mono">NavigationStack</span>).</p>
+        <p class="kicker" style="margin-top:14px">See also: <a href="teaching-guide.html#s2-1">Build Guide 2.1</a> · <a href="assignments.html#a2-1">Assignment 2.1</a></p>
+      </div>
+
+      <!-- 2.2 -->
+      <div class="card c2" id="c2-2">
+        <span class="badge c2">2.2</span> &nbsp;<b>Voice memos on the wrist — media under constraints</b>
+        <div class="chips"><span class="chip">AVFoundation (watch)</span><span class="chip">AVAudioSession</span><span class="chip">Constraints</span></div>
+
+        <h4>Audio on watchOS</h4>
+        <p>The same <span class="mono">AVAudioRecorder</span> / <span class="mono">AVAudioPlayer</span> and audio-session concepts from 1.2 work on the watch — which is the point: the <span class="mono">AudioRecorder</span> in <span class="mono">TrailmarkCore</span> is reused unchanged. What differs is the <b>environment</b>: limited storage, a smaller battery, no large keyboard, and a UI that must stay essential.</p>
+
+        <h4>Designing within constraints</h4>
+        <p>The wrist memo UI strips to: record/stop, a list, tap-to-play. No waveform scrubber, no rename flow, no multi-select — those defer to the phone. The lesson is reuse-with-restraint: same <em>model and storage</em>, deliberately different <em>interface</em>, and being able to articulate why each is appropriate to its device.</p>
+        <p><b>Key APIs:</b> <span class="mono">AVAudioRecorder</span> · <span class="mono">AVAudioSession</span> (.playAndRecord) · shared <span class="mono">MediaStore</span> / <span class="mono">MediaMemo</span>.</p>
+        <p class="kicker" style="margin-top:14px">See also: <a href="teaching-guide.html#s2-2">Build Guide 2.2</a> · <a href="assignments.html#a2-2">Assignment 2.2</a></p>
+      </div>
+
+      <!-- 2.3 -->
+      <div class="card c2" id="c2-3">
+        <span class="badge c2">2.3</span> &nbsp;<b>HealthKit on the watch</b>
+        <div class="chips"><span class="chip">HealthKit (watch)</span><span class="chip">HKAnchoredObjectQuery</span><span class="chip">Live updates</span></div>
+
+        <h4>Sensor access: watch vs phone</h4>
+        <p>The phone infers steps and energy; the <b>watch is the source</b> for heart rate and on-wrist motion. Authorization works the same way (<span class="mono">requestAuthorization</span> with its own Info.plist strings on the watch target), but the watch can deliver fresher, more frequent samples for vitals because the sensors are right there.</p>
+
+        <h4>Live-updating queries</h4>
+        <p>A one-shot statistics query is wrong for "current heart rate." <span class="mono">HKAnchoredObjectQuery</span> returns existing samples <em>and</em> keeps an <span class="mono">updateHandler</span> that fires as new samples arrive — you push each into published state and the SwiftUI view animates the change. (For continuous, high-frequency streaming during exercise you escalate to a workout session — Course 3.2.)</p>
+        <div class="note warn"><span class="t">Watch out</span> Heart rate cannot be simulated — the Simulator reports nothing. Demo and test live vitals on a real Apple Watch.</div>
+        <p><b>Key APIs:</b> <span class="mono">HKAnchoredObjectQuery</span> · <span class="mono">updateHandler</span> · <span class="mono">HKQuantityType(.heartRate)</span> · unit <span class="mono">count()/min</span> · shared <span class="mono">HealthKitManager</span>.</p>
+        <p class="kicker" style="margin-top:14px">See also: <a href="teaching-guide.html#s2-3">Build Guide 2.3</a> · <a href="assignments.html#a2-3">Assignment 2.3</a></p>
+      </div>
+
+      <!-- 2.4 -->
+      <div class="card c2" id="c2-4">
+        <span class="badge c2">2.4</span> &nbsp;<b>Sensing motion at the source — Core Motion</b>
+        <div class="chips"><span class="chip">CMPedometer</span><span class="chip">CMMotionActivityManager</span><span class="chip">Accelerometer</span><span class="chip">Sampling cost</span></div>
+
+        <h4>The Core Motion sensor family</h4>
+        <p>Core Motion exposes the raw inertial sensors and higher-level processed signals. The <b>accelerometer</b> and <b>gyroscope</b> give motion/orientation; <span class="mono">CMPedometer</span> gives steps, distance, and <b>cadence</b> (steps/sec); <span class="mono">CMMotionActivityManager</span> classifies activity (walking / running / cycling / automotive / stationary) using a low-power coprocessor. The wrist is the ideal vantage point for all of this.</p>
+
+        <h4>Deriving a signal from raw data</h4>
+        <p>Raw numbers aren't insight. You <b>derive</b>: convert <span class="mono">currentCadence</span> (steps/sec) to steps/min, or reduce three accelerometer axes to a single magnitude (<span class="mono">√(x²+y²+z²)</span>). Each requires availability checks — not every device has every sensor (<span class="mono">isStepCountingAvailable()</span>, <span class="mono">isActivityAvailable()</span>).</p>
+
+        <h4>The energy cost of sensors</h4>
+        <p>Sensors aren't free. The accelerometer's default update rate can be 100 Hz; for a magnitude readout 10 Hz is plenty and far cheaper. Choosing the lowest rate that still answers your question is the core of wearable power discipline — and the setup for Course 3.3.</p>
+        <p><b>Key APIs:</b> <span class="mono">CMPedometer</span> · <span class="mono">CMMotionActivityManager</span> · <span class="mono">CMMotionManager.deviceMotionUpdateInterval</span> · availability checks · <span class="mono">CMMotionActivity</span>.</p>
+        <p class="kicker" style="margin-top:14px">See also: <a href="teaching-guide.html#s2-4">Build Guide 2.4</a> (integration day)</p>
+      </div>
+    </section>
+
+    <!-- ===================== COURSE 3 ===================== -->
+    <section>
+      <p class="kicker">Course Three · Intermediate watchOS — Live, Connected &amp; Performant</p>
+      <h2 class="sec">Course 3</h2>
+
+      <!-- 3.1 -->
+      <div class="card c3" id="c3-1">
+        <span class="badge c3">3.1</span> &nbsp;<b>WatchConnectivity — making two apps one</b>
+        <div class="chips"><span class="chip">WCSession</span><span class="chip">applicationContext</span><span class="chip">transferUserInfo</span><span class="chip">transferFile</span></div>
+
+        <h4>The session</h4>
+        <p>WatchConnectivity links the paired iPhone and Watch apps. Both sides set a delegate and call <span class="mono">WCSession.default.activate()</span>. <span class="mono">isReachable</span> tells you whether the counterpart is awake and connected <em>right now</em>.</p>
+
+        <h4>Choosing the right transfer type</h4>
+        <p>The whole skill here is matching payload to mechanism:</p>
+        <ul class="out">
+          <li><b><span class="mono">sendMessage</span></b> — live, immediate, needs the counterpart reachable now. Great for interactive request/response, wrong for a backgrounded phone.</li>
+          <li><b><span class="mono">updateApplicationContext</span></b> — a single "latest state" dictionary that's coalesced: only the newest value survives. Perfect for mirroring today's summary to the wrist.</li>
+          <li><b><span class="mono">transferUserInfo</span></b> — a FIFO queue of discrete dictionaries with <b>guaranteed delivery</b>, surviving relaunch. Right for "a workout finished."</li>
+          <li><b><span class="mono">transferFile</span></b> — for binary payloads (a voice-memo file) with attached metadata.</li>
+        </ul>
+        <div class="note warn"><span class="t">Watch out</span> A received file URL is only valid <em>inside</em> the delegate callback — copy the bytes out immediately or they're gone.</div>
+        <p><b>Key APIs:</b> <span class="mono">WCSession</span> · <span class="mono">WCSessionDelegate</span> · <span class="mono">updateApplicationContext</span> · <span class="mono">transferUserInfo</span> · <span class="mono">transferFile(_:metadata:)</span>.</p>
+        <p class="kicker" style="margin-top:14px">See also: <a href="teaching-guide.html#s3-1">Build Guide 3.1</a> · <a href="assignments.html#a3-1">Assignment 3.1</a></p>
+      </div>
+
+      <!-- 3.2 -->
+      <div class="card c3" id="c3-2">
+        <span class="badge c3">3.2</span> &nbsp;<b>Live workout sessions &amp; background running</b>
+        <div class="chips"><span class="chip">HKWorkoutSession</span><span class="chip">HKLiveWorkoutBuilder</span><span class="chip">workout-processing</span></div>
+
+        <h4>Workout sessions (watchOS-only)</h4>
+        <p><span class="mono">HKWorkoutSession</span> is the privileged mode that lets a watch app keep running and collecting data during exercise. You pair it with an <span class="mono">HKLiveWorkoutBuilder</span> whose <span class="mono">HKLiveWorkoutDataSource</span> auto-collects the metrics relevant to the activity type. The builder's delegate fires as data arrives — you read <span class="mono">statistics(for:)</span> to update live heart rate, energy, and distance.</p>
+
+        <h4>Background runtime</h4>
+        <p>The reason a session matters: with the <b>Workout Processing</b> background mode enabled (a capability), the app keeps updating even when the wrist drops and the screen sleeps. Without it, a normal watch app is suspended almost immediately. On finish, <span class="mono">endCollection</span> → <span class="mono">finishWorkout</span> saves a real <span class="mono">HKWorkout</span> to Health.</p>
+        <div class="note warn"><span class="t">Watch out</span> Sessions, background runtime, and live metrics need a physical Apple Watch — the Simulator can start/save but won't stream sensor data.</div>
+        <p><b>Key APIs:</b> <span class="mono">HKWorkoutSession</span> · <span class="mono">HKLiveWorkoutBuilder</span> · <span class="mono">HKLiveWorkoutDataSource</span> · <span class="mono">HKWorkoutConfiguration</span> · WKBackgroundModes <span class="mono">workout-processing</span>.</p>
+        <p class="kicker" style="margin-top:14px">See also: <a href="teaching-guide.html#s3-2">Build Guide 3.2</a> · <a href="assignments.html#a3-2">Assignment 3.2</a></p>
+      </div>
+
+      <!-- 3.3 -->
+      <div class="card c3" id="c3-3">
+        <span class="badge c3">3.3</span> &nbsp;<b>Performance &amp; power for wearables</b>
+        <div class="chips"><span class="chip">Instruments</span><span class="chip">Sampling rates</span><span class="chip">UI refresh</span><span class="chip">Batching</span></div>
+
+        <h4>Profiling with Instruments</h4>
+        <p>You can't optimize what you don't measure. <b>Instruments</b> attaches to a running app and records traces: the <b>Energy Log</b> shows power impact, <b>Time Profiler</b> shows where CPU goes, <b>Allocations</b> shows memory. On a watch, energy is the budget that matters most.</p>
+
+        <h4>The three big levers</h4>
+        <ul class="out">
+          <li><b>Sensor sampling rate</b> — the cheapest win. Halving an accelerometer/location update rate often halves that feature's energy with no felt difference (1.4's <span class="mono">distanceFilter</span>, 2.4's update interval).</li>
+          <li><b>UI refresh cadence</b> — a timer ticking the display every 0.1s is wasteful if a 1s tick reads identically. Throttle redraws to what the eye needs.</li>
+          <li><b>Sync batching</b> — chatty per-event messages cost a radio wake each time. Batch updates (<span class="mono">applicationContext</span>/<span class="mono">transferUserInfo</span>) instead of streaming live messages.</li>
+        </ul>
+        <div class="note tip"><span class="t">The discipline</span> Every optimization is a tradeoff (freshness vs battery, smoothness vs cost). Document before/after numbers and name the tradeoff — measurement, not vibes.</div>
+        <p><b>Key APIs / tools:</b> Instruments (Energy, Time Profiler, Allocations) · <span class="mono">deviceMotionUpdateInterval</span> · <span class="mono">distanceFilter</span> · <span class="mono">TimelineView</span> / timer cadence.</p>
+        <p class="kicker" style="margin-top:14px">See also: <a href="teaching-guide.html#s3-3">Build Guide 3.3</a> · <a href="assignments.html#a3-3">Assignment 3.3</a></p>
+      </div>
+
+      <!-- 3.4 -->
+      <div class="card c3" id="c3-4">
+        <span class="badge c3">3.4</span> &nbsp;<b>Complications, Smart Stack &amp; independence</b>
+        <div class="chips"><span class="chip">WidgetKit</span><span class="chip">TimelineProvider</span><span class="chip">App Group</span><span class="chip">Smart Stack</span></div>
+
+        <h4>Complications are WidgetKit widgets</h4>
+        <p>Modern watch complications are built with <b>WidgetKit</b>, the same framework as iOS widgets. You declare a <span class="mono">Widget</span> with a configuration, a <span class="mono">TimelineProvider</span>, and a SwiftUI view that adapts to the <b>complication families</b> (<span class="mono">accessoryCircular</span>, <span class="mono">accessoryRectangular</span>, <span class="mono">accessoryInline</span>, <span class="mono">accessoryCorner</span>) on the watch face and in the <b>Smart Stack</b>.</p>
+
+        <h4>Timelines &amp; refresh</h4>
+        <p>A complication doesn't run continuously; the system asks your <span class="mono">TimelineProvider</span> for entries and a refresh policy (e.g. <span class="mono">.after(date)</span>). Your app can also force a refresh with <span class="mono">WidgetCenter.shared.reloadAllTimelines()</span> when fresh data lands.</p>
+
+        <h4>Sharing data via an App Group</h4>
+        <p>The extension is a <em>separate process</em> from the app, so they can't share memory. An <b>App Group</b> gives both a shared <span class="mono">UserDefaults</span> suite / container — the app writes today's steps, the complication reads them. Add the same group id to the app and the extension.</p>
+
+        <h4>Independence</h4>
+        <p>Where it makes sense, the watch app should function without the phone nearby — reading its own HealthKit data, storing its own memos — which the shared-core architecture already enables. The capstone integrates everything end to end across iPhone and Apple Watch.</p>
+        <p><b>Key APIs:</b> <span class="mono">Widget</span> · <span class="mono">StaticConfiguration</span> · <span class="mono">TimelineProvider</span> · <span class="mono">widgetFamily</span> · <span class="mono">WidgetCenter.reloadAllTimelines()</span> · App Groups / <span class="mono">UserDefaults(suiteName:)</span>.</p>
+        <p class="kicker" style="margin-top:14px">See also: <a href="teaching-guide.html#s3-4">Build Guide 3.4</a> (capstone)</p>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>What to build each session: the <a href="teaching-guide.html">Build Guide</a>. The graded builds: <a href="assignments.html">Assignments</a>. Project setup: the <a href="setup-guide.html">Setup Guide</a>.</p>
+  </div>
+</footer>
+
+</body>
+</html>

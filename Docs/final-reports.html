@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trailmark — Final Reports</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="inner">
+    <a class="brand" href="index.html">Trailmark<span>.</span></a>
+    <div class="links">
+      <a href="index.html">Home</a>
+      <a href="trailmark-curriculum.html">Curriculum</a>
+      <a href="setup-guide.html">Setup</a>
+      <a href="teaching-guide.html">Build Guide</a>
+      <a href="concepts.html">Concepts</a>
+      <a href="assignments.html">Assignments</a>
+      <a href="final-reports.html" class="active">Final Reports</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <p class="eyebrow">Capstone work · end of each course (class 4)</p>
+    <h1>Final Reports</h1>
+    <p class="pitch">Each course ends by <b>finishing and integrating the project</b> — that's the final report. Three deliverables, one per course: the whole iOS app, then the whole watch app, then the complete cross-device project presented end to end. Same card format as the <a href="assignments.html" style="color:#fff;text-decoration:underline">Assignments</a>, scaled up to "is it a coherent product?"</p>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+
+    <section>
+      <div class="note info">
+        <span class="t">What a final report is (and how it differs from an assignment)</span>
+        The weekly assignments (classes 1–3) each grade <em>one feature</em>. The final report (class 4) grades <b>integration</b>: do the pieces become one working, well-architected product? There is no new feature to invent — you connect what you already built, write it up, and demo it.
+        <ul class="out" style="margin-top:8px">
+          <li><b>Written report (file upload, PDF):</b> 1–2 pages — what you built, a short architecture note (how <span class="mono">TrailmarkCore</span> is shared), screenshots, and known limitations.</li>
+          <li><b>Demo recording (file upload, .mp4/.mov):</b> 2–4 min walking through the integrated app end to end. Device recording for any sensor/watch features.</li>
+          <li><b>Source (website URL):</b> repo link at the tagged commit (or a zipped project).</li>
+        </ul>
+        <span style="display:block;margin-top:8px">Recommended Canvas setup: <b>Online submission</b> with <em>File Uploads + Website URL</em>, 100 points. Course 3 adds a short live presentation.</span>
+      </div>
+      <div class="grid">
+        <div class="card c1"><b>Course 1 (iOS)</b><ul class="out"><li><a href="#fr1">Final Report 1 — The iOS app, whole</a></li></ul></div>
+        <div class="card c2"><b>Course 2 (watchOS)</b><ul class="out"><li><a href="#fr2">Final Report 2 — TrailMark on the wrist</a></li></ul></div>
+        <div class="card c3"><b>Course 3 (intermediate)</b><ul class="out"><li><a href="#fr3">Final Report 3 — The capstone</a></li></ul></div>
+      </div>
+    </section>
+
+    <!-- ========== COURSE 1 FINAL ========== -->
+    <section>
+      <div class="card c1" id="fr1">
+        <span class="badge c1">Final Report · Course 1</span> <span class="chip">100 pts</span> <span class="chip">iOS</span> <span class="chip">Session 1.4</span>
+        <h3>"The iOS app, whole"</h3>
+        <p><b>What it is.</b> The integration day for Course 1. Connect the three previous builds — activity, media, and location — into one coherent iPhone app, anchored by a <b>Journey detail</b> screen that unites route, health, and media. The app should now be whole and ready for the wrist.</p>
+        <h4>Deliverable requirements</h4>
+        <ul class="out">
+          <li>A single iOS app with working Today (1.1), Field Journal (1.2), Recovery (1.3), and Journeys (1.4) features.</li>
+          <li>A <b>Journey detail</b> screen that shows the route polyline, geotagged memo pins, and the activity/health summary together.</li>
+          <li>Memos captured during a journey are geotagged and associated with it.</li>
+          <li>All platform logic (HealthKit, media, location) lives in <span class="mono">TrailmarkCore</span> — no framework imports in views.</li>
+          <li>Graceful states throughout (denied permissions, no data, empty lists) — no crashes.</li>
+        </ul>
+        <h4>The report should cover</h4>
+        <ul class="out">
+          <li>An architecture note: what lives in the package vs the app, and why the split prevents duplication when the watch arrives.</li>
+          <li>Screenshots of each feature and the unified Journey screen.</li>
+          <li>Known limitations / what you'd do next.</li>
+        </ul>
+        <h4>Cumulative learning outcomes (Course 1)</h4>
+        <ul class="out">
+          <li>Structure an app + shared Swift package, and justify the boundary.</li>
+          <li>Read and write HealthKit data with a correct authorization/privacy model.</li>
+          <li>Capture, persist, and play back media with sound metadata design.</li>
+          <li>Record a location track and present route + health + media as one journey.</li>
+        </ul>
+        <h4>Rubric</h4>
+        <table>
+          <tr><th>Criterion</th><th>Pts</th></tr>
+          <tr><td>All four features present and working together</td><td>35</td></tr>
+          <tr><td>Unified Journey screen (route + memos + health integrated)</td><td>25</td></tr>
+          <tr><td>Architecture: logic in the shared package, clean views</td><td>20</td></tr>
+          <tr><td>Written report (architecture note + screenshots + limitations)</td><td>10</td></tr>
+          <tr><td>Demo recording + source complete</td><td>10</td></tr>
+        </table>
+        <p class="kicker" style="margin-top:14px">See also: <a href="teaching-guide.html#s1-4">Build Guide 1.4</a> · <a href="concepts.html#c1-4">Concept Notes 1.4</a></p>
+      </div>
+    </section>
+
+    <!-- ========== COURSE 2 FINAL ========== -->
+    <section>
+      <div class="card c2" id="fr2">
+        <span class="badge c2">Final Report · Course 2</span> <span class="chip">100 pts</span> <span class="chip">watchOS</span> <span class="chip">Session 2.4</span>
+        <h3>"TrailMark on the wrist"</h3>
+        <p><b>What it is.</b> The integration day for Course 2. The watch app is complete — home, memo, vitals, and motion — all built on the <em>same</em> <span class="mono">TrailmarkCore</span> as the phone. Motion sensing is wired in, and the battery/sampling conversation that Course 3 picks up is opened.</p>
+        <h4>Deliverable requirements</h4>
+        <ul class="out">
+          <li>A working watch app with Wrist Home (2.1), Wrist Memo (2.2), Live Vitals (2.3), and Motion (2.4).</li>
+          <li>Demonstrable <b>code reuse</b>: the watch imports the shared package with no duplicated model/manager code.</li>
+          <li>Wrist-appropriate design throughout — glanceable, focused, not a shrunk iPhone UI.</li>
+          <li>Live vitals and motion shown on a <b>physical Apple Watch</b> (sensors can't be simulated).</li>
+        </ul>
+        <h4>The report should cover</h4>
+        <ul class="out">
+          <li>Which types/managers were reused unchanged from Course 1, and which views are watch-specific — quantify the reuse.</li>
+          <li>One design decision defended against a named watchOS guideline.</li>
+          <li>An early note on sensor/sampling cost (sets up Course 3.3).</li>
+        </ul>
+        <h4>Cumulative learning outcomes (Course 2)</h4>
+        <ul class="out">
+          <li>Apply wearable design principles: glanceability, focused tasks, hierarchy, deferring to the phone.</li>
+          <li>Add a watch target and reuse a shared module instead of rewriting it.</li>
+          <li>Capture media and read live health metrics within wrist constraints.</li>
+          <li>Sense motion at the source with Core Motion and derive a useful signal.</li>
+        </ul>
+        <h4>Rubric</h4>
+        <table>
+          <tr><th>Criterion</th><th>Pts</th></tr>
+          <tr><td>All four watch features present and working (on device)</td><td>35</td></tr>
+          <tr><td>Code reuse: no duplicated core; watch adds only views/glue</td><td>25</td></tr>
+          <tr><td>Wrist-appropriate design &amp; a justified guideline choice</td><td>20</td></tr>
+          <tr><td>Written report (reuse analysis + design + sampling note)</td><td>10</td></tr>
+          <tr><td>Demo recording + source complete</td><td>10</td></tr>
+        </table>
+        <p class="kicker" style="margin-top:14px">See also: <a href="teaching-guide.html#s2-4">Build Guide 2.4</a> · <a href="concepts.html#c2-4">Concept Notes 2.4</a></p>
+      </div>
+    </section>
+
+    <!-- ========== COURSE 3 FINAL (CAPSTONE) ========== -->
+    <section>
+      <div class="card c3" id="fr3">
+        <span class="badge c3">Final Report · Course 3 · Capstone</span> <span class="chip">100 pts</span> <span class="chip">iOS + watchOS</span> <span class="chip">Session 3.4</span>
+        <h3>"The capstone — the whole project, end to end"</h3>
+        <p><b>What it is.</b> The program capstone. Integrate and present the complete TrailMark project across iPhone and Apple Watch: connectivity, live workouts, a tuned/performant build, and a complication on the watch face. Where appropriate the watch app stands on its own.</p>
+        <h4>Deliverable requirements</h4>
+        <ul class="out">
+          <li><b>Pocket sync (3.1):</b> an activity and a memo recorded on the watch appear on the phone via WatchConnectivity.</li>
+          <li><b>Live workout (3.2):</b> a session starts on the watch, updates while backgrounded, and saves a real <span class="mono">HKWorkout</span> to Health.</li>
+          <li><b>Performance (3.3):</b> at least two measured optimizations carried over, with before/after numbers in the report.</li>
+          <li><b>Complication (3.4):</b> a WidgetKit complication surfaces a key metric on the watch face / Smart Stack, backed by an App Group.</li>
+          <li>The watch app functions independently where appropriate.</li>
+        </ul>
+        <h4>The report + presentation should cover</h4>
+        <ul class="out">
+          <li>A whole-system architecture diagram: the shared core, both apps, the complication, and the sync paths.</li>
+          <li>The transfer-type choice per payload (3.1) and the performance before/after (3.3).</li>
+          <li>A short <b>live demo / presentation</b> of the full project across both devices.</li>
+        </ul>
+        <h4>Cumulative learning outcomes (Course 3 + program)</h4>
+        <ul class="out">
+          <li>Sync data and files between watch and phone with the right WatchConnectivity transfer type.</li>
+          <li>Run a live, background-capable workout session and persist the result.</li>
+          <li>Profile and tune a wearable feature for power, defending the tradeoffs with measurements.</li>
+          <li>Build a complication and present a coherent, integrated cross-device product.</li>
+        </ul>
+        <h4>Rubric</h4>
+        <table>
+          <tr><th>Criterion</th><th>Pts</th></tr>
+          <tr><td>Sync + live workout working across devices</td><td>30</td></tr>
+          <tr><td>Complication on the watch face / Smart Stack</td><td>15</td></tr>
+          <tr><td>Two measured performance optimizations (before/after)</td><td>15</td></tr>
+          <tr><td>Whole-project integration &amp; independence</td><td>15</td></tr>
+          <tr><td>Report + architecture diagram</td><td>10</td></tr>
+          <tr><td>Live presentation / demo</td><td>15</td></tr>
+        </table>
+        <p class="kicker" style="margin-top:14px">See also: <a href="teaching-guide.html#s3-4">Build Guide 3.4</a> · <a href="concepts.html#c3-4">Concept Notes 3.4</a></p>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>Per-feature graded builds: <a href="assignments.html">Assignments</a>. What to build each session: the <a href="teaching-guide.html">Build Guide</a>. The "why": <a href="concepts.html">Concept Notes</a>.</p>
+  </div>
+</footer>
+
+</body>
+</html>
