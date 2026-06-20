@@ -35,10 +35,10 @@ jobs:
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
-        with:
-          # Auto-enable Pages (and set the source to GitHub Actions) so the
-          # first run doesn't fail with "Get Pages site failed / Not Found".
-          enablement: true
+        # NOTE: Pages must be enabled ONCE by hand first:
+        #   repo → Settings → Pages → Build and deployment → Source: "GitHub Actions"
+        # The GITHUB_TOKEN can't create the Pages site itself in this repo
+        # ("Resource not accessible by integration"), so auto-enablement is off.
 
       - name: Upload Docs/ as the site
         uses: actions/upload-pages-artifact@v3
