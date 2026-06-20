@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trailmark — Class-by-Class Teaching Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="inner">
+    <a class="brand" href="index.html">Trailmark<span>.</span></a>
+    <div class="links">
+      <a href="index.html">Home</a>
+      <a href="trailmark-curriculum.html">Curriculum</a>
+      <a href="setup-guide.html">Setup</a>
+      <a href="teaching-guide.html" class="active">Teaching Guide</a>
+      <a href="assignments.html">Assignments</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <p class="eyebrow">For the instructor · 12 sessions × 2.5 hrs</p>
+    <h1>Class-by-Class Teaching Guide</h1>
+    <p class="pitch">Exactly what to build live in each session, which files to write, the teaching points to land, and the demo checkpoint to end on. The in-class build <b>is</b> the assignment for classes 1–3 of each course.</p>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+
+    <section>
+      <div class="note info">
+        <span class="t">How to read each session</span>
+        <b>Build live</b> = the files you write on screen with students. <b>Teach</b> = the concepts to surface while coding. <b>Checkpoint</b> = the visible result that proves it worked. File paths are relative to <span class="mono">TrailmarkCore/Sources/TrailmarkCore/</span> (package) or the app target folders. Do <a href="setup-guide.html">Setup §1–3</a> before Course 1.1.
+      </div>
+    </section>
+
+    <!-- ===================== COURSE 1 ===================== -->
+    <section>
+      <p class="kicker">Course One · iOS — Foundations &amp; the Shared Core</p>
+      <h2 class="sec">Course 1</h2>
+
+      <div class="card c1" id="s1-1">
+        <span class="badge c1">Session 1.1</span> &nbsp;<b>Architecture &amp; the HealthKit foundation</b>
+        <div class="chips"><span class="chip">Swift Package</span><span class="chip">HealthKit</span><span class="chip">HKStatisticsQuery</span><span class="chip">@Observable</span></div>
+        <h4>Build live</h4>
+        <ul class="out">
+          <li>Create the project + watch target + <span class="mono">TrailmarkCore</span> package skeleton (<a href="setup-guide.html#package">Setup §1–3</a>).</li>
+          <li><span class="mono">Models/ActivitySummary.swift</span> — plain value type, no HealthKit import; <span class="mono">Support/Coding.swift</span>.</li>
+          <li><span class="mono">Health/HealthKitManager.swift</span> — <span class="mono">requestAuthorization()</span>, <span class="mono">refreshToday()</span>, and the <span class="mono">sumQuantity(_:unit:since:)</span> helper using <span class="mono">HKStatisticsQuery</span>.</li>
+          <li>App side: <span class="mono">AppModel.swift</span>, wire it into <span class="mono">TrailMarkApp</span>, build <span class="mono">ContentView</span> as a 4-tab <span class="mono">TabView</span>, then <span class="mono">Views/Today/TodayDashboardView.swift</span> + <span class="mono">MetricCard</span>.</li>
+        </ul>
+        <h4>Teach</h4>
+        <ul class="out">
+          <li>Why a shared module prevents duplication later (the whole-program thesis).</li>
+          <li>HealthKit's authorization + privacy model; iOS never reveals whether <em>read</em> was granted — design for a zeroed/empty state, not an error.</li>
+          <li>Keep <em>all</em> HealthKit code in the package; the view only reads published state.</li>
+        </ul>
+        <h4>Checkpoint</h4>
+        <p>Today tab shows steps/distance/energy from Health sample data, and a clean empty state when denied. <a href="assignments.html#a1-1">→ Assignment 1.1</a></p>
+      </div>
+
+      <div class="card c1" id="s1-2">
+        <span class="badge c1">Session 1.2</span> &nbsp;<b>Capturing the moment — media management</b>
+        <div class="chips"><span class="chip">AVFoundation</span><span class="chip">AVAudioRecorder</span><span class="chip">FileManager</span><span class="chip">Thumbnails</span></div>
+        <h4>Build live</h4>
+        <ul class="out">
+          <li><span class="mono">Models/MediaMemo.swift</span> — id, kind, relative file name, date, duration, optional coordinate.</li>
+          <li><span class="mono">Media/MediaStore.swift</span> — save (move temp file in), JSON index, delete (also removes the file), iOS-only video <span class="mono">thumbnail(for:)</span>.</li>
+          <li><span class="mono">Media/AudioRecorder.swift</span> + <span class="mono">AudioPlayer.swift</span>.</li>
+          <li>App: <span class="mono">Views/Journal/</span> — <span class="mono">FieldJournalView</span> (list + thumbnails), <span class="mono">RecordAudioView</span>, <span class="mono">VideoCaptureView</span> (UIImagePickerController), <span class="mono">MemoDetailView</span> (playback).</li>
+        </ul>
+        <h4>Teach</h4>
+        <ul class="out">
+          <li>Capture sessions + permissions; configuring <span class="mono">AVAudioSession</span>.</li>
+          <li>Why store a <em>relative</em> file name, not an absolute URL (the container path changes between launches/devices).</li>
+          <li>Deleting metadata <em>and</em> the file together — no orphaned bytes.</li>
+        </ul>
+        <h4>Checkpoint</h4>
+        <p>Record audio + video, see them listed with thumbnail + duration, play back in detail, delete removes the file. <a href="assignments.html#a1-2">→ Assignment 1.2</a></p>
+      </div>
+
+      <div class="card c1" id="s1-3">
+        <span class="badge c1">Session 1.3</span> &nbsp;<b>Two-way HealthKit — workouts in, sleep &amp; recovery out</b>
+        <div class="chips"><span class="chip">HealthKit (write)</span><span class="chip">HKWorkoutBuilder</span><span class="chip">sleepAnalysis</span><span class="chip">Swift Charts</span></div>
+        <h4>Build live</h4>
+        <ul class="out">
+          <li><span class="mono">Models/WorkoutRecord.swift</span>, <span class="mono">Models/HealthInsights.swift</span> (SleepSummary, EnergyTrendPoint, LiveVitals).</li>
+          <li>Extend <span class="mono">HealthKitManager</span>: <span class="mono">save(_:activity:)</span> via <span class="mono">HKWorkoutBuilder</span>; <span class="mono">refreshLastNightSleep()</span> (category query); <span class="mono">refreshEnergyTrend()</span> via <span class="mono">HKStatisticsCollectionQuery</span>.</li>
+          <li>App: <span class="mono">Views/Recovery/RecoveryView.swift</span> — sleep card, 7-day energy <span class="mono">BarMark</span> chart, "save sample workout" button.</li>
+        </ul>
+        <h4>Teach</h4>
+        <ul class="out">
+          <li>Writing samples vs reading; verifying in the Health app builds trust in your code.</li>
+          <li>Category types &amp; sleep stages; bracketing "last night" with a sensible date window.</li>
+          <li>Collection queries with a daily interval; turning stats into chartable points.</li>
+        </ul>
+        <h4>Checkpoint</h4>
+        <p>Saved workout appears in Health; recovery screen shows last night's sleep + a 7-day energy chart. <a href="assignments.html#a1-3">→ Assignment 1.3</a></p>
+      </div>
+
+      <div class="card c1" id="s1-4">
+        <span class="badge c1">Session 1.4</span> &nbsp;<b>Where it happened — location &amp; the unified journey</b> &nbsp;<span class="chip">Integration day · no assignment</span>
+        <div class="chips"><span class="chip">CoreLocation</span><span class="chip">MapKit</span><span class="chip">MapPolyline</span><span class="chip">Geotagging</span></div>
+        <h4>Build live</h4>
+        <ul class="out">
+          <li><span class="mono">Location/LocationManager.swift</span> (when-in-use auth, record track, current coordinate), <span class="mono">Models/RouteTrack.swift</span>, <span class="mono">Models/Journey.swift</span>, <span class="mono">Persistence/JourneyStore.swift</span>.</li>
+          <li>Geotag memos at capture (pass <span class="mono">location.currentCoordinate</span> into <span class="mono">MediaStore.add</span>).</li>
+          <li>App: <span class="mono">Views/Journeys/</span> — list, <span class="mono">RecordJourneyView</span> (live polyline), <span class="mono">JourneyDetailView</span> uniting route + stats + memo pins.</li>
+        </ul>
+        <h4>Teach</h4>
+        <ul class="out">
+          <li>Connect the three prior builds into one screen; prepare the codebase to be consumed by a watch target.</li>
+          <li>The <span class="mono">distanceFilter</span> tradeoff — a first taste of the power conversation Course 3 finishes.</li>
+        </ul>
+        <h4>Checkpoint</h4>
+        <p>Record a route (Freeway Drive on Sim), see polyline + geotagged memo pins on one Journey detail screen. The iOS app is now whole.</p>
+      </div>
+    </section>
+
+    <!-- ===================== COURSE 2 ===================== -->
+    <section>
+      <p class="kicker">Course Two · watchOS — Designing &amp; Building for the Wrist</p>
+      <h2 class="sec">Course 2</h2>
+
+      <div class="card c2" id="s2-1">
+        <span class="badge c2">Session 2.1</span> &nbsp;<b>Design for wearables + reusing the core</b>
+        <div class="chips"><span class="chip">watchOS target</span><span class="chip">SwiftUI (watch)</span><span class="chip">TrailmarkCore reuse</span></div>
+        <h4>Build live</h4>
+        <ul class="out">
+          <li>Confirm the watch target links <span class="mono">TrailmarkCore</span> (<a href="setup-guide.html#package">Setup §3b</a>) — no duplicated model code.</li>
+          <li><span class="mono">WatchModel.swift</span> (owns the same managers), watch <span class="mono">TrailMarkCompanionApp</span>, <span class="mono">ContentView</span> as a <span class="mono">NavigationStack</span> list.</li>
+          <li><span class="mono">Views/WristHomeView.swift</span> — one glanceable headline metric + one quick action.</li>
+        </ul>
+        <h4>Teach</h4>
+        <ul class="out">
+          <li>Wearable design principles: glanceability, focused tasks, hierarchy, Digital Crown ergonomics, when to defer to the phone.</li>
+          <li>Translating an iOS screen into a wrist-appropriate layout (one big number beats a dense dashboard).</li>
+        </ul>
+        <h4>Checkpoint</h4>
+        <p>Glanceable watch home readable in ~2 seconds, importing the shared core. <a href="assignments.html#a2-1">→ Assignment 2.1</a></p>
+      </div>
+
+      <div class="card c2" id="s2-2">
+        <span class="badge c2">Session 2.2</span> &nbsp;<b>Voice memos on the wrist — media under constraints</b>
+        <div class="chips"><span class="chip">AVFoundation (watch)</span><span class="chip">AVAudioSession</span><span class="chip">Local storage</span></div>
+        <h4>Build live</h4>
+        <ul class="out">
+          <li><span class="mono">Views/WristMemoView.swift</span> — reuse <span class="mono">AudioRecorder</span> + <span class="mono">MediaStore</span> unchanged; pared-down record/list/play UI.</li>
+        </ul>
+        <h4>Teach</h4>
+        <ul class="out">
+          <li>Watch media constraints: storage, audio session, limited UI.</li>
+          <li>Reusing the media model while accepting a wrist-appropriate interface — contrast with the iOS capture experience and explain why they differ.</li>
+        </ul>
+        <h4>Checkpoint</h4>
+        <p>Record, save (shared model), list, and play back a memo on the watch. <a href="assignments.html#a2-2">→ Assignment 2.2</a></p>
+      </div>
+
+      <div class="card c2" id="s2-3">
+        <span class="badge c2">Session 2.3</span> &nbsp;<b>HealthKit on the watch</b>
+        <div class="chips"><span class="chip">HealthKit (watch)</span><span class="chip">HKAnchoredObjectQuery</span><span class="chip">Live metrics</span></div>
+        <h4>Build live</h4>
+        <ul class="out">
+          <li>Extend <span class="mono">HealthKitManager</span>: <span class="mono">startLiveVitals()</span> / <span class="mono">stopLiveVitals()</span> with an anchored heart-rate query + today's steps/energy.</li>
+          <li><span class="mono">Views/LiveVitalsView.swift</span> — live-updating heart rate, steps, energy.</li>
+        </ul>
+        <h4>Teach</h4>
+        <ul class="out">
+          <li>How the watch's sensor access differs from the phone's.</li>
+          <li>Reusing the shared HealthKit layer wherever it already fits; only the live-streaming bit is new.</li>
+          <li>Honest note: real heart rate needs hardware — the Simulator shows 0.</li>
+        </ul>
+        <h4>Checkpoint</h4>
+        <p>On device: heart rate / steps / energy update live on the wrist. <a href="assignments.html#a2-3">→ Assignment 2.3</a></p>
+      </div>
+
+      <div class="card c2" id="s2-4">
+        <span class="badge c2">Session 2.4</span> &nbsp;<b>Sensing motion at the source — Core Motion</b> &nbsp;<span class="chip">Integration day · no assignment</span>
+        <div class="chips"><span class="chip">CoreMotion</span><span class="chip">CMPedometer</span><span class="chip">Motion activity</span></div>
+        <h4>Build live</h4>
+        <ul class="out">
+          <li><span class="mono">Motion/MotionManager.swift</span> — pedometer cadence, motion-activity classifier, accelerometer magnitude.</li>
+          <li><span class="mono">Views/MotionView.swift</span> — activity + derived signals.</li>
+        </ul>
+        <h4>Teach</h4>
+        <ul class="out">
+          <li>Why the wrist is the ideal place to sense motion; deriving cadence/activity from raw data.</li>
+          <li>The energy cost of always-on sensors (sets up Course 3.3); note the 10 Hz vs 100 Hz choice.</li>
+        </ul>
+        <h4>Checkpoint</h4>
+        <p>On device: activity label + cadence update as you move. Open the battery/sampling conversation.</p>
+      </div>
+    </section>
+
+    <!-- ===================== COURSE 3 ===================== -->
+    <section>
+      <p class="kicker">Course Three · Intermediate watchOS — Live, Connected &amp; Performant</p>
+      <h2 class="sec">Course 3</h2>
+
+      <div class="card c3" id="s3-1">
+        <span class="badge c3">Session 3.1</span> &nbsp;<b>WatchConnectivity — making two apps one</b>
+        <div class="chips"><span class="chip">WCSession</span><span class="chip">applicationContext</span><span class="chip">transferFile</span><span class="chip">transferUserInfo</span></div>
+        <h4>Build live</h4>
+        <ul class="out">
+          <li><span class="mono">Connectivity/ConnectivityManager.swift</span> — one wrapper, both sides. <span class="mono">applicationContext</span> for latest summary, <span class="mono">transferUserInfo</span> for discrete records, <span class="mono">transferFile</span> for memos.</li>
+          <li>Wire <span class="mono">onReceiveJourney/Workout/MediaFile</span> in <span class="mono">AppModel</span>; <span class="mono">saveAndSync</span> + <span class="mono">workout.onFinish</span> in <span class="mono">WatchModel</span>.</li>
+        </ul>
+        <h4>Teach</h4>
+        <ul class="out">
+          <li>Each transfer type and when it fits; why <span class="mono">sendMessage</span> is wrong for a backgrounded phone.</li>
+          <li>Files are only valid inside the delegate callback — copy out immediately.</li>
+        </ul>
+        <h4>Checkpoint</h4>
+        <p>Record a memo/activity on the watch → it appears in the iOS list. <a href="assignments.html#a3-1">→ Assignment 3.1</a></p>
+      </div>
+
+      <div class="card c3" id="s3-2">
+        <span class="badge c3">Session 3.2</span> &nbsp;<b>Live workout sessions &amp; background running</b>
+        <div class="chips"><span class="chip">HKWorkoutSession</span><span class="chip">HKLiveWorkoutBuilder</span><span class="chip">Background runtime</span></div>
+        <h4>Build live</h4>
+        <ul class="out">
+          <li><span class="mono">Workout/WorkoutSessionManager.swift</span> (watchOS-only, <span class="mono">#if os(watchOS)</span>) — start session + live builder, stream HR/energy/distance, save on end, fire <span class="mono">onFinish</span> → sync.</li>
+          <li><span class="mono">Views/LiveWorkoutView.swift</span> — live metrics + start/end.</li>
+        </ul>
+        <h4>Teach</h4>
+        <ul class="out">
+          <li>Why <span class="mono">HKWorkoutSession</span> is watchOS-only and how the iOS side consumes only the <em>result</em>.</li>
+          <li>The Workout Processing background mode (<a href="setup-guide.html#caps">Setup §5</a>) is what keeps it alive while backgrounded.</li>
+        </ul>
+        <h4>Checkpoint</h4>
+        <p>On device: start a walk, metrics update while backgrounded, finish saves a real <span class="mono">HKWorkout</span> to Health. <a href="assignments.html#a3-2">→ Assignment 3.2</a></p>
+      </div>
+
+      <div class="card c3" id="s3-3">
+        <span class="badge c3">Session 3.3</span> &nbsp;<b>Performance &amp; power for wearables</b>
+        <div class="chips"><span class="chip">Instruments</span><span class="chip">Sampling rates</span><span class="chip">UI refresh</span><span class="chip">Sync batching</span></div>
+        <h4>Build live (measure, then tune)</h4>
+        <ul class="out">
+          <li>Profile a feature (live motion + UI refresh + sync) with <b>Instruments</b> (Energy, Time Profiler).</li>
+          <li>Tune: lower <span class="mono">MotionManager</span> update interval / <span class="mono">LocationManager.distanceFilter</span>; throttle the timer-driven UI ticks; prefer batched <span class="mono">transferUserInfo</span>/<span class="mono">applicationContext</span> over chatty messaging.</li>
+        </ul>
+        <h4>Teach</h4>
+        <ul class="out">
+          <li>Reading CPU/energy/memory traces; turning a measurement into a decision.</li>
+          <li>Every optimization is a tradeoff — document before/after numbers, not vibes.</li>
+        </ul>
+        <h4>Checkpoint</h4>
+        <p>Two measured optimizations with before/after and a note on the tradeoff. <a href="assignments.html#a3-3">→ Assignment 3.3</a></p>
+      </div>
+
+      <div class="card c3" id="s3-4">
+        <span class="badge c3">Session 3.4</span> &nbsp;<b>Complications, Smart Stack &amp; independence — capstone</b> &nbsp;<span class="chip">Capstone · no assignment</span>
+        <div class="chips"><span class="chip">WidgetKit</span><span class="chip">Complications</span><span class="chip">Smart Stack</span><span class="chip">App Group</span></div>
+        <h4>Build live</h4>
+        <ul class="out">
+          <li>Create the Widget Extension target (<a href="setup-guide.html#complication">Setup §6</a>); drop in <span class="mono">TrailMarkComplication.swift</span>.</li>
+          <li>Publish steps to the App Group (<span class="mono">WatchModel.publishStepsToComplication()</span>); add the complication to a face.</li>
+        </ul>
+        <h4>Teach</h4>
+        <ul class="out">
+          <li>WidgetKit complication families; sharing data across the app/extension boundary via an App Group.</li>
+          <li>Making the watch app function independently where appropriate; present the whole project end to end.</li>
+        </ul>
+        <h4>Checkpoint</h4>
+        <p>Live steps on the watch face / Smart Stack. Final integration + presentation across iPhone and Apple Watch.</p>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>Graded builds for classes 1–3 of each course are on the <a href="assignments.html">Assignments</a> page. The full arc lives in the <a href="trailmark-curriculum.html">Curriculum</a>.</p>
+  </div>
+</footer>
+
+</body>
+</html>

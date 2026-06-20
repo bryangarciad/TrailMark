@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trailmark — Assignments</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="inner">
+    <a class="brand" href="index.html">Trailmark<span>.</span></a>
+    <div class="links">
+      <a href="index.html">Home</a>
+      <a href="trailmark-curriculum.html">Curriculum</a>
+      <a href="setup-guide.html">Setup</a>
+      <a href="teaching-guide.html">Teaching Guide</a>
+      <a href="assignments.html" class="active">Assignments</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <p class="eyebrow">Graded work · classes 1–3 of each course</p>
+    <h1>Assignments</h1>
+    <p class="pitch">Nine graded builds. Each is the in-class build expressed as acceptance criteria, so <b>no extra work is created outside the session</b>. Class 4 of each course is an integration / capstone day with no separate deliverable. Copy any card straight into Canvas.</p>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+
+    <section>
+      <div class="note info">
+        <span class="t">Standard submission (applies to every assignment)</span>
+        Unless noted, submit <b>three things</b> in Canvas:
+        <ul class="out" style="margin-top:8px">
+          <li><b>Screen recording (file upload, .mp4/.mov):</b> 1–3 min demonstrating the required behavior, including the empty/denied states where relevant. Device recording required for sensor features (2.3, 3.2).</li>
+          <li><b>Source (website URL):</b> a link to your Git repo at the tagged commit, <em>or</em> a zipped project upload if no repo.</li>
+          <li><b>Reflection (text entry):</b> 150–300 words answering the assignment's "explain" prompt.</li>
+        </ul>
+        <span style="display:block;margin-top:8px">Recommended Canvas setup: <b>Online submission</b> with <em>File Uploads + Website URL + Text Entry</em> enabled, 100 points, due end of session +1 week.</span>
+      </div>
+      <div class="grid">
+        <div class="card"><b>Course 1 (iOS)</b><ul class="out"><li><a href="#a1-1">1.1 — Today dashboard</a></li><li><a href="#a1-2">1.2 — Field journal</a></li><li><a href="#a1-3">1.3 — Recovery view</a></li></ul></div>
+        <div class="card"><b>Course 2 (watchOS)</b><ul class="out"><li><a href="#a2-1">2.1 — Wrist home</a></li><li><a href="#a2-2">2.2 — Wrist memo</a></li><li><a href="#a2-3">2.3 — Live vitals</a></li></ul></div>
+        <div class="card"><b>Course 3 (intermediate)</b><ul class="out"><li><a href="#a3-1">3.1 — Pocket sync</a></li><li><a href="#a3-2">3.2 — Go for a walk</a></li><li><a href="#a3-3">3.3 — Make it last</a></li></ul></div>
+      </div>
+    </section>
+
+    <!-- ========== 1.1 ========== -->
+    <section>
+      <div class="card c1" id="a1-1">
+        <span class="badge c1">Assignment 1.1</span> <span class="chip">100 pts</span> <span class="chip">iOS</span>
+        <h3>"Today" dashboard</h3>
+        <p><b>Build spec.</b> On launch, request HealthKit authorization. Display today's steps, distance, and active energy, refreshing when the view appears. Handle denied/undetermined states gracefully with a clear empty state and no crashes. All HealthKit calls live in <span class="mono">TrailmarkCore</span>, never in the view.</p>
+        <h4>Acceptance criteria</h4>
+        <ul class="out">
+          <li>App requests Health authorization on first launch with clear purpose strings.</li>
+          <li>Today's steps, distance, and active energy display and refresh on <span class="mono">.onAppear</span> / pull-to-refresh.</li>
+          <li>Denied / no-data states show a clear empty state — no crash, no spinner-forever.</li>
+          <li>No HealthKit type appears in any View file; all queries are in the package.</li>
+          <li>Uses statistics queries (not raw sample enumeration) for the totals.</li>
+        </ul>
+        <h4>Expected learning outcomes</h4>
+        <ul class="out">
+          <li>Set up an Xcode project with an app target plus a shared local Swift package, and explain why a shared module prevents duplication later.</li>
+          <li>Explain HealthKit's authorization and privacy model, and request read access correctly with clear purpose strings.</li>
+          <li>Read step count, distance, and active energy using statistics queries.</li>
+          <li>Render today's activity summary in SwiftUI while keeping health logic inside the core package.</li>
+        </ul>
+        <h4>Reflection prompt</h4>
+        <p>Why does iOS never tell you whether <em>read</em> access was granted, and how did you design the UI around that?</p>
+        <h4>Rubric</h4>
+        <table>
+          <tr><th>Criterion</th><th>Pts</th></tr>
+          <tr><td>Reads &amp; displays all three metrics correctly</td><td>40</td></tr>
+          <tr><td>All HealthKit logic in the shared package (architecture)</td><td>25</td></tr>
+          <tr><td>Graceful authorization / empty-state handling</td><td>15</td></tr>
+          <tr><td>Reflection demonstrates understanding of the privacy model</td><td>10</td></tr>
+          <tr><td>Submission complete (recording + source + reflection)</td><td>10</td></tr>
+        </table>
+      </div>
+    </section>
+
+    <!-- ========== 1.2 ========== -->
+    <section>
+      <div class="card c1" id="a1-2">
+        <span class="badge c1">Assignment 1.2</span> <span class="chip">100 pts</span> <span class="chip">iOS</span>
+        <h3>"Field journal"</h3>
+        <p><b>Build spec.</b> Record a voice memo and a short video memo. Save each with metadata into the <span class="mono">TrailmarkCore</span> media store. Show a list with thumbnails and duration, and a detail view that plays the item back. Deleting a memo also removes its file from disk.</p>
+        <h4>Acceptance criteria</h4>
+        <ul class="out">
+          <li>Records audio (and video where the camera/library is available) and saves it with metadata: id, type, date, duration.</li>
+          <li>List shows each memo with a thumbnail (video) or icon (audio) and its duration.</li>
+          <li>Detail view plays the memo back.</li>
+          <li>Deleting a memo removes both the index entry <em>and</em> the file on disk (no orphaned bytes).</li>
+          <li>Media model + store live in the package; file names are stored relative, not as absolute URLs.</li>
+        </ul>
+        <h4>Expected learning outcomes</h4>
+        <ul class="out">
+          <li>Capture video and audio with AVFoundation, and reason about capture sessions and permissions.</li>
+          <li>Persist media to app storage and model its metadata.</li>
+          <li>Generate video thumbnails and play media back in-app.</li>
+          <li>Build a memo list and detail screen backed by the shared media store.</li>
+        </ul>
+        <h4>Reflection prompt</h4>
+        <p>Why store a relative file name instead of an absolute URL, and what breaks if you don't?</p>
+        <h4>Rubric</h4>
+        <table>
+          <tr><th>Criterion</th><th>Pts</th></tr>
+          <tr><td>Capture + save with correct metadata</td><td>30</td></tr>
+          <tr><td>List (thumbnail + duration) and working playback</td><td>30</td></tr>
+          <tr><td>Delete removes the file from disk</td><td>15</td></tr>
+          <tr><td>Store lives in the package; sound persistence design</td><td>15</td></tr>
+          <tr><td>Submission complete</td><td>10</td></tr>
+        </table>
+      </div>
+    </section>
+
+    <!-- ========== 1.3 ========== -->
+    <section>
+      <div class="card c1" id="a1-3">
+        <span class="badge c1">Assignment 1.3</span> <span class="chip">100 pts</span> <span class="chip">iOS</span>
+        <h3>"Recovery view"</h3>
+        <p><b>Build spec.</b> Save a sample activity as a workout and confirm it appears in Health. Pull last night's sleep and the last seven days of active energy. Show a recovery screen: last night's sleep duration plus a 7-day energy chart. All queries live in <span class="mono">TrailmarkCore</span>.</p>
+        <h4>Acceptance criteria</h4>
+        <ul class="out">
+          <li>Saves a sample activity as an <span class="mono">HKWorkout</span>; student demonstrates it appearing in the Health app.</li>
+          <li>Reads last night's sleep via the sleep-analysis category type and shows a duration.</li>
+          <li>Computes the last 7 days of active energy and renders it with Swift Charts.</li>
+          <li>All reads/writes are in the package.</li>
+        </ul>
+        <h4>Expected learning outcomes</h4>
+        <ul class="out">
+          <li>Write a completed activity to HealthKit as an <span class="mono">HKWorkout</span> and verify it lands in the Health app.</li>
+          <li>Query sleep analysis for last night using a category type.</li>
+          <li>Compute simple insights such as sleep duration and a weekly active-energy trend.</li>
+          <li>Visualize those insights with Swift Charts.</li>
+        </ul>
+        <h4>Reflection prompt</h4>
+        <p>What date window did you use to capture "last night's" sleep, and why is bracketing it correctly harder than it looks?</p>
+        <h4>Rubric</h4>
+        <table>
+          <tr><th>Criterion</th><th>Pts</th></tr>
+          <tr><td>Workout written &amp; verified in Health (recording shows it)</td><td>30</td></tr>
+          <tr><td>Sleep duration read correctly</td><td>20</td></tr>
+          <tr><td>7-day energy trend + Swift Charts visualization</td><td>25</td></tr>
+          <tr><td>Queries in the package</td><td>15</td></tr>
+          <tr><td>Submission complete</td><td>10</td></tr>
+        </table>
+      </div>
+    </section>
+
+    <!-- ========== 2.1 ========== -->
+    <section>
+      <div class="card c2" id="a2-1">
+        <span class="badge c2">Assignment 2.1</span> <span class="chip">100 pts</span> <span class="chip">watchOS</span>
+        <h3>"Wrist home"</h3>
+        <p><b>Build spec.</b> Add the watch target and consume <span class="mono">TrailmarkCore</span> with no duplicated model code. Build a glanceable home screen showing today's headline metric and one quick action, readable in about two seconds. Justify one design choice against a specific watchOS guideline.</p>
+        <h4>Acceptance criteria</h4>
+        <ul class="out">
+          <li>Watch target links the shared package — zero copied model/manager code.</li>
+          <li>Home screen shows one headline metric + one quick action, glanceable in ~2 seconds.</li>
+          <li>Layout is wrist-appropriate (not a shrunk iPhone screen).</li>
+          <li>Reflection names a specific watchOS guideline and justifies a choice against it.</li>
+        </ul>
+        <h4>Expected learning outcomes</h4>
+        <ul class="out">
+          <li>Summarize Apple's wearable design principles: glanceability, focused tasks, hierarchy, Digital Crown ergonomics, and when to defer to the phone.</li>
+          <li>Add a watchOS target and import <span class="mono">TrailmarkCore</span> — reuse models and managers instead of rewriting them.</li>
+          <li>Translate an iOS screen into a wrist-appropriate layout.</li>
+          <li>Build a glanceable watch home screen.</li>
+        </ul>
+        <h4>Reflection prompt</h4>
+        <p>Pick one design choice on your home screen and defend it against a named watchOS Human Interface guideline.</p>
+        <h4>Rubric</h4>
+        <table>
+          <tr><th>Criterion</th><th>Pts</th></tr>
+          <tr><td>Watch target reuses the shared core (no duplication)</td><td>30</td></tr>
+          <tr><td>Glanceable headline metric + one quick action</td><td>30</td></tr>
+          <tr><td>Wrist-appropriate layout &amp; hierarchy</td><td>20</td></tr>
+          <tr><td>Reflection cites a specific guideline</td><td>10</td></tr>
+          <tr><td>Submission complete</td><td>10</td></tr>
+        </table>
+      </div>
+    </section>
+
+    <!-- ========== 2.2 ========== -->
+    <section>
+      <div class="card c2" id="a2-2">
+        <span class="badge c2">Assignment 2.2</span> <span class="chip">100 pts</span> <span class="chip">watchOS</span>
+        <h3>"Wrist memo"</h3>
+        <p><b>Build spec.</b> On the watch, record a voice memo, save it via the shared media model, list saved memos, and play one back. Keep the interface to the essentials a wrist actually needs.</p>
+        <h4>Acceptance criteria</h4>
+        <ul class="out">
+          <li>Records audio on the watch and saves via the same <span class="mono">MediaStore</span> / model used on iOS.</li>
+          <li>Lists saved memos and plays one back.</li>
+          <li>Interface is pared to wrist essentials (no iPhone-style density).</li>
+          <li>No duplicated media model — the watch reuses the package.</li>
+        </ul>
+        <h4>Expected learning outcomes</h4>
+        <ul class="out">
+          <li>Record and play audio on watchOS and reason about watch-specific media constraints: storage, audio session, and limited UI.</li>
+          <li>Reuse the media model from <span class="mono">TrailmarkCore</span> while accepting a watch-appropriate interface.</li>
+          <li>Contrast the iOS and watchOS capture experience and explain why they differ.</li>
+        </ul>
+        <h4>Reflection prompt</h4>
+        <p>What did you deliberately leave OUT of the watch capture UI compared to iOS, and why?</p>
+        <h4>Rubric</h4>
+        <table>
+          <tr><th>Criterion</th><th>Pts</th></tr>
+          <tr><td>Record + save via shared model</td><td>35</td></tr>
+          <tr><td>List + playback works on the watch</td><td>30</td></tr>
+          <tr><td>Wrist-appropriate, essentials-only UI</td><td>15</td></tr>
+          <tr><td>Reflection contrasts iOS vs watchOS capture</td><td>10</td></tr>
+          <tr><td>Submission complete</td><td>10</td></tr>
+        </table>
+      </div>
+    </section>
+
+    <!-- ========== 2.3 ========== -->
+    <section>
+      <div class="card c2" id="a2-3">
+        <span class="badge c2">Assignment 2.3</span> <span class="chip">100 pts</span> <span class="chip">watchOS · device required</span>
+        <h3>"Live vitals"</h3>
+        <p><b>Build spec.</b> On the watch, after authorization, show current heart rate, steps, and active energy, updating as the values change. Reuse the <span class="mono">TrailmarkCore</span> HealthKit manager wherever it already fits.</p>
+        <div class="note warn"><span class="t">Device required</span> Heart rate can't be simulated. The demo recording must be made on a physical Apple Watch.</div>
+        <h4>Acceptance criteria</h4>
+        <ul class="out">
+          <li>Requests HealthKit authorization on the watch.</li>
+          <li>Shows heart rate, steps, and active energy that update live as values change.</li>
+          <li>Reuses the shared HealthKit manager; only the live-streaming additions are watch-specific.</li>
+        </ul>
+        <h4>Expected learning outcomes</h4>
+        <ul class="out">
+          <li>Request HealthKit authorization on watchOS and explain how the watch's sensor access differs from the phone's.</li>
+          <li>Read current health metrics — heart rate, steps, active energy — on the watch using the shared HealthKit layer.</li>
+          <li>Present live-updating metrics in a wrist-appropriate layout.</li>
+        </ul>
+        <h4>Reflection prompt</h4>
+        <p>How does sensor access on the watch differ from the phone, and which query type did you use to get live updates?</p>
+        <h4>Rubric</h4>
+        <table>
+          <tr><th>Criterion</th><th>Pts</th></tr>
+          <tr><td>Live heart rate updating on device</td><td>30</td></tr>
+          <tr><td>Steps + active energy live</td><td>25</td></tr>
+          <tr><td>Reuses shared HealthKit layer</td><td>20</td></tr>
+          <tr><td>Reflection explains sensor-access difference</td><td>15</td></tr>
+          <tr><td>Submission complete (device recording)</td><td>10</td></tr>
+        </table>
+      </div>
+    </section>
+
+    <!-- ========== 3.1 ========== -->
+    <section>
+      <div class="card c3" id="a3-1">
+        <span class="badge c3">Assignment 3.1</span> <span class="chip">100 pts</span> <span class="chip">iOS + watchOS</span>
+        <h3>"Pocket sync"</h3>
+        <p><b>Build spec.</b> Record an activity and a voice memo on the watch, then sync both to the iPhone over WatchConnectivity so they appear in the iOS journey list. Choose the right transfer type for each payload and explain why.</p>
+        <h4>Acceptance criteria</h4>
+        <ul class="out">
+          <li>WCSession established and activated on both sides.</li>
+          <li>An activity recorded on the watch appears in the iOS list after sync.</li>
+          <li>A voice-memo <em>file</em> transfers from watch to phone and is playable on iOS.</li>
+          <li>Reflection justifies the transfer type chosen for each payload (message vs userInfo vs applicationContext vs file).</li>
+        </ul>
+        <h4>Expected learning outcomes</h4>
+        <ul class="out">
+          <li>Explain the WCSession transfer types — live messages, application context, userInfo, and file transfer — and when each fits.</li>
+          <li>Establish a session on both sides and sync a recorded activity from watch to phone.</li>
+          <li>Transfer a media file such as a voice memo across devices.</li>
+        </ul>
+        <h4>Reflection prompt</h4>
+        <p>For each payload (summary, activity record, memo file) name the transfer type you chose and why the others were wrong.</p>
+        <h4>Rubric</h4>
+        <table>
+          <tr><th>Criterion</th><th>Pts</th></tr>
+          <tr><td>Activity syncs watch → phone into the list</td><td>30</td></tr>
+          <tr><td>Memo file transfers &amp; plays on iOS</td><td>30</td></tr>
+          <tr><td>Correct transfer type per payload</td><td>20</td></tr>
+          <tr><td>Reflection justifies the choices</td><td>10</td></tr>
+          <tr><td>Submission complete</td><td>10</td></tr>
+        </table>
+      </div>
+    </section>
+
+    <!-- ========== 3.2 ========== -->
+    <section>
+      <div class="card c3" id="a3-2">
+        <span class="badge c3">Assignment 3.2</span> <span class="chip">100 pts</span> <span class="chip">watchOS · device required</span>
+        <h3>"Go for a walk"</h3>
+        <p><b>Build spec.</b> Build a live activity that starts on the watch, keeps updating heart rate, elapsed time, and energy while backgrounded, and saves a real <span class="mono">HKWorkout</span> on finish. Confirm it lands in the Health app.</p>
+        <div class="note warn"><span class="t">Device required</span> Workout sessions + background runtime need a physical Apple Watch; record the demo on device.</div>
+        <h4>Acceptance criteria</h4>
+        <ul class="out">
+          <li>Starts an <span class="mono">HKWorkoutSession</span> with a live workout builder.</li>
+          <li>Heart rate, elapsed time, and energy update — including while the app is backgrounded (Workout Processing mode enabled).</li>
+          <li>On finish, saves a real <span class="mono">HKWorkout</span>; student shows it in the Health app.</li>
+        </ul>
+        <h4>Expected learning outcomes</h4>
+        <ul class="out">
+          <li>Start an <span class="mono">HKWorkoutSession</span> and stream metrics with a live workout builder.</li>
+          <li>Keep the app running and updating in the background during an activity.</li>
+          <li>Save the finished workout to HealthKit.</li>
+        </ul>
+        <h4>Reflection prompt</h4>
+        <p>What capability keeps the session alive while backgrounded, and how did you confirm the workout actually saved?</p>
+        <h4>Rubric</h4>
+        <table>
+          <tr><th>Criterion</th><th>Pts</th></tr>
+          <tr><td>Live session streams metrics</td><td>30</td></tr>
+          <tr><td>Keeps updating while backgrounded</td><td>25</td></tr>
+          <tr><td>Saves a real HKWorkout (verified in Health)</td><td>25</td></tr>
+          <tr><td>Reflection explains background runtime</td><td>10</td></tr>
+          <tr><td>Submission complete (device recording)</td><td>10</td></tr>
+        </table>
+      </div>
+    </section>
+
+    <!-- ========== 3.3 ========== -->
+    <section>
+      <div class="card c3" id="a3-3">
+        <span class="badge c3">Assignment 3.3</span> <span class="chip">100 pts</span> <span class="chip">watchOS</span>
+        <h3>"Make it last"</h3>
+        <p><b>Build spec.</b> Profile one feature — for example live motion plus UI refresh plus sync. Make at least two optimizations and document the before/after measurements with a short note on the tradeoff you chose.</p>
+        <h4>Acceptance criteria</h4>
+        <ul class="out">
+          <li>Profiles a real feature with Instruments (Energy / Time Profiler / Allocations).</li>
+          <li>Makes at least <b>two</b> optimizations (e.g. sampling rate, UI refresh cadence, batched sync).</li>
+          <li>Documents before/after numbers — not impressions.</li>
+          <li>Explains the tradeoff each optimization made.</li>
+        </ul>
+        <h4>Expected learning outcomes</h4>
+        <ul class="out">
+          <li>Profile CPU, energy, and memory on watchOS with Instruments.</li>
+          <li>Tune sensor sampling rates and UI refresh to cut battery cost.</li>
+          <li>Reduce connectivity overhead by choosing batched over chatty sync.</li>
+        </ul>
+        <h4>Submission note</h4>
+        <p>Replace the screen recording with a <b>short written report (PDF or text)</b> containing before/after Instruments screenshots and the two optimizations. Source link still required.</p>
+        <h4>Rubric</h4>
+        <table>
+          <tr><th>Criterion</th><th>Pts</th></tr>
+          <tr><td>Valid Instruments profiling of a real feature</td><td>25</td></tr>
+          <tr><td>Two genuine optimizations</td><td>30</td></tr>
+          <tr><td>Before/after measurements documented</td><td>25</td></tr>
+          <tr><td>Tradeoff analysis</td><td>10</td></tr>
+          <tr><td>Submission complete</td><td>10</td></tr>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <div class="note info">
+        <span class="t">Integration &amp; capstone days (1.4, 2.4, 3.4)</span>
+        No separate deliverable. 1.4 unites route + health + media into the Journey screen; 2.4 wires Core Motion and opens the power conversation; 3.4 is the complication + full end-to-end presentation across iPhone and Apple Watch. Assess these via in-class participation or a short demo if your section requires a grade.
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>What to build in each session: the <a href="teaching-guide.html">Teaching Guide</a>. Project setup: the <a href="setup-guide.html">Setup Guide</a>.</p>
+  </div>
+</footer>
+
+</body>
+</html>

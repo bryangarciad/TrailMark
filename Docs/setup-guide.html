@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trailmark — Setup &amp; Deployment Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="inner">
+    <a class="brand" href="index.html">Trailmark<span>.</span></a>
+    <div class="links">
+      <a href="index.html">Home</a>
+      <a href="trailmark-curriculum.html">Curriculum</a>
+      <a href="setup-guide.html" class="active">Setup</a>
+      <a href="teaching-guide.html">Teaching Guide</a>
+      <a href="assignments.html">Assignments</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <p class="eyebrow">Do this once · before Course 1.1</p>
+    <h1>Setup &amp; Deployment</h1>
+    <p class="pitch">Create the Xcode project from scratch, add the watch app to the existing iOS project, share the <b>TrailmarkCore</b> package, wire permissions and capabilities, then run on the Simulator and on real devices.</p>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+
+    <!-- TOC -->
+    <section>
+      <p class="kicker">On this page</p>
+      <div class="grid">
+        <div class="card">
+          <ul class="out">
+            <li><a href="#prereq">0 · Prerequisites</a></li>
+            <li><a href="#ios">1 · Create the iOS project</a></li>
+            <li><a href="#watch">2 · Add the watchOS app target</a></li>
+            <li><a href="#package">3 · Create &amp; share TrailmarkCore</a></li>
+          </ul>
+        </div>
+        <div class="card">
+          <ul class="out">
+            <li><a href="#perms">4 · Permissions (Info.plist)</a></li>
+            <li><a href="#caps">5 · Capabilities</a></li>
+            <li><a href="#complication">6 · Complication target</a></li>
+            <li><a href="#sim">7 · Run on Simulator</a></li>
+          </ul>
+        </div>
+        <div class="card">
+          <ul class="out">
+            <li><a href="#device">8 · Run on real devices</a></li>
+            <li><a href="#sanity">9 · Build sanity checks</a></li>
+            <li><a href="#map">10 · Curriculum → code map</a></li>
+            <li><a href="#pages">11 · Publish this site</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="note tip">
+        <span class="t">If the project already exists in this repo</span>
+        The <span class="mono">TrailmarkCore</span> package is <b>already wired</b> into both app targets. Open <span class="mono">TrailMark/TrailMark.xcodeproj</span> and it resolves automatically — skip to <a href="#perms">§4 Permissions</a>. Sections 1–3 are the from-scratch recipe to teach students (and to rebuild if needed).
+      </div>
+    </section>
+
+    <!-- 0 -->
+    <section id="prereq">
+      <p class="kicker">Step 0</p>
+      <h2 class="sec">Prerequisites</h2>
+      <ul class="out">
+        <li><b>Xcode 26</b> or later (this project targets iOS / watchOS 26).</li>
+        <li>A free <b>Apple ID</b> is enough for Simulator + 7-day device testing; a paid <b>Apple Developer</b> account avoids the weekly re-sign.</li>
+        <li>For the wrist-only features (heart rate, Core Motion, real workouts, true sync): a physical <b>iPhone + paired Apple Watch</b>. The Simulator can't produce sensor data.</li>
+        <li>Decide a <b>bundle id prefix</b> you own, e.g. <span class="mono">com.yourname</span>. This guide uses <span class="mono">ramsesg.TrailMark</span>.</li>
+      </ul>
+    </section>
+
+    <!-- 1 -->
+    <section id="ios">
+      <p class="kicker">Step 1 · Course 1.1</p>
+      <h2 class="sec">Create the iOS project</h2>
+      <p>The iPhone app is created first; the watch and the shared package are added to it afterwards.</p>
+      <ol class="steps">
+        <li><span class="st">New project</span> Xcode → <b>File → New → Project…</b> → <b>iOS</b> tab → <b>App</b> → <b>Next</b>.</li>
+        <li><span class="st">Name &amp; options</span> Product Name <span class="mono">TrailMark</span>. Interface <b>SwiftUI</b>, Language <b>Swift</b>, Storage <b>None</b>, Testing System <b>None</b> (or XCTest). Set your <b>Team</b> and an Organization Identifier (e.g. <span class="mono">ramsesg</span>, giving bundle id <span class="mono">ramsesg.TrailMark</span>).</li>
+        <li><span class="st">Save</span> Choose your repo folder. Leave "Create Git repository" checked if you want version control. You now have <span class="mono">TrailMarkApp.swift</span> + <span class="mono">ContentView.swift</span>.</li>
+        <li><span class="st">Confirm it runs</span> Pick an iPhone simulator and press <b>⌘R</b> — you should see "Hello, world!". That confirms signing + toolchain before you add complexity.</li>
+      </ol>
+      <div class="note info">
+        <span class="t">Modern project layout</span>
+        Xcode 26 projects use <b>file-system-synchronized groups</b> — any <span class="mono">.swift</span> file you drop into the target's folder is compiled automatically. You will <em>not</em> need to manually add the feature files to the target; just create them inside the app folder.
+      </div>
+    </section>
+
+    <!-- 2 -->
+    <section id="watch">
+      <p class="kicker">Step 2 · Course 2.1</p>
+      <h2 class="sec">Add the watchOS app to the existing iOS project</h2>
+      <p>This is the key "don't start a second project" move. The watch app is a <b>target inside the same project</b>, paired to the iPhone app.</p>
+      <ol class="steps">
+        <li><span class="st">New target</span> With the project open: <b>File → New → Target… → watchOS</b> tab → <b>App</b> → <b>Next</b>.</li>
+        <li><span class="st">Pair it to the iPhone app</span> Product Name <span class="mono">TrailMarkCompanion Watch App</span>. Crucially set <b>"Watch App for an Existing iOS App"</b> via the <b>Companion iOS App</b> dropdown → choose <span class="mono">TrailMark</span>. Interface <b>SwiftUI</b>. This sets <span class="mono">WKCompanionAppBundleIdentifier</span> so the two apps install together.</li>
+        <li><span class="st">Activate the scheme</span> When Xcode offers to activate the new scheme, click <b>Activate</b>.</li>
+        <li><span class="st">Verify the bundle ids nest</span> The watch id should be the iPhone id plus a suffix, e.g. iPhone <span class="mono">ramsesg.TrailMark</span> → watch <span class="mono">ramsesg.TrailMark.watchkitapp</span>. The iOS target also gains an <b>Embed Watch Content</b> build phase automatically.</li>
+        <li><span class="st">Run the watch scheme</span> Select the watch scheme + a paired Apple Watch simulator → <b>⌘R</b>. Xcode boots the iPhone + Watch sim pair together.</li>
+      </ol>
+      <div class="note warn">
+        <span class="t">Watch out</span>
+        Pick "Watch App for an Existing iOS App", <em>not</em> the standalone "App" with no companion. The companion link is what lets WatchConnectivity (Course 3.1) and "install through the phone" work.
+      </div>
+    </section>
+
+    <!-- 3 -->
+    <section id="package">
+      <p class="kicker">Step 3 · Course 1.1, reused in 2.1</p>
+      <h2 class="sec">Create the shared <span class="mono">TrailmarkCore</span> package</h2>
+      <p>A single local Swift package holds every model and manager. Both apps link it, so logic is written once.</p>
+
+      <h3>3a · Create the package</h3>
+      <ol class="steps">
+        <li><span class="st">New package</span> <b>File → New → Package…</b> (or <b>File → New → Project → Multiplatform → Swift Package</b>). Name it <span class="mono">TrailmarkCore</span>.</li>
+        <li><span class="st">Save it inside the project folder</span> Put it next to the <span class="mono">.xcodeproj</span> (e.g. <span class="mono">TrailMark/TrailmarkCore</span>) so it travels with the repo. If Xcode offers "Add to: TrailMark", accept — that adds it as a local package in one step.</li>
+        <li><span class="st">Set platforms</span> In <span class="mono">Package.swift</span>, declare the platforms so the iOS/watch APIs resolve:
+          <pre><code>platforms: [ .iOS("17.0"), .watchOS("10.0") ],</code></pre>
+        </li>
+        <li><span class="st">Add the source folders</span> Create <span class="mono">Sources/TrailmarkCore/</span> subfolders: <span class="mono">Models</span>, <span class="mono">Health</span>, <span class="mono">Media</span>, <span class="mono">Location</span>, <span class="mono">Motion</span>, <span class="mono">Connectivity</span>, <span class="mono">Workout</span>, <span class="mono">Persistence</span>, <span class="mono">Support</span> — see the <a href="teaching-guide.html">Teaching Guide</a> for what goes where, class by class.</li>
+      </ol>
+
+      <h3>3b · Link the package to both app targets</h3>
+      <ol class="steps">
+        <li><span class="st">Add local package (if not already)</span> Project file selected → <b>Package Dependencies</b> tab → <b>+</b> → <b>Add Local…</b> → choose the <span class="mono">TrailmarkCore</span> folder.</li>
+        <li><span class="st">Link to iOS target</span> Select the <b>TrailMark</b> target → <b>General → Frameworks, Libraries, and Embedded Content</b> → <b>+</b> → add the <span class="mono">TrailmarkCore</span> library.</li>
+        <li><span class="st">Link to watch target</span> Repeat for the <b>TrailMarkCompanion Watch App</b> target.</li>
+        <li><span class="st">Import &amp; verify</span> In any view add <span class="mono">import TrailmarkCore</span>. It should autocomplete. Build both schemes.</li>
+      </ol>
+      <div class="note tip">
+        <span class="t">Platform-specific code lives in the package</span>
+        Use <span class="mono">#if os(watchOS)</span> / <span class="mono">#if canImport(UIKit)</span> guards inside the package for the few APIs that differ (e.g. <span class="mono">HKWorkoutSession</span> is watchOS-only; video thumbnails are iOS-only). The teaching guide flags each one.
+      </div>
+    </section>
+
+    <!-- 4 -->
+    <section id="perms">
+      <p class="kicker">Step 4</p>
+      <h2 class="sec">Permissions — Info.plist usage strings</h2>
+      <p>Both apps use <span class="mono">GENERATE_INFOPLIST_FILE = YES</span>, so there's no <span class="mono">Info.plist</span> to edit directly. Add these in the target's <b>Info</b> tab (Custom iOS/watchOS Target Properties → <b>+</b>), using the raw key names below.</p>
+
+      <div class="note warn">
+        <span class="t">Silent failure if missing</span>
+        Without a usage string the system <em>silently</em> denies the request — for HealthKit the permission sheet won't even appear. If a feature seems to do nothing, check here first.
+      </div>
+
+      <h3>iOS target — <span class="mono">TrailMark</span></h3>
+      <table>
+        <tr><th>Key</th><th>Suggested value</th></tr>
+        <tr><td class="mono">NSHealthShareUsageDescription</td><td>TrailMark reads your steps, distance, energy, heart rate and sleep to show your daily activity and recovery.</td></tr>
+        <tr><td class="mono">NSHealthUpdateUsageDescription</td><td>TrailMark saves your recorded activities to the Health app as workouts.</td></tr>
+        <tr><td class="mono">NSLocationWhenInUseUsageDescription</td><td>TrailMark records the route of your journey and geotags the memos you capture.</td></tr>
+        <tr><td class="mono">NSMicrophoneUsageDescription</td><td>TrailMark records voice memos for your field journal.</td></tr>
+        <tr><td class="mono">NSCameraUsageDescription</td><td>TrailMark records short video memos for your field journal.</td></tr>
+        <tr><td class="mono">NSPhotoLibraryUsageDescription</td><td>Used to pick a video on the Simulator, which has no camera. (Optional — device-only flow doesn't need it.)</td></tr>
+        <tr><td class="mono">NSMotionUsageDescription</td><td>TrailMark reads motion data to detect your cadence and activity.</td></tr>
+      </table>
+
+      <h3>watchOS target — <span class="mono">TrailMarkCompanion Watch App</span></h3>
+      <table>
+        <tr><th>Key</th><th>Suggested value</th></tr>
+        <tr><td class="mono">NSHealthShareUsageDescription</td><td>TrailMark reads your heart rate, steps and energy on your wrist.</td></tr>
+        <tr><td class="mono">NSHealthUpdateUsageDescription</td><td>TrailMark saves your workouts to the Health app.</td></tr>
+        <tr><td class="mono">NSMicrophoneUsageDescription</td><td>TrailMark records voice memos on your wrist.</td></tr>
+        <tr><td class="mono">NSMotionUsageDescription</td><td>TrailMark reads motion data to detect your cadence and activity.</td></tr>
+      </table>
+    </section>
+
+    <!-- 5 -->
+    <section id="caps">
+      <p class="kicker">Step 5</p>
+      <h2 class="sec">Capabilities</h2>
+      <p>For each target: <b>Signing &amp; Capabilities → + Capability</b>.</p>
+      <div class="grid">
+        <div class="card c1">
+          <h4>iOS — TrailMark</h4>
+          <ul class="out"><li><b>HealthKit</b> — required for the Health usage keys to take effect.</li></ul>
+        </div>
+        <div class="card c2">
+          <h4>watchOS — Watch App</h4>
+          <ul class="out">
+            <li><b>HealthKit</b>.</li>
+            <li><b>Background Modes → Workout Processing</b> — lets the live workout session (Course 3.2) keep running while backgrounded. Adds <span class="mono">WKBackgroundModes = [workout-processing]</span>.</li>
+          </ul>
+        </div>
+        <div class="card c3">
+          <h4>All three (complication only)</h4>
+          <ul class="out">
+            <li><b>App Groups</b> with the same id on iOS app, watch app, <em>and</em> the complication target:</li>
+          </ul>
+          <pre><code>group.ramsesg.TrailMark</code></pre>
+          <p style="font-size:14px;color:var(--muted);margin:6px 0 0">The code reads/writes <span class="mono">today.steps</span> here. Until the group exists the complication shows a sample number — it still builds.</p>
+        </div>
+      </div>
+      <h3>Signing</h3>
+      <p>Keep <b>Automatic</b> signing and set your <b>Team</b> on every target. If you see <em>"Failed to register bundle identifier"</em>, change the ids to something globally unique (prefix with your own reverse-domain).</p>
+    </section>
+
+    <!-- 6 -->
+    <section id="complication">
+      <p class="kicker">Step 6 · Course 3.4</p>
+      <h2 class="sec">Create the complication target</h2>
+      <p>App-extension targets are created from a template, not by editing the project file. The source is already written at <span class="mono">TrailMark/TrailMarkComplication/TrailMarkComplication.swift</span>.</p>
+      <ol class="steps">
+        <li><span class="st">New target</span> <b>File → New → Target… → watchOS → Widget Extension.</b></li>
+        <li><span class="st">Name &amp; embed</span> Name it <span class="mono">TrailMarkComplication</span>, <b>uncheck</b> "Include Configuration App Intent", and ensure the embedding app is the <b>Watch App</b>.</li>
+        <li><span class="st">Swap in the source</span> Replace the generated file's contents with the prewritten <span class="mono">TrailMarkComplication.swift</span>.</li>
+        <li><span class="st">App Group</span> Add the App Groups capability (<span class="mono">group.ramsesg.TrailMark</span>) to this target so it can read live steps.</li>
+        <li><span class="st">Add to the face</span> Build the watch scheme. On the watch, long-press the face → <b>Edit</b> → add the TrailMark complication, or add it to the Smart Stack.</li>
+      </ol>
+    </section>
+
+    <!-- 7 -->
+    <section id="sim">
+      <p class="kicker">Step 7</p>
+      <h2 class="sec">Running on the Simulator</h2>
+      <table>
+        <tr><th>Feature</th><th>Simulator?</th><th>Notes</th></tr>
+        <tr><td>UI, navigation, charts, persistence</td><td class="yes">Yes</td><td>Fully works.</td></tr>
+        <tr><td>HealthKit reads (steps/sleep/energy)</td><td class="maybe">Partial</td><td>Only if you <b>add sample data</b> in the Simulator's Health app.</td></tr>
+        <tr><td>HealthKit write (save workout)</td><td class="yes">Yes</td><td>Writes into the simulated Health store.</td></tr>
+        <tr><td>Voice memo (audio)</td><td class="yes">Yes</td><td>Uses the Mac microphone.</td></tr>
+        <tr><td>Video memo</td><td class="maybe">Partial</td><td>No camera → the code falls back to the photo library.</td></tr>
+        <tr><td>Location / route</td><td class="yes">Yes</td><td>Use <b>Features → Location → Freeway Drive</b> to simulate a moving track.</td></tr>
+        <tr><td>Live heart rate / Core Motion</td><td class="no">No</td><td>No sensors — values stay at 0. Expected.</td></tr>
+        <tr><td>Live workout session</td><td class="maybe">Partial</td><td>Starts/saves, but metrics won't stream.</td></tr>
+        <tr><td>WatchConnectivity sync</td><td class="yes">Yes</td><td>Works between a <b>paired</b> iPhone + Watch sim pair.</td></tr>
+      </table>
+
+      <h3>Add Health sample data</h3>
+      <ol class="steps">
+        <li><span class="st">Authorize</span> Run the iOS app once and accept the Health prompts.</li>
+        <li><span class="st">Add data</span> Open the <b>Health</b> app inside the same Simulator → <b>Browse</b> → e.g. <em>Steps</em> → <b>Add Data</b>. Repeat for Distance, Active Energy, Sleep. Re-open TrailMark.</li>
+      </ol>
+
+      <h3>Run from Xcode</h3>
+      <ol class="steps">
+        <li><span class="st">iPhone</span> Scheme <b>TrailMark</b> → an iPhone simulator (e.g. iPhone 17) → <b>⌘R</b>.</li>
+        <li><span class="st">Watch</span> Scheme <b>TrailMarkCompanion Watch App</b> → a paired Apple Watch sim → <b>⌘R</b>. Pairing is automatic; check via <b>Simulator → File → Manage Paired Devices</b>.</li>
+      </ol>
+
+      <h3>Run from the command line</h3>
+      <pre><code>open -a Simulator
+xcodebuild -project TrailMark/TrailMark.xcodeproj -scheme TrailMark \
+  -destination 'platform=iOS Simulator,name=iPhone 17' build
+
+xcrun simctl boot "iPhone 17" 2>/dev/null || true
+xcrun simctl install booted "$(xcodebuild -project TrailMark/TrailMark.xcodeproj \
+  -scheme TrailMark -destination 'platform=iOS Simulator,name=iPhone 17' \
+  -showBuildSettings | awk -F' = ' '/ BUILT_PRODUCTS_DIR /{d=$2} / FULL_PRODUCT_NAME /{p=$2} END{print d"/"p}')"
+xcrun simctl launch booted ramsesg.TrailMark</code></pre>
+    </section>
+
+    <!-- 8 -->
+    <section id="device">
+      <p class="kicker">Step 8</p>
+      <h2 class="sec">Running on real devices</h2>
+      <p>Heart rate, Core Motion, real workouts and true watch↔phone sync only work on hardware — exactly the things the curriculum says can't be simulated.</p>
+      <h3>One-time device prep</h3>
+      <ol class="steps">
+        <li><span class="st">Developer Mode</span> On iPhone &amp; Watch: <b>Settings → Privacy &amp; Security → Developer Mode → On</b> (the device reboots). On the Watch this appears after connecting to Xcode once.</li>
+        <li><span class="st">Cable the phone</span> The Watch installs <em>through</em> the paired iPhone — you don't cable the Watch. Confirm the Watch is paired to that iPhone.</li>
+        <li><span class="st">Trust</span> In Xcode: <b>Window → Devices and Simulators</b> → confirm both appear.</li>
+      </ol>
+      <h3>Run</h3>
+      <ol class="steps">
+        <li><span class="st">iPhone</span> <b>TrailMark</b> scheme → your iPhone → <b>⌘R</b>. Approve Health/Location/Mic/Camera/Motion prompts.</li>
+        <li><span class="st">Watch</span> <b>Watch App</b> scheme → your Apple Watch → <b>⌘R</b> (first install can take minutes). Approve Health/Mic/Motion on the watch.</li>
+        <li><span class="st">Trust certificate</span> First device launch: <b>Settings → General → VPN &amp; Device Management</b> → trust your developer certificate.</li>
+      </ol>
+      <div class="note info">
+        <span class="t">Verifying the hard-to-test features</span>
+        <b>Workout (1.3 / 3.2):</b> after finishing, Health app → Browse → Workouts. &nbsp; <b>Pocket sync (3.1):</b> record on the watch → it appears in the iPhone Journal/Journeys within seconds (foreground) or after the phone next wakes. &nbsp; <b>Complication (3.4):</b> add to the face; refreshes ~every 15 min.
+      </div>
+    </section>
+
+    <!-- 9 -->
+    <section id="sanity">
+      <p class="kicker">Step 9</p>
+      <h2 class="sec">Build sanity checks</h2>
+      <pre><code># Shared package, both platforms (run inside TrailMark/TrailmarkCore)
+xcodebuild build -scheme TrailmarkCore -destination 'generic/platform=iOS'
+xcodebuild build -scheme TrailmarkCore -destination 'generic/platform=watchOS'
+
+# Apps
+xcodebuild build -project TrailMark/TrailMark.xcodeproj -scheme TrailMark \
+  -destination 'platform=iOS Simulator,name=iPhone 17'
+xcodebuild build -project TrailMark/TrailMark.xcodeproj -scheme "TrailMarkCompanion Watch App" \
+  -destination 'platform=watchOS Simulator,name=Apple Watch Series 11 (46mm)'</code></pre>
+    </section>
+
+    <!-- 10 -->
+    <section id="map">
+      <p class="kicker">Step 10</p>
+      <h2 class="sec">Curriculum → code map</h2>
+      <table>
+        <tr><th>Session</th><th>Build</th><th>Where</th></tr>
+        <tr><td><span class="badge c1">1.1</span> Today dashboard</td><td>TodayDashboardView + HealthKitManager</td><td>iOS</td></tr>
+        <tr><td><span class="badge c1">1.2</span> Field journal</td><td>Journal views + MediaStore, AudioRecorder</td><td>iOS</td></tr>
+        <tr><td><span class="badge c1">1.3</span> Recovery</td><td>RecoveryView + HealthKitManager (write/sleep/trend)</td><td>iOS</td></tr>
+        <tr><td><span class="badge c1">1.4</span> Journey detail</td><td>Journeys views + LocationManager, Journey</td><td>iOS</td></tr>
+        <tr><td><span class="badge c2">2.1</span> Wrist home</td><td>WristHomeView</td><td>watch</td></tr>
+        <tr><td><span class="badge c2">2.2</span> Wrist memo</td><td>WristMemoView (reuses AudioRecorder/MediaStore)</td><td>watch</td></tr>
+        <tr><td><span class="badge c2">2.3</span> Live vitals</td><td>LiveVitalsView (reuses HealthKitManager)</td><td>watch</td></tr>
+        <tr><td><span class="badge c2">2.4</span> Motion</td><td>MotionView + MotionManager</td><td>watch</td></tr>
+        <tr><td><span class="badge c3">3.1</span> Pocket sync</td><td>ConnectivityManager + App/Watch model wiring</td><td>both</td></tr>
+        <tr><td><span class="badge c3">3.2</span> Live workout</td><td>LiveWorkoutView + WorkoutSessionManager</td><td>watch</td></tr>
+        <tr><td><span class="badge c3">3.3</span> Performance</td><td>Sampling rates, distanceFilter, batched sync — Instruments</td><td>both</td></tr>
+        <tr><td><span class="badge c3">3.4</span> Complication</td><td>TrailMarkComplication target</td><td>watch</td></tr>
+      </table>
+    </section>
+
+    <!-- 11 -->
+    <section id="pages">
+      <p class="kicker">Step 11 · optional</p>
+      <h2 class="sec">Publish this site to GitHub Pages</h2>
+      <p>A workflow at <span class="mono">.github/workflows/deploy-pages.yml</span> publishes the <span class="mono">Docs/</span> folder on every push to <span class="mono">main</span>.</p>
+      <ol class="steps">
+        <li><span class="st">Enable Pages</span> Repo on GitHub → <b>Settings → Pages → Build and deployment → Source: GitHub Actions</b>.</li>
+        <li><span class="st">Push</span> Commit and push to <span class="mono">main</span>. The Action runs and prints the published URL (typically <span class="mono">https://&lt;user&gt;.github.io/&lt;repo&gt;/</span>).</li>
+        <li><span class="st">Share</span> Hand students that URL — all four pages are cross-linked from the top nav.</li>
+      </ol>
+      <div class="note warn">
+        <span class="t">This makes the material public</span>
+        GitHub Pages serves to the open web. Don't include anything private (student data, unreleased grades). The course content here is fine to publish.
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>Next: the <a href="teaching-guide.html">Class-by-Class Teaching Guide</a> tells you exactly what to build in each session. Graded builds live on the <a href="assignments.html">Assignments</a> page.</p>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,204 @@
+/* ============================================================
+   Trailmark course site — shared styles
+   Palette + type mirror trailmark-curriculum.html so every page
+   feels like one cohesive courseware site.
+   ============================================================ */
+
+:root{
+  --ink:#1A1D23;
+  --paper:#FAF8F4;
+  --panel:#15181E;
+  --hair:#D9D2C6;
+  --muted:#6E6A60;
+  --c1:#DD4B14;   /* iOS foundation — trail blaze orange */
+  --c2:#2D6E7E;   /* watchOS — instrument teal */
+  --c3:#5E548E;   /* intermediate — deep indigo */
+  --c1-soft:#FBEAE1;
+  --c2-soft:#E2EEF0;
+  --c3-soft:#EAE7F2;
+  --ok:#2E7D55;
+  --warn:#B26B00;
+  --bad:#B23A2E;
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:"Newsreader",Georgia,serif;
+  font-size:18px;
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1040px;margin:0 auto;padding:0 28px}
+.mono{font-family:"JetBrains Mono",monospace}
+.disp{font-family:"Space Grotesk",sans-serif}
+a{color:var(--c2);text-decoration:none}
+a:hover{text-decoration:underline}
+
+/* ---------- TOP NAV ---------- */
+.topnav{
+  position:sticky;top:0;z-index:50;
+  background:var(--panel);color:var(--paper);
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+.topnav .inner{
+  max-width:1040px;margin:0 auto;padding:12px 28px;
+  display:flex;align-items:center;gap:20px;flex-wrap:wrap;
+}
+.topnav .brand{
+  font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:20px;
+  color:#fff;text-decoration:none;letter-spacing:-.01em;
+}
+.topnav .brand span{color:var(--c1)}
+.topnav .links{display:flex;gap:6px;flex-wrap:wrap;margin-left:auto}
+.topnav .links a{
+  font-family:"JetBrains Mono",monospace;font-size:12.5px;letter-spacing:.04em;
+  color:#CFCABF;text-decoration:none;padding:6px 11px;border-radius:7px;
+}
+.topnav .links a:hover{background:rgba(255,255,255,.08);color:#fff}
+.topnav .links a.active{background:var(--c1);color:#fff}
+
+/* ---------- HERO ---------- */
+header.hero{
+  background:var(--panel);color:var(--paper);
+  padding:56px 0 52px;position:relative;overflow:hidden;
+}
+header.hero::before{
+  content:"";position:absolute;inset:0;
+  background:repeating-linear-gradient(115deg, transparent 0 38px, rgba(255,255,255,.025) 38px 39px);
+  pointer-events:none;
+}
+.eyebrow{
+  font-family:"JetBrains Mono",monospace;font-size:12.5px;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--c1);margin:0 0 16px;
+}
+.hero h1{
+  font-family:"Space Grotesk",sans-serif;font-weight:700;
+  font-size:clamp(36px,6.5vw,68px);line-height:1;letter-spacing:-.02em;margin:0;
+}
+.hero h1 .dot{color:var(--c1)}
+.hero .pitch{font-size:clamp(18px,2.2vw,21px);max-width:34em;margin:20px 0 0;color:#D8D3C8}
+.hero .pitch b{color:#fff;font-weight:600}
+
+/* ---------- SECTIONS ---------- */
+main{padding:48px 0 24px}
+section{margin:0 0 44px}
+h2.sec{
+  font-family:"Space Grotesk",sans-serif;font-weight:700;
+  font-size:clamp(24px,3.4vw,32px);letter-spacing:-.01em;margin:0 0 6px;
+  scroll-margin-top:80px;
+}
+.kicker{
+  font-family:"JetBrains Mono",monospace;font-size:11.5px;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--muted);margin:0 0 8px;
+}
+h3{font-family:"Space Grotesk",sans-serif;font-weight:600;font-size:22px;margin:30px 0 10px;scroll-margin-top:80px}
+h4{font-family:"Space Grotesk",sans-serif;font-weight:600;font-size:18px;margin:22px 0 8px}
+p{margin:12px 0}
+.lead{font-size:20px;color:#34373E;max-width:46em}
+
+/* ---------- STEPS ---------- */
+ol.steps{counter-reset:step;list-style:none;margin:18px 0;padding:0}
+ol.steps>li{
+  position:relative;padding:2px 0 18px 52px;margin:0;
+  border-left:2px solid var(--hair);margin-left:16px;
+}
+ol.steps>li:last-child{border-left-color:transparent}
+ol.steps>li::before{
+  counter-increment:step;content:counter(step);
+  position:absolute;left:-16px;top:0;width:32px;height:32px;border-radius:50%;
+  background:var(--ink);color:#fff;font-family:"Space Grotesk",sans-serif;font-weight:700;
+  font-size:14px;display:flex;align-items:center;justify-content:center;
+}
+ol.steps>li .st{font-family:"Space Grotesk",sans-serif;font-weight:600;font-size:17px;display:block;margin-bottom:3px}
+
+/* ---------- CARDS ---------- */
+.card{
+  background:#fff;border:1px solid var(--hair);border-radius:14px;
+  padding:22px 24px;margin:16px 0;box-shadow:0 1px 0 rgba(26,29,35,.03);
+}
+.card.c1{border-top:4px solid var(--c1)}
+.card.c2{border-top:4px solid var(--c2)}
+.card.c3{border-top:4px solid var(--c3)}
+.card h3:first-child,.card h4:first-child{margin-top:0}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin:18px 0}
+
+/* tag chips */
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin:10px 0}
+.chip{
+  font-family:"JetBrains Mono",monospace;font-size:11.5px;
+  border:1px solid var(--hair);border-radius:6px;padding:4px 9px;background:#FAFAF8;color:var(--ink);
+}
+.badge{
+  display:inline-block;font-family:"JetBrains Mono",monospace;font-size:11px;font-weight:600;
+  letter-spacing:.12em;text-transform:uppercase;padding:4px 10px;border-radius:999px;color:#fff;
+}
+.badge.c1{background:var(--c1)} .badge.c2{background:var(--c2)} .badge.c3{background:var(--c3)}
+
+/* ---------- CALLOUTS ---------- */
+.note{border-radius:10px;padding:14px 18px;margin:16px 0;border:1px solid var(--hair);font-size:16px}
+.note .t{font-family:"Space Grotesk",sans-serif;font-weight:600;display:block;margin-bottom:4px}
+.note.info{background:#EEF4F5;border-color:#CFE0E3}
+.note.tip{background:var(--c1-soft);border-color:#F2C9B5}
+.note.warn{background:#FBF1DD;border-color:#EAD3A0}
+.note.warn .t{color:var(--warn)}
+
+/* ---------- CODE ---------- */
+pre,code{font-family:"JetBrains Mono",monospace}
+code{font-size:.86em;background:rgba(45,110,126,.12);color:#16414A;padding:2px 6px;border-radius:4px}
+pre{
+  background:var(--panel);color:#E7E3D9;border-radius:12px;padding:16px 18px;overflow:auto;
+  font-size:13.5px;line-height:1.55;margin:16px 0;
+}
+pre code{background:none;color:inherit;padding:0;font-size:inherit}
+
+/* ---------- TABLES ---------- */
+table{width:100%;border-collapse:collapse;margin:16px 0;font-size:15.5px;background:#fff}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--hair);vertical-align:top}
+th{font-family:"Space Grotesk",sans-serif;font-weight:600;background:#F3F1EC}
+td .mono{font-size:13px}
+.yes{color:var(--ok);font-weight:600}
+.maybe{color:var(--warn);font-weight:600}
+.no{color:var(--bad);font-weight:600}
+
+/* ---------- LISTS ---------- */
+ul.out{margin:10px 0;padding-left:0;list-style:none}
+ul.out li{position:relative;padding-left:24px;margin:8px 0}
+ul.out li::before{content:"";position:absolute;left:4px;top:11px;width:8px;height:8px;border-radius:2px;background:var(--c2)}
+.c1 ul.out li::before{background:var(--c1)}
+.c2 ul.out li::before{background:var(--c2)}
+.c3 ul.out li::before{background:var(--c3)}
+
+/* outcome / rubric blocks */
+.kv{display:grid;grid-template-columns:160px 1fr;gap:8px 18px;margin:14px 0}
+.kv dt{font-family:"JetBrains Mono",monospace;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding-top:3px}
+.kv dd{margin:0}
+
+/* ---------- FOOTER ---------- */
+footer{border-top:1px solid var(--hair);padding:30px 0 56px;color:var(--muted);font-size:15px;margin-top:30px}
+footer a{color:var(--ink)}
+
+/* ---------- HUB CARDS ---------- */
+.hubgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px;margin:24px 0}
+.hubcard{
+  display:block;background:#fff;border:1px solid var(--hair);border-radius:16px;padding:24px;
+  color:var(--ink);text-decoration:none;transition:transform .12s ease,box-shadow .12s ease;
+}
+.hubcard:hover{transform:translateY(-3px);box-shadow:0 10px 30px rgba(26,29,35,.08);text-decoration:none}
+.hubcard .ic{font-size:30px}
+.hubcard h3{margin:12px 0 6px}
+.hubcard p{color:var(--muted);font-size:15.5px;margin:0}
+.hubcard.c1{border-top:5px solid var(--c1)}
+.hubcard.c2{border-top:5px solid var(--c2)}
+.hubcard.c3{border-top:5px solid var(--c3)}
+
+@media print{
+  .topnav{position:static}
+  .hubcard,.card{box-shadow:none}
+  a{color:var(--ink)}
+}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}.hubcard:hover{transform:none}}

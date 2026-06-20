@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trailmark — Unified iOS &amp; watchOS Curriculum</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+  :root{
+    --ink:#1A1D23;
+    --paper:#FAF8F4;
+    --panel:#15181E;
+    --hair:#D9D2C6;
+    --muted:#6E6A60;
+    /* course accents */
+    --c1:#DD4B14;   /* iOS foundation — trail blaze orange */
+    --c2:#2D6E7E;   /* watchOS — instrument teal */
+    --c3:#5E548E;   /* intermediate — deep indigo */
+    --c1-soft:#FBEAE1;
+    --c2-soft:#E2EEF0;
+    --c3-soft:#EAE7F2;
+  }
+
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:"Newsreader",Georgia,serif;
+    font-size:18px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1040px;margin:0 auto;padding:0 28px}
+  .mono{font-family:"JetBrains Mono",monospace}
+  .disp{font-family:"Space Grotesk",sans-serif}
+
+  /* ---------- HERO ---------- */
+  header.hero{
+    background:var(--panel);
+    color:var(--paper);
+    padding:72px 0 64px;
+    position:relative;
+    overflow:hidden;
+  }
+  header.hero::before{
+    content:"";
+    position:absolute;inset:0;
+    background:
+      repeating-linear-gradient(115deg, transparent 0 38px, rgba(255,255,255,.025) 38px 39px);
+    pointer-events:none;
+  }
+  .eyebrow{
+    font-family:"JetBrains Mono",monospace;
+    font-size:12.5px;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--c1);
+    margin:0 0 18px;
+  }
+  .hero h1{
+    font-family:"Space Grotesk",sans-serif;
+    font-weight:700;
+    font-size:clamp(44px,8vw,84px);
+    line-height:.96;
+    letter-spacing:-.02em;
+    margin:0;
+  }
+  .hero h1 .dot{color:var(--c1)}
+  .hero .pitch{
+    font-size:clamp(19px,2.4vw,23px);
+    max-width:30em;
+    margin:24px 0 0;
+    color:#D8D3C8;
+  }
+  .hero .pitch b{color:#fff;font-weight:600}
+
+  .thesis{
+    margin-top:40px;
+    border-left:3px solid var(--c1);
+    padding:6px 0 6px 22px;
+    max-width:46em;
+  }
+  .thesis .label{
+    font-family:"JetBrains Mono",monospace;font-size:11.5px;letter-spacing:.18em;
+    text-transform:uppercase;color:#A8A296;margin-bottom:8px;
+  }
+  .thesis p{margin:0;color:#E7E3D9;font-size:17px;line-height:1.62}
+  .thesis code{
+    font-family:"JetBrains Mono",monospace;font-size:.85em;
+    background:rgba(221,75,20,.16);color:#FFB89C;padding:2px 6px;border-radius:4px;
+  }
+
+  /* ---------- META STRIP ---------- */
+  .meta{
+    display:flex;flex-wrap:wrap;gap:0;
+    border-top:1px solid var(--hair);border-bottom:1px solid var(--hair);
+    background:#fff;
+  }
+  .meta div{
+    flex:1 1 25%;min-width:160px;
+    padding:20px 24px;
+    border-right:1px solid var(--hair);
+  }
+  .meta div:last-child{border-right:none}
+  .meta .k{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+  .meta .v{font-family:"Space Grotesk",sans-serif;font-weight:600;font-size:21px}
+
+  /* ---------- CONCEPT LEGEND ---------- */
+  .legend{padding:54px 0 8px}
+  .legend h2,.courses-intro h2{
+    font-family:"Space Grotesk",sans-serif;font-weight:600;
+    font-size:14px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);
+    margin:0 0 22px;
+  }
+  .concepts{display:flex;flex-wrap:wrap;gap:10px}
+  .concept{
+    font-family:"JetBrains Mono",monospace;font-size:13px;
+    background:#fff;border:1px solid var(--hair);border-radius:999px;
+    padding:8px 15px;color:var(--ink);
+  }
+  .concept span{color:var(--c1)}
+
+  /* ---------- TRAIL / TIMELINE ---------- */
+  .trail{position:relative;padding:46px 0 90px}
+  .spine{
+    position:absolute;left:34px;top:0;bottom:0;width:2px;
+    background:linear-gradient(var(--c1) 0 33%, var(--c2) 33% 66%, var(--c3) 66% 100%);
+    opacity:.28;
+  }
+  @media(max-width:720px){.spine{left:20px}}
+
+  .course-head{
+    position:relative;
+    margin:54px 0 8px;
+    padding-left:74px;
+  }
+  .course-head:first-child{margin-top:0}
+  @media(max-width:720px){.course-head{padding-left:52px}}
+  .course-head .badge{
+    position:absolute;left:0;top:2px;
+    width:70px;height:70px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:24px;color:#fff;
+    box-shadow:0 0 0 6px var(--paper);
+  }
+  @media(max-width:720px){.course-head .badge{width:42px;height:42px;font-size:16px}}
+  .course-head .ctag{
+    font-family:"JetBrains Mono",monospace;font-size:12px;letter-spacing:.18em;
+    text-transform:uppercase;margin:0 0 4px;
+  }
+  .course-head h3{
+    font-family:"Space Grotesk",sans-serif;font-weight:700;
+    font-size:clamp(26px,4vw,38px);line-height:1.05;letter-spacing:-.01em;margin:0;
+  }
+  .course-head .sub{color:var(--muted);font-size:16px;margin:8px 0 0;max-width:42em}
+
+  /* class node */
+  .node{position:relative;padding-left:74px;margin:30px 0}
+  @media(max-width:720px){.node{padding-left:52px}}
+  .node .pin{
+    position:absolute;left:25px;top:30px;width:20px;height:20px;border-radius:50%;
+    background:var(--paper);border:3px solid var(--ink);
+    box-shadow:0 0 0 5px var(--paper);
+  }
+  @media(max-width:720px){.node .pin{left:11px;width:18px;height:18px}}
+
+  .card{
+    background:#fff;border:1px solid var(--hair);border-radius:14px;
+    padding:26px 28px;
+    box-shadow:0 1px 0 rgba(26,29,35,.03);
+  }
+  .card .wp{
+    font-family:"JetBrains Mono",monospace;font-size:12px;letter-spacing:.14em;
+    color:var(--muted);margin-bottom:6px;
+  }
+  .card h4{
+    font-family:"Space Grotesk",sans-serif;font-weight:600;
+    font-size:23px;line-height:1.2;letter-spacing:-.01em;margin:0 0 14px;
+  }
+  .chips{display:flex;flex-wrap:wrap;gap:7px;margin:0 0 18px}
+  .chip{
+    font-family:"JetBrains Mono",monospace;font-size:11.5px;
+    border:1px solid var(--hair);border-radius:6px;padding:4px 9px;color:var(--ink);background:#FAFAF8;
+  }
+
+  .seg{margin-top:16px}
+  .seg .h{
+    font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--muted);margin-bottom:9px;
+    display:flex;align-items:center;gap:8px;
+  }
+  .seg .h::before{content:"";width:14px;height:2px;background:var(--ink);opacity:.4}
+  ul.out{margin:0;padding:0;list-style:none}
+  ul.out li{position:relative;padding-left:22px;margin:8px 0;font-size:16.5px;line-height:1.55}
+  ul.out li::before{
+    content:"";position:absolute;left:2px;top:11px;width:7px;height:7px;border-radius:2px;
+    background:currentColor;opacity:.55;
+  }
+
+  .assign{
+    margin-top:20px;border-radius:10px;padding:18px 20px;
+    border:1px dashed;
+  }
+  .assign .tag{
+    font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.16em;
+    text-transform:uppercase;font-weight:600;margin-bottom:8px;display:block;
+  }
+  .assign .name{font-family:"Space Grotesk",sans-serif;font-weight:600;font-size:17px;margin:0 0 6px}
+  .assign p{margin:0;font-size:16px;line-height:1.55;color:#34373E}
+
+  .integration{
+    margin-top:20px;border-radius:10px;padding:14px 18px;background:#F3F1EC;border:1px solid var(--hair);
+    font-size:15.5px;color:var(--muted);
+  }
+  .integration b{color:var(--ink);font-family:"Space Grotesk",sans-serif;font-weight:600}
+
+  /* per-course coloring hooks */
+  .c1 .pin{border-color:var(--c1)} .c1 ul.out li{color:var(--c1)}
+  .c1 .assign{border-color:var(--c1);background:var(--c1-soft)} .c1 .assign .tag,.c1 .assign .name{color:var(--c1)}
+  .c1 .badge{background:var(--c1)} .c1 .ctag{color:var(--c1)}
+  .c2 .pin{border-color:var(--c2)} .c2 ul.out li{color:var(--c2)}
+  .c2 .assign{border-color:var(--c2);background:var(--c2-soft)} .c2 .assign .tag,.c2 .assign .name{color:var(--c2)}
+  .c2 .badge{background:var(--c2)} .c2 .ctag{color:var(--c2)}
+  .c3 .pin{border-color:var(--c3)} .c3 ul.out li{color:var(--c3)}
+  .c3 .assign{border-color:var(--c3);background:var(--c3-soft)} .c3 .assign .tag,.c3 .assign .name{color:var(--c3)}
+  .c3 .badge{background:var(--c3)} .c3 .ctag{color:var(--c3)}
+  /* keep outcome text ink-colored, only marker uses accent */
+  ul.out li{color:inherit}
+  .c1 ul.out li::before{background:var(--c1)} .c2 ul.out li::before{background:var(--c2)} .c3 ul.out li::before{background:var(--c3)}
+
+  footer{border-top:1px solid var(--hair);padding:34px 0 60px;color:var(--muted);font-size:15px}
+  footer .mono{color:var(--ink)}
+
+  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="inner">
+    <a class="brand" href="index.html">Trailmark<span>.</span></a>
+    <div class="links">
+      <a href="index.html">Home</a>
+      <a href="trailmark-curriculum.html" class="active">Curriculum</a>
+      <a href="setup-guide.html">Setup</a>
+      <a href="teaching-guide.html">Teaching Guide</a>
+      <a href="assignments.html">Assignments</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <p class="eyebrow">iOS &amp; watchOS · One project · 12 sessions</p>
+    <h1>Trailmark<span class="dot">.</span></h1>
+    <p class="pitch">A single adventure-journal app, built across three courses. It records <b>where you went</b>, <b>how you moved</b>, <b>how your body responded</b>, and <b>what you captured</b> along the way — synced between wrist and pocket.</p>
+
+    <div class="thesis">
+      <div class="label">The architecture that kills the redundancy</div>
+      <p>Course 1 builds the iPhone app <em>and</em> a shared Swift package, <code>TrailmarkCore</code> — models, the HealthKit manager, the route engine, and the media store. Course 2 adds a watchOS target that simply <em>imports</em> it, so we never rewrite the same logic for two platforms. "Don't repeat yourself across devices" becomes a lesson, not a problem.</p>
+    </div>
+  </div>
+</header>
+
+<div class="meta">
+  <div><div class="k">Structure</div><div class="v">3 courses</div></div>
+  <div><div class="k">Per course</div><div class="v">4 × 2.5 hrs</div></div>
+  <div><div class="k">Deliverable</div><div class="v">One app</div></div>
+  <div><div class="k">Graded work</div><div class="v">Classes 1–3</div></div>
+</div>
+
+<div class="wrap">
+  <section class="legend">
+    <h2>Concepts woven through the build</h2>
+    <div class="concepts">
+      <span class="concept"><span>›</span> CoreLocation / MapKit</span>
+      <span class="concept"><span>›</span> Core Motion</span>
+      <span class="concept"><span>›</span> HealthKit (read + write)</span>
+      <span class="concept"><span>›</span> AVFoundation media</span>
+      <span class="concept"><span>›</span> WatchConnectivity</span>
+      <span class="concept"><span>›</span> Wearable performance &amp; power</span>
+      <span class="concept"><span>›</span> Shared Swift package architecture</span>
+    </div>
+  </section>
+</div>
+
+<div class="wrap">
+  <div class="trail">
+    <div class="spine" aria-hidden="true"></div>
+
+    <!-- ============ COURSE 1 ============ -->
+    <div class="course-head c1">
+      <div class="badge">01</div>
+      <p class="ctag">Course One</p>
+      <h3>iOS — Foundations &amp; the Shared Core</h3>
+      <p class="sub">Build the iPhone app and the reusable <code class="mono">TrailmarkCore</code> package. Everything later in the program stands on this layer.</p>
+    </div>
+
+    <!-- 1.1 -->
+    <div class="node c1">
+      <div class="pin"></div>
+      <div class="card">
+        <div class="wp">Class 1.1 · Session 01 of 12</div>
+        <h4>Architecture &amp; the HealthKit foundation</h4>
+        <div class="chips"><span class="chip">SwiftUI</span><span class="chip">HealthKit</span><span class="chip">Swift Package</span><span class="chip">HKStatisticsQuery</span></div>
+        <div class="seg">
+          <div class="h">Learning outcomes</div>
+          <ul class="out">
+            <li>Set up an Xcode workspace with an app target plus a shared local Swift package (<code class="mono">TrailmarkCore</code>), and explain why a shared module prevents duplication later.</li>
+            <li>Explain HealthKit's authorization and privacy model, and request read access correctly with clear purpose strings.</li>
+            <li>Read step count, walking/running distance, and active energy using statistics queries.</li>
+            <li>Render today's activity summary in SwiftUI, keeping all health logic inside the core package.</li>
+          </ul>
+        </div>
+        <div class="assign">
+          <span class="tag">Assignment · build spec</span>
+          <p class="name">"Today" dashboard</p>
+          <p>On launch, request HealthKit authorization. Display today's steps, distance, and active energy, refreshing when the view appears. Handle denied/undetermined states gracefully with a clear empty state and no crashes. All HealthKit calls live in <code class="mono">TrailmarkCore</code>, never in the view.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 1.2 -->
+    <div class="node c1">
+      <div class="pin"></div>
+      <div class="card">
+        <div class="wp">Class 1.2 · Session 02 of 12</div>
+        <h4>Capturing the moment — media management</h4>
+        <div class="chips"><span class="chip">AVFoundation</span><span class="chip">AVAudioRecorder</span><span class="chip">FileManager</span><span class="chip">Thumbnails</span></div>
+        <div class="seg">
+          <div class="h">Learning outcomes</div>
+          <ul class="out">
+            <li>Capture video and audio with AVFoundation, and reason about capture sessions and permissions.</li>
+            <li>Persist media to app storage and model its metadata: id, type, date, duration, optional coordinates.</li>
+            <li>Generate video thumbnails and play media back in-app.</li>
+            <li>Build a memo list and detail screen backed by the shared media store.</li>
+          </ul>
+        </div>
+        <div class="assign">
+          <span class="tag">Assignment · build spec</span>
+          <p class="name">"Field journal"</p>
+          <p>Record a voice memo and a short video memo. Save each with metadata into the <code class="mono">TrailmarkCore</code> media store. Show a list with thumbnails and duration, and a detail view that plays the item back. Deleting a memo also removes its file from disk.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 1.3 -->
+    <div class="node c1">
+      <div class="pin"></div>
+      <div class="card">
+        <div class="wp">Class 1.3 · Session 03 of 12</div>
+        <h4>Two-way HealthKit — workouts in, sleep &amp; recovery out</h4>
+        <div class="chips"><span class="chip">HealthKit (write)</span><span class="chip">HKWorkout</span><span class="chip">sleepAnalysis</span><span class="chip">Swift Charts</span></div>
+        <div class="seg">
+          <div class="h">Learning outcomes</div>
+          <ul class="out">
+            <li>Write a completed activity to HealthKit as an <code class="mono">HKWorkout</code> and verify it lands in the Health app.</li>
+            <li>Query sleep analysis for last night using a category type.</li>
+            <li>Compute simple insights such as sleep duration and a weekly active-energy trend.</li>
+            <li>Visualize those insights with Swift Charts.</li>
+          </ul>
+        </div>
+        <div class="assign">
+          <span class="tag">Assignment · build spec</span>
+          <p class="name">"Recovery view"</p>
+          <p>Save a sample activity as a workout and confirm it appears in Health. Pull last night's sleep and the last seven days of active energy. Show a recovery screen: last night's sleep duration plus a 7-day energy chart. All queries live in <code class="mono">TrailmarkCore</code>.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 1.4 -->
+    <div class="node c1">
+      <div class="pin"></div>
+      <div class="card">
+        <div class="wp">Class 1.4 · Session 04 of 12</div>
+        <h4>Where it happened — location &amp; the unified journey</h4>
+        <div class="chips"><span class="chip">CoreLocation</span><span class="chip">MapKit</span><span class="chip">Polyline</span><span class="chip">Geotagging</span></div>
+        <div class="seg">
+          <div class="h">Learning outcomes</div>
+          <ul class="out">
+            <li>Request when-in-use location authorization and record a coordinate track.</li>
+            <li>Geotag media memos with the location where they were captured.</li>
+            <li>Render a route polyline with memo pins on a MapKit map.</li>
+            <li>Assemble a "Journey detail" screen uniting route, health, and media — the iOS app is now whole and ready for the wrist.</li>
+          </ul>
+        </div>
+        <div class="integration">
+          <b>Integration day — no assignment.</b> We connect the three previous builds into one screen and prepare the codebase to be consumed by a watch target.
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ COURSE 2 ============ -->
+    <div class="course-head c2">
+      <div class="badge">02</div>
+      <p class="ctag">Course Two</p>
+      <h3>watchOS — Designing &amp; Building for the Wrist</h3>
+      <p class="sub">Reuse <code class="mono">TrailmarkCore</code> on a new watch target. Spend time only on what's genuinely different: wrist-first design and on-device sensing.</p>
+    </div>
+
+    <!-- 2.1 -->
+    <div class="node c2">
+      <div class="pin"></div>
+      <div class="card">
+        <div class="wp">Class 2.1 · Session 05 of 12</div>
+        <h4>Design for wearables + reusing the core</h4>
+        <div class="chips"><span class="chip">watchOS target</span><span class="chip">SwiftUI (watch)</span><span class="chip">Digital Crown</span><span class="chip">TrailmarkCore reuse</span></div>
+        <div class="seg">
+          <div class="h">Learning outcomes</div>
+          <ul class="out">
+            <li>Summarize Apple's wearable design principles: glanceability, focused tasks, hierarchy, Digital Crown ergonomics, and when to defer to the phone.</li>
+            <li>Add a watchOS target and import <code class="mono">TrailmarkCore</code> — reuse models and managers instead of rewriting them.</li>
+            <li>Translate an iOS screen into a wrist-appropriate layout.</li>
+            <li>Build a glanceable watch home screen.</li>
+          </ul>
+        </div>
+        <div class="assign">
+          <span class="tag">Assignment · build spec</span>
+          <p class="name">"Wrist home"</p>
+          <p>Add the watch target and consume <code class="mono">TrailmarkCore</code> with no duplicated model code. Build a glanceable home screen showing today's headline metric and one quick action, readable in about two seconds. Justify one design choice against a specific watchOS guideline.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2.2 -->
+    <div class="node c2">
+      <div class="pin"></div>
+      <div class="card">
+        <div class="wp">Class 2.2 · Session 06 of 12</div>
+        <h4>Voice memos on the wrist — media under constraints</h4>
+        <div class="chips"><span class="chip">AVFoundation (watch)</span><span class="chip">AVAudioSession</span><span class="chip">Local storage</span></div>
+        <div class="seg">
+          <div class="h">Learning outcomes</div>
+          <ul class="out">
+            <li>Record and play audio on watchOS and reason about watch-specific media constraints: storage, audio session, and limited UI.</li>
+            <li>Reuse the media model from <code class="mono">TrailmarkCore</code> while accepting a watch-appropriate interface.</li>
+            <li>Contrast the iOS and watchOS capture experience and explain why they differ.</li>
+          </ul>
+        </div>
+        <div class="assign">
+          <span class="tag">Assignment · build spec</span>
+          <p class="name">"Wrist memo"</p>
+          <p>On the watch, record a voice memo, save it via the shared media model, list saved memos, and play one back. Keep the interface to the essentials a wrist actually needs.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2.3 -->
+    <div class="node c2">
+      <div class="pin"></div>
+      <div class="card">
+        <div class="wp">Class 2.3 · Session 07 of 12</div>
+        <h4>HealthKit on the watch</h4>
+        <div class="chips"><span class="chip">HealthKit (watch)</span><span class="chip">Live metrics</span><span class="chip">Shared manager</span></div>
+        <div class="seg">
+          <div class="h">Learning outcomes</div>
+          <ul class="out">
+            <li>Request HealthKit authorization on watchOS and explain how the watch's sensor access differs from the phone's.</li>
+            <li>Read current health metrics — heart rate, steps, active energy — on the watch using the shared HealthKit layer.</li>
+            <li>Present live-updating metrics in a wrist-appropriate layout.</li>
+          </ul>
+        </div>
+        <div class="assign">
+          <span class="tag">Assignment · build spec</span>
+          <p class="name">"Live vitals"</p>
+          <p>On the watch, after authorization, show current heart rate, steps, and active energy, updating as the values change. Reuse the <code class="mono">TrailmarkCore</code> HealthKit manager wherever it already fits.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2.4 -->
+    <div class="node c2">
+      <div class="pin"></div>
+      <div class="card">
+        <div class="wp">Class 2.4 · Session 08 of 12</div>
+        <h4>Sensing motion at the source — Core Motion</h4>
+        <div class="chips"><span class="chip">CoreMotion</span><span class="chip">CMPedometer</span><span class="chip">Accelerometer</span><span class="chip">Motion activity</span></div>
+        <div class="seg">
+          <div class="h">Learning outcomes</div>
+          <ul class="out">
+            <li>Access accelerometer, gyroscope, pedometer, and motion-activity data on the wrist, and explain why the wrist is the ideal place to sense motion.</li>
+            <li>Derive a simple signal — such as cadence or activity type — from raw motion data.</li>
+            <li>Recognize the energy cost of sensors, setting up the performance work in Course 3.</li>
+          </ul>
+        </div>
+        <div class="integration">
+          <b>Integration day — no assignment.</b> Motion sensing is wired into the watch app and we open the conversation about battery and sampling cost that Course 3 picks up.
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ COURSE 3 ============ -->
+    <div class="course-head c3">
+      <div class="badge">03</div>
+      <p class="ctag">Course Three</p>
+      <h3>Intermediate watchOS — Live, Connected &amp; Performant</h3>
+      <p class="sub">The genuinely watch-hard topics: real-time workout sessions, wrist-to-pocket sync, power tuning, and complications.</p>
+    </div>
+
+    <!-- 3.1 -->
+    <div class="node c3">
+      <div class="pin"></div>
+      <div class="card">
+        <div class="wp">Class 3.1 · Session 09 of 12</div>
+        <h4>WatchConnectivity — making two apps one</h4>
+        <div class="chips"><span class="chip">WCSession</span><span class="chip">applicationContext</span><span class="chip">transferFile</span><span class="chip">userInfo</span></div>
+        <div class="seg">
+          <div class="h">Learning outcomes</div>
+          <ul class="out">
+            <li>Explain the WCSession transfer types — live messages, application context, userInfo, and file transfer — and when each fits.</li>
+            <li>Establish a session on both sides and sync a recorded activity from watch to phone.</li>
+            <li>Transfer a media file such as a voice memo across devices.</li>
+          </ul>
+        </div>
+        <div class="assign">
+          <span class="tag">Assignment · build spec</span>
+          <p class="name">"Pocket sync"</p>
+          <p>Record an activity and a voice memo on the watch, then sync both to the iPhone over WatchConnectivity so they appear in the iOS journey list. Choose the right transfer type for each payload and explain why.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3.2 -->
+    <div class="node c3">
+      <div class="pin"></div>
+      <div class="card">
+        <div class="wp">Class 3.2 · Session 10 of 12</div>
+        <h4>Live workout sessions &amp; background running</h4>
+        <div class="chips"><span class="chip">HKWorkoutSession</span><span class="chip">HKLiveWorkoutBuilder</span><span class="chip">Background runtime</span></div>
+        <div class="seg">
+          <div class="h">Learning outcomes</div>
+          <ul class="out">
+            <li>Start an <code class="mono">HKWorkoutSession</code> and stream metrics with a live workout builder.</li>
+            <li>Keep the app running and updating in the background during an activity.</li>
+            <li>Save the finished workout to HealthKit.</li>
+          </ul>
+        </div>
+        <div class="assign">
+          <span class="tag">Assignment · build spec</span>
+          <p class="name">"Go for a walk"</p>
+          <p>Build a live activity that starts on the watch, keeps updating heart rate, elapsed time, and energy while backgrounded, and saves a real <code class="mono">HKWorkout</code> on finish. Confirm it lands in the Health app.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3.3 -->
+    <div class="node c3">
+      <div class="pin"></div>
+      <div class="card">
+        <div class="wp">Class 3.3 · Session 11 of 12</div>
+        <h4>Performance &amp; power for wearables</h4>
+        <div class="chips"><span class="chip">Instruments</span><span class="chip">Sampling rates</span><span class="chip">UI refresh</span><span class="chip">Sync batching</span></div>
+        <div class="seg">
+          <div class="h">Learning outcomes</div>
+          <ul class="out">
+            <li>Profile CPU, energy, and memory on watchOS with Instruments.</li>
+            <li>Tune sensor sampling rates and UI refresh to cut battery cost.</li>
+            <li>Reduce connectivity overhead by choosing batched over chatty sync.</li>
+          </ul>
+        </div>
+        <div class="assign">
+          <span class="tag">Assignment · build spec</span>
+          <p class="name">"Make it last"</p>
+          <p>Profile one feature — for example live motion plus UI refresh plus sync. Make at least two optimizations and document the before/after measurements with a short note on the tradeoff you chose.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3.4 -->
+    <div class="node c3">
+      <div class="pin"></div>
+      <div class="card">
+        <div class="wp">Class 3.4 · Session 12 of 12</div>
+        <h4>Complications, Smart Stack &amp; independence — capstone</h4>
+        <div class="chips"><span class="chip">WidgetKit</span><span class="chip">Complications</span><span class="chip">Smart Stack</span><span class="chip">Independent app</span></div>
+        <div class="seg">
+          <div class="h">Learning outcomes</div>
+          <ul class="out">
+            <li>Build a complication with WidgetKit and surface a key metric on the watch face and Smart Stack.</li>
+            <li>Make the watch app function independently where appropriate.</li>
+            <li>Integrate and present the complete Trailmark project end to end.</li>
+          </ul>
+        </div>
+        <div class="integration">
+          <b>Capstone — no assignment.</b> Final integration and presentation of the whole project across iPhone and Apple Watch.
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <p><span class="mono">Trailmark</span> is a working name — rename it to fit your section. Assignments for classes 1–3 of each course are the in-class build expressed as acceptance criteria, so no extra work is created outside the session. Class 4 of each course is an integration / capstone day with no separate deliverable.</p>
+  </div>
+</footer>
+
+</body>
+</html>

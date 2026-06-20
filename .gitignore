@@ -1,0 +1,66 @@
+# ───────────────────────────── macOS ─────────────────────────────
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+
+# ───────────────────────── Xcode user data ───────────────────────
+# Per-user state — window layout, breakpoints, selected scheme, etc.
+# Never shared; differs for every developer/student.
+xcuserdata/
+*.xcuserstate
+*.xcuserdatad/
+*.xcscmblueprint
+*.xccheckout
+
+# Shared schemes ARE usually committed; user scheme management is not.
+**/xcshareddata/xcschememanagement.plist
+
+# ───────────────────── Xcode build output ────────────────────────
+build/
+DerivedData/
+*.moved-aside
+*.hmap
+*.ipa
+*.dSYM.zip
+*.dSYM
+*.xcarchive
+*.xcresult
+
+# ─────────────── Swift Package Manager / dependencies ────────────
+.build/
+.swiftpm/
+Package.resolved
+# Xcode-resolved package state (per-machine)
+*.xcworkspace/xcshareddata/swiftpm/Package.resolved
+
+# ───────────────────────── CocoaPods ─────────────────────────────
+Pods/
+*.xcworkspace/contents.xcworkspacedata.orig
+
+# ───────────────────────── Carthage ──────────────────────────────
+Carthage/Build/
+Carthage/Checkouts/
+
+# ───────────────────── Provisioning / secrets ────────────────────
+*.mobileprovision
+*.provisionprofile
+*.p12
+*.cer
+secrets.xcconfig
+
+# ───────────────────────────── Misc ──────────────────────────────
+*.log
+*.tmp
+*~
+.netrlc
+playground.xcworkspace
+
+# ───────────────────────── Editors / tooling ─────────────────────
+.idea/
+*.swp
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots/**/*.png
+fastlane/test_output

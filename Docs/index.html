@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trailmark — Course Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="inner">
+    <a class="brand" href="index.html">Trailmark<span>.</span></a>
+    <div class="links">
+      <a href="index.html" class="active">Home</a>
+      <a href="trailmark-curriculum.html">Curriculum</a>
+      <a href="setup-guide.html">Setup</a>
+      <a href="teaching-guide.html">Teaching Guide</a>
+      <a href="assignments.html">Assignments</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <p class="eyebrow">iOS &amp; watchOS · One project · 12 sessions · 3 courses</p>
+    <h1>Trailmark<span class="dot">.</span></h1>
+    <p class="pitch">The complete teaching package for a single adventure-journal app built across three courses — <b>where you went, how you moved, how your body responded, and what you captured</b>, synced between wrist and pocket.</p>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <section>
+      <p class="kicker">Start here</p>
+      <h2 class="sec">Everything you need to run this with students</h2>
+      <p class="lead">Four linked resources. Read the curriculum for the arc, follow the setup guide once to build the project skeleton, teach from the class-by-class guide, and assign the graded builds from the assignments page.</p>
+
+      <div class="hubgrid">
+        <a class="hubcard c1" href="trailmark-curriculum.html">
+          <div class="ic">🧭</div>
+          <h3>Curriculum</h3>
+          <p>The 12-session arc across three courses, with learning outcomes and the build spec for every class.</p>
+        </a>
+        <a class="hubcard c2" href="setup-guide.html">
+          <div class="ic">🛠️</div>
+          <h3>Setup &amp; Deployment Guide</h3>
+          <p>Create the Xcode project from scratch, add the watch target, share the <span class="mono">TrailmarkCore</span> package, set permissions, and deploy to Simulator &amp; devices.</p>
+        </a>
+        <a class="hubcard c3" href="teaching-guide.html">
+          <div class="ic">📓</div>
+          <h3>Class-by-Class Teaching Guide</h3>
+          <p>What to build live in each of the 12 sessions, which files to write, demo checkpoints, and talking points.</p>
+        </a>
+        <a class="hubcard c1" href="assignments.html">
+          <div class="ic">✅</div>
+          <h3>Assignments (Canvas-ready)</h3>
+          <p>The nine graded builds (classes 1–3 of each course) with requirements, upload instructions, outcomes, and rubrics.</p>
+        </a>
+      </div>
+    </section>
+
+    <section>
+      <p class="kicker">The architecture that kills the redundancy</p>
+      <h2 class="sec">One shared core, two platforms</h2>
+      <div class="card">
+        <p>Course 1 builds the iPhone app <em>and</em> a shared local Swift package, <span class="mono">TrailmarkCore</span> — models, the HealthKit manager, the route engine, the media store, motion, and connectivity. Course 2 adds a watchOS target that simply <em>imports</em> it, so the same logic is never rewritten for two platforms. Course 3 takes on the genuinely watch-hard topics: live workout sessions, wrist-to-pocket sync, power tuning, and complications.</p>
+        <div class="chips">
+          <span class="chip">CoreLocation / MapKit</span>
+          <span class="chip">Core Motion</span>
+          <span class="chip">HealthKit (read + write)</span>
+          <span class="chip">AVFoundation media</span>
+          <span class="chip">WatchConnectivity</span>
+          <span class="chip">Swift Charts</span>
+          <span class="chip">WidgetKit complications</span>
+          <span class="chip">Shared Swift package</span>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p><span class="mono">Trailmark</span> is a working name — rename it to fit your section. Built for Xcode 26 · iOS / watchOS 26. See the <a href="setup-guide.html">Setup Guide</a> to begin.</p>
+  </div>
+</footer>
+
+</body>
+</html>
