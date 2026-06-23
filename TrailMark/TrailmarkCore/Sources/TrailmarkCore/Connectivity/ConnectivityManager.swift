@@ -64,10 +64,27 @@ public final class ConnectivityManager: NSObject {
 
     // MARK: - Sending
 
+    /// True only when there's actually a counterpart to talk to. Without this,
+    /// sends on an unpaired phone (e.g. a Simulator with no paired watch) throw
+    /// `WCErrorCodeDeviceNotPaired` and spam the console. We just skip instead.
+    private var canSend: Bool {
+        #if canImport(WatchConnectivity)
+        guard let session, session.activationState == .activated else { return false }
+        #if os(iOS)
+        // The phone can only sync if a watch is paired and the watch app is installed.
+        return session.isPaired && session.isWatchAppInstalled
+        #else
+        return true
+        #endif
+        #else
+        return false
+        #endif
+    }
+
     /// Mirror today's headline metrics to the counterpart (coalesced latest state).
     public func sync(summary: ActivitySummary) {
         #if canImport(WatchConnectivity)
-        guard let data = try? JSONEncoder.trailmark.encode(summary) else { return }
+        guard canSend, let data = try? JSONEncoder.trailmark.encode(summary) else { return }
         try? session?.updateApplicationContext([
             "type": PayloadType.summary.rawValue,
             "payload": data
@@ -88,7 +105,8 @@ public final class ConnectivityManager: NSObject {
     /// Transfer a media file with its metadata (Course 3.1 "Pocket sync").
     public func transfer(memo: MediaMemo, fileURL: URL) {
         #if canImport(WatchConnectivity)
-        guard let data = try? JSONEncoder.trailmark.encode(memo),
+        guard canSend,
+              let data = try? JSONEncoder.trailmark.encode(memo),
               let json = String(data: data, encoding: .utf8) else { return }
         session?.transferFile(fileURL, metadata: [
             "type": PayloadType.memo.rawValue,
@@ -99,7 +117,7 @@ public final class ConnectivityManager: NSObject {
 
     private func send<T: Encodable>(_ type: PayloadType, encoding value: T) {
         #if canImport(WatchConnectivity)
-        guard let data = try? JSONEncoder.trailmark.encode(value) else { return }
+        guard canSend, let data = try? JSONEncoder.trailmark.encode(value) else { return }
         session?.transferUserInfo([
             "type": type.rawValue,
             "payload": data
