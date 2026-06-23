@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TrailMark — Class Overviews (Canvas-embeddable)</title>
+</head>
+<body style="margin:0;background:#ffffff;">
+
+<!--
+  HOW TO EMBED IN CANVAS
+  1. In a Canvas Page, click Edit, then the "</>" (HTML editor) toggle in the Rich Content Editor.
+  2. Copy the block you want from below — either the whole page, or a single class <div> — and paste it in.
+  3. Replace each "paste Zoom link here" with your meeting link.
+  Canvas keeps inline styles (color, background, border, padding, tables) and strips <style>/<script>,
+  which this file deliberately avoids. Everything below is styled inline so it survives the paste.
+-->
+
+<div style="font-family:Arial,Helvetica,sans-serif;color:#1A1D23;line-height:1.5;max-width:760px;margin:0 auto;padding:20px;">
+
+  <h1 style="font-family:Arial,sans-serif;font-size:26px;margin:0 0 4px;">TrailMark — Class Overviews &amp; Grading</h1>
+  <p style="margin:6px 0 18px;color:#6E6A60;">One overview per session (12 total, across 3 courses). Paste the meeting link into each <strong>Zoom link</strong> field. Due days are a suggested cadence — edit to fit your calendar.</p>
+
+  <!-- ===== GRADING SUMMARY ===== -->
+  <div style="border:1px solid #d9d2c6;border-radius:6px;padding:14px 16px;margin:0 0 22px;background:#faf8f4;">
+    <p style="margin:0 0 10px;font-weight:bold;font-size:16px;">How grading works — each course is graded out of 100%</p>
+    <table style="border-collapse:collapse;width:100%;font-size:14px;">
+      <tr>
+        <th style="text-align:left;background:#f3f1ec;border:1px solid #d9d2c6;padding:8px 10px;">Component</th>
+        <th style="text-align:left;background:#f3f1ec;border:1px solid #d9d2c6;padding:8px 10px;">Count</th>
+        <th style="text-align:left;background:#f3f1ec;border:1px solid #d9d2c6;padding:8px 10px;">Each</th>
+        <th style="text-align:left;background:#f3f1ec;border:1px solid #d9d2c6;padding:8px 10px;">Subtotal</th>
+      </tr>
+      <tr>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">Connect to Zoom Session (attendance)</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">4 classes</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">10%</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">40%</td>
+      </tr>
+      <tr>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">Assignments 1–3</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">3</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">6.66%</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">~20%</td>
+      </tr>
+      <tr>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">Final Report</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">1</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">40%</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">40%</td>
+      </tr>
+      <tr>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;font-weight:bold;">Total</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;"></td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;"></td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;font-weight:bold;">100%</td>
+      </tr>
+    </table>
+    <p style="margin:10px 0 0;font-size:13px;color:#6E6A60;"><strong>Format:</strong> Attendance = live presence · Assignment = the in-class build, submitted in Canvas · Final Report = the course capstone (finish + present the project). <strong>Outcome</strong> numbers refer to the numbered learning outcomes listed above each table.</p>
+  </div>
+
+  <!-- =================================================================== -->
+  <!-- COURSE 1 -->
+  <h2 style="background:#DD4B14;color:#ffffff;padding:10px 14px;border-radius:6px;font-size:19px;margin:30px 0 14px;">Course 1 — iOS: Foundations &amp; the Shared Core</h2>
+
+  <!-- 1.1 -->
+  <div style="border-left:4px solid #DD4B14;padding:2px 0 2px 14px;margin:0 0 26px;">
+    <h3 style="font-size:19px;margin:14px 0 4px;">Class 1.1 — Architecture &amp; the HealthKit foundation</h3>
+    <p style="margin:8px 0;"><strong>🔗 Zoom link:</strong> <a href="https://us02web.zoom.us/j/81940517011?pwd=K8CsPzroXMYKOLZzlwjYYRBkNw0tqX.1" style="color:#DD4B14;font-weight:bold;">Join the Zoom meeting →</a></p>
+    <p style="margin:8px 0;"><strong>📅 Date / time:</strong> Tuesday, June 23, 2026 · 5:00 PM (Tijuana)</p>
+    <p style="margin:8px 0;"><strong>Meeting ID:</strong> 819 4051 7011 &nbsp;·&nbsp; <strong>Passcode:</strong> 618730 &nbsp;<span style="color:#6E6A60;font-size:13px;">(MDI 111 · Session 1)</span></p>
+    <p style="margin:8px 0;"><strong>Focus:</strong> Stand up the Xcode project, the iPhone app, and the shared <code>TrailmarkCore</code> package; request HealthKit access and show today's activity.</p>
+    <p style="margin:10px 0 4px;font-weight:bold;">Learning outcomes</p>
+    <ol style="margin:4px 0 10px 22px;padding:0;">
+      <li>Set up an app target plus a shared local Swift package, and explain why a shared module prevents duplication later.</li>
+      <li>Explain HealthKit's authorization and privacy model, and request read access with clear purpose strings.</li>
+      <li>Read steps, distance, and active energy using statistics queries.</li>
+      <li>Render today's activity summary in SwiftUI with all health logic inside the core package.</li>
+    </ol>
+    <table style="border-collapse:collapse;width:100%;font-size:14px;margin:8px 0;">
+      <tr>
+        <th style="text-align:left;background:#f3f1ec;border:1px solid #d9d2c6;padding:8px 10px;">Activity</th>
+        <th style="text-align:left;background:#f3f1ec;border:1px solid #d9d2c6;padding:8px 10px;">Due Day</th>
+        <th style="text-align:left;background:#f3f1ec;border:1px solid #d9d2c6;padding:8px 10px;">Format</th>
+        <th style="text-align:left;background:#f3f1ec;border:1px solid #d9d2c6;padding:8px 10px;">Grading %</th>
+        <th style="text-align:left;background:#f3f1ec;border:1px solid #d9d2c6;padding:8px 10px;">Outcome</th>
+      </tr>
+      <tr>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">Connect to Zoom Session</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">Class 1</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">Attendance</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">10%</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">—</td>
+      </tr>
+      <tr>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">Work on Assignment 1 — "Today dashboard"</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">Class 2</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">Assignment</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">6.66%</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">1–4</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- 1.2 -->
+  <div style="border-left:4px solid #DD4B14;padding:2px 0 2px 14px;margin:0 0 26px;">
+    <h3 style="font-size:19px;margin:14px 0 4px;">Class 1.2 — Capturing the moment: media management</h3>
+    <p style="margin:8px 0;"><strong>🔗 Zoom link:</strong> <a href="https://us02web.zoom.us/j/83533093653?pwd=a44yo74Nh6M6LueNRL9ZC7l0mhXVF6.1" style="color:#DD4B14;font-weight:bold;">Join the Zoom meeting →</a></p>
+    <p style="margin:8px 0;"><strong>📅 Date / time:</strong> Thursday, June 25, 2026 · 5:00 PM (Tijuana)</p>
+    <p style="margin:8px 0;"><strong>Meeting ID:</strong> 835 3309 3653 &nbsp;·&nbsp; <strong>Passcode:</strong> 297567 &nbsp;<span style="color:#6E6A60;font-size:13px;">(MDI 111 · Session 2)</span></p>
+    <p style="margin:8px 0;"><strong>Focus:</strong> Record audio + video memos, persist them with metadata in the shared media store, list with thumbnails, play back.</p>
+    <p style="margin:10px 0 4px;font-weight:bold;">Learning outcomes</p>
+    <ol style="margin:4px 0 10px 22px;padding:0;">
+      <li>Capture video and audio with AVFoundation, and reason about capture sessions and permissions.</li>
+      <li>Persist media to app storage and model its metadata.</li>
+      <li>Generate video thumbnails and play media back in-app.</li>
+      <li>Build a memo list and detail screen backed by the shared media store.</li>
+    </ol>
+    <table style="border-collapse:collapse;width:100%;font-size:14px;margin:8px 0;">
+      <tr>
+        <th style="text-align:left;background:#f3f1ec;border:1px solid #d9d2c6;padding:8px 10px;">Activity</th>
+        <th style="text-align:left;background:#f3f1ec;border:1px solid #d9d2c6;padding:8px 10px;">Due Day</th>
+        <th style="text-align:left;background:#f3f1ec;border:1px solid #d9d2c6;padding:8px 10px;">Format</th>
+        <th style="text-align:left;background:#f3f1ec;border:1px solid #d9d2c6;padding:8px 10px;">Grading %</th>
+        <th style="text-align:left;background:#f3f1ec;border:1px solid #d9d2c6;padding:8px 10px;">Outcome</th>
+      </tr>
+      <tr>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">Connect to Zoom Session</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">Class 2</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">Attendance</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">10%</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">—</td>
+      </tr>
+      <tr>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">Work on Assignment 2 — "Field journal"</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">Class 3</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">Assignment</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">6.66%</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">1–4</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- 1.3 -->
+  <div style="border-left:4px solid #DD4B14;padding:2px 0 2px 14px;margin:0 0 26px;">
+    <h3 style="font-size:19px;margin:14px 0 4px;">Class 1.3 — Two-way HealthKit: workouts in, sleep &amp; recovery out</h3>
+    <p style="margin:8px 0;"><strong>🔗 Zoom link:</strong> <a href="https://us02web.zoom.us/j/84270058259?pwd=uU8iSba8A5y67E6wOQsqDRWGTIao9b.1" style="color:#DD4B14;font-weight:bold;">Join the Zoom meeting →</a></p>
+    <p style="margin:8px 0;"><strong>📅 Date / time:</strong> Saturday, June 27, 2026 · 9:00 AM (Tijuana)</p>
+    <p style="margin:8px 0;"><strong>Meeting ID:</strong> 842 7005 8259 &nbsp;·&nbsp; <strong>Passcode:</strong> 590717 &nbsp;<span style="color:#6E6A60;font-size:13px;">(MDI 111 · Session 3)</span></p>
+    <p style="margin:8px 0;"><strong>Focus:</strong> Write a workout to HealthKit, read last night's sleep, chart a 7-day energy trend with Swift Charts.</p>
+    <p style="margin:10px 0 4px;font-weight:bold;">Learning outcomes</p>
+    <ol style="margin:4px 0 10px 22px;padding:0;">
+      <li>Write a completed activity to HealthKit as an HKWorkout and verify it lands in the Health app.</li>
+      <li>Query sleep analysis for last night using a category type.</li>
+      <li>Compute simple insights such as sleep duration and a weekly active-energy trend.</li>
+      <li>Visualize those insights with Swift Charts.</li>
+    </ol>
+    <table style="border-collapse:collapse;width:100%;font-size:14px;margin:8px 0;">
+      <tr>
+        <th style="text-align:left;background:#f3f1ec;border:1px solid #d9d2c6;padding:8px 10px;">Activity</th>
+        <th style="text-align:left;background:#f3f1ec;border:1px solid #d9d2c6;padding:8px 10px;">Due Day</th>
+        <th style="text-align:left;background:#f3f1ec;border:1px solid #d9d2c6;padding:8px 10px;">Format</th>
+        <th style="text-align:left;background:#f3f1ec;border:1px solid #d9d2c6;padding:8px 10px;">Grading %</th>
+        <th style="text-align:left;background:#f3f1ec;border:1px solid #d9d2c6;padding:8px 10px;">Outcome</th>
+      </tr>
+      <tr>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">Connect to Zoom Session</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">Class 3</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">Attendance</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">10%</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">—</td>
+      </tr>
+      <tr>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">Work on Assignment 3 — "Recovery view"</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">Class 4</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">Assignment</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">6.66%</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">1–4</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- 1.4 -->
+  <div style="border-left:4px solid #DD4B14;padding:2px 0 2px 14px;margin:0 0 26px;">
+    <h3 style="font-size:19px;margin:14px 0 4px;">Class 1.4 — Location &amp; the unified journey (integration)</h3>
+    <p style="margin:8px 0;"><strong>🔗 Zoom link:</strong> <a href="https://us02web.zoom.us/j/89932001938?pwd=kbkJ9aBeMHFzaIcIRWeijKegiDuY4n.1" style="color:#DD4B14;font-weight:bold;">Join the Zoom meeting →</a></p>
+    <p style="margin:8px 0;"><strong>📅 Date / time:</strong> Tuesday, June 30, 2026 · 5:00 PM (Tijuana)</p>
+    <p style="margin:8px 0;"><strong>Meeting ID:</strong> 899 3200 1938 &nbsp;·&nbsp; <strong>Passcode:</strong> 912552 &nbsp;<span style="color:#6E6A60;font-size:13px;">(MDI 111 · Session 4)</span></p>
+    <p style="margin:8px 0;"><strong>Focus:</strong> Record a route, geotag memos, and assemble the unified Journey detail screen — the iOS app is now whole. This class produces the <strong>Course 1 Final Report</strong>.</p>
+    <p style="margin:10px 0 4px;font-weight:bold;">Learning outcomes</p>
+    <ol style="margin:4px 0 10px 22px;padding:0;">
+      <li>Request when-in-use location authorization and record a coordinate track.</li>
+      <li>Geotag media memos with where they were captured.</li>
+      <li>Render a route polyline with memo pins on a MapKit map.</li>
+      <li>Assemble a "Journey detail" screen uniting route, health, and media.</li>
+    </ol>
+    <table style="border-collapse:collapse;width:100%;font-size:14px;margin:8px 0;">
+      <tr>
+        <th style="text-align:left;background:#f3f1ec;border:1px solid #d9d2c6;padding:8px 10px;">Activity</th>
+        <th style="text-align:left;background:#f3f1ec;border:1px solid #d9d2c6;padding:8px 10px;">Due Day</th>
+        <th style="text-align:left;background:#f3f1ec;border:1px solid #d9d2c6;padding:8px 10px;">Format</th>
+        <th style="text-align:left;background:#f3f1ec;border:1px solid #d9d2c6;padding:8px 10px;">Grading %</th>
+        <th style="text-align:left;background:#f3f1ec;border:1px solid #d9d2c6;padding:8px 10px;">Outcome</th>
+      </tr>
+      <tr>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">Connect to Zoom Session</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">Class 4</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">Attendance</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">10%</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">—</td>
+      </tr>
+      <tr>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;"><strong>Final Report 1 — "The iOS app, whole"</strong></td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">Class 4</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">Final Report</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;"><strong>40%</strong></td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">1–4 + cumulative</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- =================================================================== -->
+  <!-- COURSE 2 -->
+  <h2 style="background:#2D6E7E;color:#ffffff;padding:10px 14px;border-radius:6px;font-size:19px;margin:30px 0 14px;">Course 2 — watchOS: Designing &amp; Building for the Wrist</h2>
+
+  <!-- 2.1 -->
+  <div style="border-left:4px solid #2D6E7E;padding:2px 0 2px 14px;margin:0 0 26px;">
+    <h3 style="font-size:19px;margin:14px 0 4px;">Class 2.1 — Design for wearables + reusing the core</h3>
+    <p style="margin:8px 0;"><strong>🔗 Zoom link:</strong> <a href="https://us02web.zoom.us/j/82738655098?pwd=Fip7YgXbtXnFfEeBWMXwaWwaYEcZKG.1" style="color:#2D6E7E;font-weight:bold;">Join the Zoom meeting →</a></p>
+    <p style="margin:8px 0;"><strong>📅 Date / time:</strong> Thursday, July 2, 2026 · 5:00 PM (Tijuana)</p>
+    <p style="margin:8px 0;"><strong>Meeting ID:</strong> 827 3865 5098 &nbsp;·&nbsp; <strong>Passcode:</strong> 766558 &nbsp;<span style="color:#6E6A60;font-size:13px;">(MDI 112 · Session 1)</span></p>
+    <p style="margin:8px 0;"><strong>Focus:</strong> Add the watch target, import <code>TrailmarkCore</code> with no duplicated code, and build a glanceable wrist home.</p>
+    <p style="margin:10px 0 4px;font-weight:bold;">Learning outcomes</p>
+    <ol style="margin:4px 0 10px 22px;padding:0;">
+      <li>Summarize wearable design principles: glanceability, focused tasks, hierarchy, Digital Crown, deferring to the phone.</li>
+      <li>Add a watchOS target and import TrailmarkCore — reuse models and managers.</li>
+      <li>Translate an iOS screen into a wrist-appropriate layout.</li>
+      <li>Build a glanceable watch home screen.</li>
+    </ol>
+    <table style="border-collapse:collapse;width:100%;font-size:14px;margin:8px 0;">
+      <tr>
+        <th style="text-align:left;background:#f3f1ec;border:1px solid #d9d2c6;padding:8px 10px;">Activity</th>
+        <th style="text-align:left;background:#f3f1ec;border:1px solid #d9d2c6;padding:8px 10px;">Due Day</th>
+        <th style="text-align:left;background:#f3f1ec;border:1px solid #d9d2c6;padding:8px 10px;">Format</th>
+        <th style="text-align:left;background:#f3f1ec;border:1px solid #d9d2c6;padding:8px 10px;">Grading %</th>
+        <th style="text-align:left;background:#f3f1ec;border:1px solid #d9d2c6;padding:8px 10px;">Outcome</th>
+      </tr>
+      <tr>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">Connect to Zoom Session</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">Class 1</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">Attendance</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">10%</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">—</td>
+      </tr>
+      <tr>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">Work on Assignment 1 — "Wrist home"</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">Class 2</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">Assignment</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">6.66%</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">1–4</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- 2.2 -->
+  <div style="border-left:4px solid #2D6E7E;padding:2px 0 2px 14px;margin:0 0 26px;">
+    <h3 style="font-size:19px;margin:14px 0 4px;">Class 2.2 — Voice memos on the wrist: media under constraints</h3>
+    <p style="margin:8px 0;"><strong>🔗 Zoom link:</strong> <a href="https://us02web.zoom.us/j/82511317244?pwd=Xfby9RQYbsuqXeYhosv6ZXZykywUmR.1" style="color:#2D6E7E;font-weight:bold;">Join the Zoom meeting →</a></p>
+    <p style="margin:8px 0;"><strong>📅 Date / time:</strong> Tuesday, July 7, 2026 · 5:00 PM (Tijuana)</p>
+    <p style="margin:8px 0;"><strong>Meeting ID:</strong> 825 1131 7244 &nbsp;·&nbsp; <strong>Passcode:</strong> 433404 &nbsp;<span style="color:#6E6A60;font-size:13px;">(MDI 112 · Session 2)</span></p>
+    <p style="margin:8px 0;"><strong>Focus:</strong> Record, save, list, and play a voice memo on the watch — reusing the shared media model within wrist constraints.</p>
+    <p style="margin:10px 0 4px;font-weight:bold;">Learning outcomes</p>
+    <ol style="margin:4px 0 10px 22px;padding:0;">
+      <li>Record and play audio on watchOS and reason about watch-specific media constraints.</li>
+      <li>Reuse the media model from TrailmarkCore with a watch-appropriate interface.</li>
+      <li>Contrast the iOS and watchOS capture experience and explain why they differ.</li>
+    </ol>
+    <table style="border-collapse:collapse;width:100%;font-size:14px;margin:8px 0;">
+      <tr>
+        <th style="text-align:left;background:#f3f1ec;border:1px solid #d9d2c6;padding:8px 10px;">Activity</th>
+        <th style="text-align:left;background:#f3f1ec;border:1px solid #d9d2c6;padding:8px 10px;">Due Day</th>
+        <th style="text-align:left;background:#f3f1ec;border:1px solid #d9d2c6;padding:8px 10px;">Format</th>
+        <th style="text-align:left;background:#f3f1ec;border:1px solid #d9d2c6;padding:8px 10px;">Grading %</th>
+        <th style="text-align:left;background:#f3f1ec;border:1px solid #d9d2c6;padding:8px 10px;">Outcome</th>
+      </tr>
+      <tr>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">Connect to Zoom Session</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">Class 2</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">Attendance</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">10%</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">—</td>
+      </tr>
+      <tr>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">Work on Assignment 2 — "Wrist memo"</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">Class 3</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">Assignment</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">6.66%</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">1–3</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- 2.3 -->
+  <div style="border-left:4px solid #2D6E7E;padding:2px 0 2px 14px;margin:0 0 26px;">
+    <h3 style="font-size:19px;margin:14px 0 4px;">Class 2.3 — HealthKit on the watch</h3>
+    <p style="margin:8px 0;"><strong>🔗 Zoom link:</strong> <a href="https://us02web.zoom.us/j/81673831236?pwd=1g8NJ9SUyEHqMk4lY69OR4mBKJ70wF.1" style="color:#2D6E7E;font-weight:bold;">Join the Zoom meeting →</a></p>
+    <p style="margin:8px 0;"><strong>📅 Date / time:</strong> Thursday, July 9, 2026 · 5:00 PM (Tijuana)</p>
+    <p style="margin:8px 0;"><strong>Meeting ID:</strong> 816 7383 1236 &nbsp;·&nbsp; <strong>Passcode:</strong> 080605 &nbsp;<span style="color:#6E6A60;font-size:13px;">(MDI 112 · Session 3)</span></p>
+    <p style="margin:8px 0;"><strong>Focus:</strong> Authorize HealthKit on the watch and show live heart rate, steps, and energy using the shared layer. (Requires a physical Apple Watch.)</p>
+    <p style="margin:10px 0 4px;font-weight:bold;">Learning outcomes</p>
+    <ol style="margin:4px 0 10px 22px;padding:0;">
+      <li>Request HealthKit authorization on watchOS and explain how the watch's sensor access differs from the phone's.</li>
+      <li>Read current heart rate, steps, and active energy on the watch using the shared HealthKit layer.</li>
+      <li>Present live-updating metrics in a wrist-appropriate layout.</li>
+    </ol>
+    <table style="border-collapse:collapse;width:100%;font-size:14px;margin:8px 0;">
+      <tr>
+        <th style="text-align:left;background:#f3f1ec;border:1px solid #d9d2c6;padding:8px 10px;">Activity</th>
+        <th style="text-align:left;background:#f3f1ec;border:1px solid #d9d2c6;padding:8px 10px;">Due Day</th>
+        <th style="text-align:left;background:#f3f1ec;border:1px solid #d9d2c6;padding:8px 10px;">Format</th>
+        <th style="text-align:left;background:#f3f1ec;border:1px solid #d9d2c6;padding:8px 10px;">Grading %</th>
+        <th style="text-align:left;background:#f3f1ec;border:1px solid #d9d2c6;padding:8px 10px;">Outcome</th>
+      </tr>
+      <tr>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">Connect to Zoom Session</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">Class 3</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">Attendance</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">10%</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">—</td>
+      </tr>
+      <tr>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">Work on Assignment 3 — "Live vitals"</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">Class 4</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">Assignment</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">6.66%</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">1–3</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- 2.4 -->
+  <div style="border-left:4px solid #2D6E7E;padding:2px 0 2px 14px;margin:0 0 26px;">
+    <h3 style="font-size:19px;margin:14px 0 4px;">Class 2.4 — Sensing motion at the source: Core Motion (integration)</h3>
+    <p style="margin:8px 0;"><strong>🔗 Zoom link:</strong> <a href="https://us02web.zoom.us/j/82695489268?pwd=YuaYvhmeqYe6xN8Sb2bjuY1HQwWZyf.1" style="color:#2D6E7E;font-weight:bold;">Join the Zoom meeting →</a></p>
+    <p style="margin:8px 0;"><strong>📅 Date / time:</strong> Saturday, July 11, 2026 · 9:00 AM (Tijuana)</p>
+    <p style="margin:8px 0;"><strong>Meeting ID:</strong> 826 9548 9268 &nbsp;·&nbsp; <strong>Passcode:</strong> 018378 &nbsp;<span style="color:#6E6A60;font-size:13px;">(MDI 112 · Session 4)</span></p>
+    <p style="margin:8px 0;"><strong>Focus:</strong> Wire Core Motion into the watch app and open the battery/sampling conversation. This class produces the <strong>Course 2 Final Report</strong>.</p>
+    <p style="margin:10px 0 4px;font-weight:bold;">Learning outcomes</p>
+    <ol style="margin:4px 0 10px 22px;padding:0;">
+      <li>Access accelerometer, gyroscope, pedometer, and motion-activity data on the wrist.</li>
+      <li>Derive a simple signal — such as cadence or activity type — from raw motion data.</li>
+      <li>Recognize the energy cost of sensors (sets up Course 3 performance work).</li>
+    </ol>
+    <table style="border-collapse:collapse;width:100%;font-size:14px;margin:8px 0;">
+      <tr>
+        <th style="text-align:left;background:#f3f1ec;border:1px solid #d9d2c6;padding:8px 10px;">Activity</th>
+        <th style="text-align:left;background:#f3f1ec;border:1px solid #d9d2c6;padding:8px 10px;">Due Day</th>
+        <th style="text-align:left;background:#f3f1ec;border:1px solid #d9d2c6;padding:8px 10px;">Format</th>
+        <th style="text-align:left;background:#f3f1ec;border:1px solid #d9d2c6;padding:8px 10px;">Grading %</th>
+        <th style="text-align:left;background:#f3f1ec;border:1px solid #d9d2c6;padding:8px 10px;">Outcome</th>
+      </tr>
+      <tr>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">Connect to Zoom Session</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">Class 4</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">Attendance</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">10%</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">—</td>
+      </tr>
+      <tr>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;"><strong>Final Report 2 — "TrailMark on the wrist"</strong></td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">Class 4</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">Final Report</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;"><strong>40%</strong></td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">1–3 + cumulative</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- =================================================================== -->
+  <!-- COURSE 3 -->
+  <h2 style="background:#5E548E;color:#ffffff;padding:10px 14px;border-radius:6px;font-size:19px;margin:30px 0 14px;">Course 3 — Intermediate watchOS: Live, Connected &amp; Performant</h2>
+
+  <!-- 3.1 -->
+  <div style="border-left:4px solid #5E548E;padding:2px 0 2px 14px;margin:0 0 26px;">
+    <h3 style="font-size:19px;margin:14px 0 4px;">Class 3.1 — WatchConnectivity: making two apps one</h3>
+    <p style="margin:8px 0;"><strong>🔗 Zoom link:</strong> <a href="https://us02web.zoom.us/j/84831316470?pwd=aKAFkCayK1AqRpRQXaq7602sT50uZD.1" style="color:#5E548E;font-weight:bold;">Join the Zoom meeting →</a></p>
+    <p style="margin:8px 0;"><strong>📅 Date / time:</strong> Tuesday, July 14, 2026 · 5:00 PM (Tijuana)</p>
+    <p style="margin:8px 0;"><strong>Meeting ID:</strong> 848 3131 6470 &nbsp;·&nbsp; <strong>Passcode:</strong> 970748 &nbsp;<span style="color:#6E6A60;font-size:13px;">(MDI 113 · Session 1)</span></p>
+    <p style="margin:8px 0;"><strong>Focus:</strong> Sync an activity and a voice memo from watch to phone, choosing the right transfer type for each.</p>
+    <p style="margin:10px 0 4px;font-weight:bold;">Learning outcomes</p>
+    <ol style="margin:4px 0 10px 22px;padding:0;">
+      <li>Explain the WCSession transfer types (live messages, application context, userInfo, file transfer) and when each fits.</li>
+      <li>Establish a session on both sides and sync a recorded activity from watch to phone.</li>
+      <li>Transfer a media file such as a voice memo across devices.</li>
+    </ol>
+    <table style="border-collapse:collapse;width:100%;font-size:14px;margin:8px 0;">
+      <tr>
+        <th style="text-align:left;background:#f3f1ec;border:1px solid #d9d2c6;padding:8px 10px;">Activity</th>
+        <th style="text-align:left;background:#f3f1ec;border:1px solid #d9d2c6;padding:8px 10px;">Due Day</th>
+        <th style="text-align:left;background:#f3f1ec;border:1px solid #d9d2c6;padding:8px 10px;">Format</th>
+        <th style="text-align:left;background:#f3f1ec;border:1px solid #d9d2c6;padding:8px 10px;">Grading %</th>
+        <th style="text-align:left;background:#f3f1ec;border:1px solid #d9d2c6;padding:8px 10px;">Outcome</th>
+      </tr>
+      <tr>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">Connect to Zoom Session</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">Class 1</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">Attendance</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">10%</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">—</td>
+      </tr>
+      <tr>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">Work on Assignment 1 — "Pocket sync"</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">Class 2</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">Assignment</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">6.66%</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">1–3</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- 3.2 -->
+  <div style="border-left:4px solid #5E548E;padding:2px 0 2px 14px;margin:0 0 26px;">
+    <h3 style="font-size:19px;margin:14px 0 4px;">Class 3.2 — Live workout sessions &amp; background running</h3>
+    <p style="margin:8px 0;"><strong>🔗 Zoom link:</strong> <a href="https://us02web.zoom.us/j/89194797380?pwd=Ps6lsF9a6yfs8XGM4Mpg3tYUjAfaz7.1" style="color:#5E548E;font-weight:bold;">Join the Zoom meeting →</a></p>
+    <p style="margin:8px 0;"><strong>📅 Date / time:</strong> Thursday, July 16, 2026 · 5:00 PM (Tijuana)</p>
+    <p style="margin:8px 0;"><strong>Meeting ID:</strong> 891 9479 7380 &nbsp;·&nbsp; <strong>Passcode:</strong> 818180 &nbsp;<span style="color:#6E6A60;font-size:13px;">(MDI 113 · Session 2)</span></p>
+    <p style="margin:8px 0;"><strong>Focus:</strong> Start a live workout that updates while backgrounded and saves a real HKWorkout. (Requires a physical Apple Watch.)</p>
+    <p style="margin:10px 0 4px;font-weight:bold;">Learning outcomes</p>
+    <ol style="margin:4px 0 10px 22px;padding:0;">
+      <li>Start an HKWorkoutSession and stream metrics with a live workout builder.</li>
+      <li>Keep the app running and updating in the background during an activity.</li>
+      <li>Save the finished workout to HealthKit.</li>
+    </ol>
+    <table style="border-collapse:collapse;width:100%;font-size:14px;margin:8px 0;">
+      <tr>
+        <th style="text-align:left;background:#f3f1ec;border:1px solid #d9d2c6;padding:8px 10px;">Activity</th>
+        <th style="text-align:left;background:#f3f1ec;border:1px solid #d9d2c6;padding:8px 10px;">Due Day</th>
+        <th style="text-align:left;background:#f3f1ec;border:1px solid #d9d2c6;padding:8px 10px;">Format</th>
+        <th style="text-align:left;background:#f3f1ec;border:1px solid #d9d2c6;padding:8px 10px;">Grading %</th>
+        <th style="text-align:left;background:#f3f1ec;border:1px solid #d9d2c6;padding:8px 10px;">Outcome</th>
+      </tr>
+      <tr>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">Connect to Zoom Session</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">Class 2</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">Attendance</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">10%</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">—</td>
+      </tr>
+      <tr>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">Work on Assignment 2 — "Go for a walk"</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">Class 3</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">Assignment</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">6.66%</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">1–3</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- 3.3 -->
+  <div style="border-left:4px solid #5E548E;padding:2px 0 2px 14px;margin:0 0 26px;">
+    <h3 style="font-size:19px;margin:14px 0 4px;">Class 3.3 — Performance &amp; power for wearables</h3>
+    <p style="margin:8px 0;"><strong>🔗 Zoom link:</strong> <a href="https://us02web.zoom.us/j/86046481465?pwd=oL8c4mvxhsqFqsrdO1NdiODAb2giTZ.1" style="color:#5E548E;font-weight:bold;">Join the Zoom meeting →</a></p>
+    <p style="margin:8px 0;"><strong>📅 Date / time:</strong> Saturday, July 18, 2026 · 9:00 AM (Tijuana)</p>
+    <p style="margin:8px 0;"><strong>Meeting ID:</strong> 860 4648 1465 &nbsp;·&nbsp; <strong>Passcode:</strong> 108038 &nbsp;<span style="color:#6E6A60;font-size:13px;">(MDI 113 · Session 3)</span></p>
+    <p style="margin:8px 0;"><strong>Focus:</strong> Profile a feature with Instruments and make two measured optimizations with documented before/after.</p>
+    <p style="margin:10px 0 4px;font-weight:bold;">Learning outcomes</p>
+    <ol style="margin:4px 0 10px 22px;padding:0;">
+      <li>Profile CPU, energy, and memory on watchOS with Instruments.</li>
+      <li>Tune sensor sampling rates and UI refresh to cut battery cost.</li>
+      <li>Reduce connectivity overhead by choosing batched over chatty sync.</li>
+    </ol>
+    <table style="border-collapse:collapse;width:100%;font-size:14px;margin:8px 0;">
+      <tr>
+        <th style="text-align:left;background:#f3f1ec;border:1px solid #d9d2c6;padding:8px 10px;">Activity</th>
+        <th style="text-align:left;background:#f3f1ec;border:1px solid #d9d2c6;padding:8px 10px;">Due Day</th>
+        <th style="text-align:left;background:#f3f1ec;border:1px solid #d9d2c6;padding:8px 10px;">Format</th>
+        <th style="text-align:left;background:#f3f1ec;border:1px solid #d9d2c6;padding:8px 10px;">Grading %</th>
+        <th style="text-align:left;background:#f3f1ec;border:1px solid #d9d2c6;padding:8px 10px;">Outcome</th>
+      </tr>
+      <tr>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">Connect to Zoom Session</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">Class 3</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">Attendance</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">10%</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">—</td>
+      </tr>
+      <tr>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">Work on Assignment 3 — "Make it last"</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">Class 4</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">Assignment</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">6.66%</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">1–3</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- 3.4 -->
+  <div style="border-left:4px solid #5E548E;padding:2px 0 2px 14px;margin:0 0 26px;">
+    <h3 style="font-size:19px;margin:14px 0 4px;">Class 3.4 — Complications, Smart Stack &amp; independence (capstone)</h3>
+    <p style="margin:8px 0;"><strong>🔗 Zoom link:</strong> <a href="https://us02web.zoom.us/j/82995254169?pwd=DaMT4O9nJbz4yZTBb5P8NBqZGlboQC.1" style="color:#5E548E;font-weight:bold;">Join the Zoom meeting →</a></p>
+    <p style="margin:8px 0;"><strong>📅 Date / time:</strong> Tuesday, July 21, 2026 · 5:00 PM (Tijuana)</p>
+    <p style="margin:8px 0;"><strong>Meeting ID:</strong> 829 9525 4169 &nbsp;·&nbsp; <strong>Passcode:</strong> 095193 &nbsp;<span style="color:#6E6A60;font-size:13px;">(MDI 113 · Session 4)</span></p>
+    <p style="margin:8px 0;"><strong>Focus:</strong> Build a complication, make the watch app independent where appropriate, and present the complete project end to end. This class produces the <strong>Course 3 Final Report (capstone)</strong>.</p>
+    <p style="margin:10px 0 4px;font-weight:bold;">Learning outcomes</p>
+    <ol style="margin:4px 0 10px 22px;padding:0;">
+      <li>Build a complication with WidgetKit and surface a key metric on the watch face and Smart Stack.</li>
+      <li>Make the watch app function independently where appropriate.</li>
+      <li>Integrate and present the complete TrailMark project end to end.</li>
+    </ol>
+    <table style="border-collapse:collapse;width:100%;font-size:14px;margin:8px 0;">
+      <tr>
+        <th style="text-align:left;background:#f3f1ec;border:1px solid #d9d2c6;padding:8px 10px;">Activity</th>
+        <th style="text-align:left;background:#f3f1ec;border:1px solid #d9d2c6;padding:8px 10px;">Due Day</th>
+        <th style="text-align:left;background:#f3f1ec;border:1px solid #d9d2c6;padding:8px 10px;">Format</th>
+        <th style="text-align:left;background:#f3f1ec;border:1px solid #d9d2c6;padding:8px 10px;">Grading %</th>
+        <th style="text-align:left;background:#f3f1ec;border:1px solid #d9d2c6;padding:8px 10px;">Outcome</th>
+      </tr>
+      <tr>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">Connect to Zoom Session</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">Class 4</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">Attendance</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">10%</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">—</td>
+      </tr>
+      <tr>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;"><strong>Final Report 3 — "The capstone" (incl. presentation)</strong></td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">Class 4</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">Final Report</td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;"><strong>40%</strong></td>
+        <td style="border:1px solid #d9d2c6;padding:8px 10px;">1–3 + cumulative</td>
+      </tr>
+    </table>
+  </div>
+
+  <p style="margin:22px 0 0;font-size:13px;color:#6E6A60;font-style:italic;">Tip: if you use one recurring Zoom link for the whole course, paste the same link into each class above, or note it once here:</p>
+  <p style="margin:6px 0 0;"><strong>🔗 Recurring course Zoom link:</strong> <span style="display:inline-block;min-width:300px;background:#f7f5f0;border:1px dashed #c9c2b5;padding:3px 10px;color:#6E6A60;">paste Zoom link here</span></p>
+
+</div>
+
+</body>
+</html>
