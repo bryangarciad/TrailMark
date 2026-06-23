@@ -10,6 +10,9 @@
 		AA0000000000000000000004 /* TrailmarkCore in Frameworks */ = {isa = PBXBuildFile; productRef = AA0000000000000000000002 /* TrailmarkCore */; };
 		AA0000000000000000000005 /* TrailmarkCore in Frameworks */ = {isa = PBXBuildFile; productRef = AA0000000000000000000003 /* TrailmarkCore */; };
 		BCFC67EF2FE743B400E86C82 /* TrailMarkCompanion Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = BCFC67E52FE743AB00E86C82 /* TrailMarkCompanion Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		BCFC690D2FEB413B00E86C82 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCFC690C2FEB413A00E86C82 /* WidgetKit.framework */; };
+		BCFC690F2FEB413B00E86C82 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCFC690E2FEB413B00E86C82 /* SwiftUI.framework */; };
+		BCFC691E2FEB413D00E86C82 /* TrailMarkComplicationExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = BCFC690A2FEB413A00E86C82 /* TrailMarkComplicationExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -19,6 +22,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = BCFC67E42FE743AB00E86C82;
 			remoteInfo = "TrailMarkCompanion Watch App";
+		};
+		BCFC691C2FEB413D00E86C82 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BCFC67CB2FE7432C00E86C82 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BCFC69092FEB413A00E86C82;
+			remoteInfo = TrailMarkComplicationExtension;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -34,12 +44,37 @@
 			name = "Embed Watch Content";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		BCFC69232FEB413D00E86C82 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				BCFC691E2FEB413D00E86C82 /* TrailMarkComplicationExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		BCFC67D32FE7432C00E86C82 /* TrailMark.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TrailMark.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCFC67E52FE743AB00E86C82 /* TrailMarkCompanion Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "TrailMarkCompanion Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		BCFC690A2FEB413A00E86C82 /* TrailMarkComplicationExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = TrailMarkComplicationExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		BCFC690C2FEB413A00E86C82 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		BCFC690E2FEB413B00E86C82 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		BCFC69242FEB415000E86C82 /* TrailMarkComplicationExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TrailMarkComplicationExtension.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		BCFC691F2FEB413D00E86C82 /* Exceptions for "TrailMarkComplication" folder in "TrailMarkComplicationExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = BCFC69092FEB413A00E86C82 /* TrailMarkComplicationExtension */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		BCFC67D52FE7432C00E86C82 /* TrailMark */ = {
@@ -50,6 +85,14 @@
 		BCFC67E62FE743AB00E86C82 /* TrailMarkCompanion Watch App */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = "TrailMarkCompanion Watch App";
+			sourceTree = "<group>";
+		};
+		BCFC69102FEB413B00E86C82 /* TrailMarkComplication */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				BCFC691F2FEB413D00E86C82 /* Exceptions for "TrailMarkComplication" folder in "TrailMarkComplicationExtension" target */,
+			);
+			path = TrailMarkComplication;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -71,14 +114,26 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		BCFC69072FEB413A00E86C82 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BCFC690F2FEB413B00E86C82 /* SwiftUI.framework in Frameworks */,
+				BCFC690D2FEB413B00E86C82 /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		BCFC67CA2FE7432C00E86C82 = {
 			isa = PBXGroup;
 			children = (
+				BCFC69242FEB415000E86C82 /* TrailMarkComplicationExtension.entitlements */,
 				BCFC67D52FE7432C00E86C82 /* TrailMark */,
 				BCFC67E62FE743AB00E86C82 /* TrailMarkCompanion Watch App */,
+				BCFC69102FEB413B00E86C82 /* TrailMarkComplication */,
+				BCFC690B2FEB413A00E86C82 /* Frameworks */,
 				BCFC67D42FE7432C00E86C82 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -88,8 +143,18 @@
 			children = (
 				BCFC67D32FE7432C00E86C82 /* TrailMark.app */,
 				BCFC67E52FE743AB00E86C82 /* TrailMarkCompanion Watch App.app */,
+				BCFC690A2FEB413A00E86C82 /* TrailMarkComplicationExtension.appex */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		BCFC690B2FEB413A00E86C82 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				BCFC690C2FEB413A00E86C82 /* WidgetKit.framework */,
+				BCFC690E2FEB413B00E86C82 /* SwiftUI.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -127,10 +192,12 @@
 				BCFC67E12FE743AB00E86C82 /* Sources */,
 				BCFC67E22FE743AB00E86C82 /* Frameworks */,
 				BCFC67E32FE743AB00E86C82 /* Resources */,
+				BCFC69232FEB413D00E86C82 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				BCFC691D2FEB413D00E86C82 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				BCFC67E62FE743AB00E86C82 /* TrailMarkCompanion Watch App */,
@@ -142,6 +209,28 @@
 			productName = "TrailMarkCompanion Watch App";
 			productReference = BCFC67E52FE743AB00E86C82 /* TrailMarkCompanion Watch App.app */;
 			productType = "com.apple.product-type.application";
+		};
+		BCFC69092FEB413A00E86C82 /* TrailMarkComplicationExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BCFC69202FEB413D00E86C82 /* Build configuration list for PBXNativeTarget "TrailMarkComplicationExtension" */;
+			buildPhases = (
+				BCFC69062FEB413A00E86C82 /* Sources */,
+				BCFC69072FEB413A00E86C82 /* Frameworks */,
+				BCFC69082FEB413A00E86C82 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				BCFC69102FEB413B00E86C82 /* TrailMarkComplication */,
+			);
+			name = TrailMarkComplicationExtension;
+			packageProductDependencies = (
+			);
+			productName = TrailMarkComplicationExtension;
+			productReference = BCFC690A2FEB413A00E86C82 /* TrailMarkComplicationExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -157,6 +246,9 @@
 						CreatedOnToolsVersion = 26.3;
 					};
 					BCFC67E42FE743AB00E86C82 = {
+						CreatedOnToolsVersion = 26.3;
+					};
+					BCFC69092FEB413A00E86C82 = {
 						CreatedOnToolsVersion = 26.3;
 					};
 				};
@@ -180,6 +272,7 @@
 			targets = (
 				BCFC67D22FE7432C00E86C82 /* TrailMark */,
 				BCFC67E42FE743AB00E86C82 /* TrailMarkCompanion Watch App */,
+				BCFC69092FEB413A00E86C82 /* TrailMarkComplicationExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -193,6 +286,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		BCFC67E32FE743AB00E86C82 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BCFC69082FEB413A00E86C82 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -216,6 +316,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		BCFC69062FEB413A00E86C82 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -223,6 +330,11 @@
 			isa = PBXTargetDependency;
 			target = BCFC67E42FE743AB00E86C82 /* TrailMarkCompanion Watch App */;
 			targetProxy = BCFC67ED2FE743B400E86C82 /* PBXContainerItemProxy */;
+		};
+		BCFC691D2FEB413D00E86C82 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BCFC69092FEB413A00E86C82 /* TrailMarkComplicationExtension */;
+			targetProxy = BCFC691C2FEB413D00E86C82 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -353,6 +465,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = TrailMark/TrailMark.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 33PDVR6SVF;
@@ -385,6 +498,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = TrailMark/TrailMark.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 33PDVR6SVF;
@@ -417,6 +531,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "TrailMarkCompanion Watch App/TrailMarkCompanion Watch App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 33PDVR6SVF;
@@ -450,6 +565,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "TrailMarkCompanion Watch App/TrailMarkCompanion Watch App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 33PDVR6SVF;
@@ -470,6 +586,74 @@
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 26.2;
+			};
+			name = Release;
+		};
+		BCFC69212FEB413D00E86C82 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = TrailMarkComplicationExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 33PDVR6SVF;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = TrailMarkComplication/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = TrailMarkComplication;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = ramsesg.TrailMark.watchkitapp.TrailMarkComplication;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 26.2;
+			};
+			name = Debug;
+		};
+		BCFC69222FEB413D00E86C82 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = TrailMarkComplicationExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 33PDVR6SVF;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = TrailMarkComplication/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = TrailMarkComplication;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = ramsesg.TrailMark.watchkitapp.TrailMarkComplication;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
@@ -504,6 +688,15 @@
 			buildConfigurations = (
 				BCFC67F12FE743B400E86C82 /* Debug */,
 				BCFC67F22FE743B400E86C82 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BCFC69202FEB413D00E86C82 /* Build configuration list for PBXNativeTarget "TrailMarkComplicationExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BCFC69212FEB413D00E86C82 /* Debug */,
+				BCFC69222FEB413D00E86C82 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

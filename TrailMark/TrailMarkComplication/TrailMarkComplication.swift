@@ -1,39 +1,28 @@
 //
 //  TrailMarkComplication.swift
-//  TrailMarkComplication (watchOS Widget Extension)
+//  TrailMarkComplication
 //
-//  Course 3.4 — a WidgetKit complication that surfaces today's headline metric
-//  (steps) on the watch face and in the Smart Stack.
+//  Course 3.4 — a WidgetKit complication that surfaces today's step count on the
+//  watch face and in the Smart Stack. It reads the value the watch app writes to
+//  the shared App Group (group.ramsesg.TrailMark → "today.steps"); if the group
+//  isn't configured yet it falls back to a sample so the widget still previews.
 //
-//  This file is the ENTIRE source for a watchOS Widget Extension target. Because
-//  an app-extension target can't be added safely by editing the project file by
-//  hand, create the target from Xcode's template and then replace its generated
-//  source with this file. See Docs/MANUAL_SETUP.md → "Complication target".
-//
-//  Live data: the complication reads today's steps from a shared App Group so it
-//  can show the same number as the app. Until the App Group is configured it
-//  falls back to a sample value, so the widget still previews and runs.
+//  Note: @main lives in TrailMarkComplicationBundle.swift, so this Widget does
+//  NOT carry @main itself.
 //
 
 import WidgetKit
 import SwiftUI
 
-// MARK: - Shared value
+// MARK: - Shared value (App Group)
 
-/// Reads/writes today's step count through an App Group both the app and the
-/// widget can see. Configure the group in MANUAL_SETUP, or leave it for samples.
+/// Reads today's steps from the App Group the watch app publishes to.
 enum ComplicationData {
     static let appGroup = "group.ramsesg.TrailMark"
     static let stepsKey = "today.steps"
 
     static var steps: Int {
         UserDefaults(suiteName: appGroup)?.integer(forKey: stepsKey) ?? 0
-    }
-
-    /// Call from the app (e.g. after refreshing HealthKit) to publish the value.
-    static func publish(steps: Int) {
-        UserDefaults(suiteName: appGroup)?.set(steps, forKey: stepsKey)
-        WidgetCenter.shared.reloadAllTimelines()
     }
 }
 
@@ -50,21 +39,22 @@ struct StepsProvider: TimelineProvider {
     }
 
     func getSnapshot(in context: Context, completion: @escaping (StepsEntry) -> Void) {
+        // Show a sample in the gallery preview; the live value otherwise.
         let steps = context.isPreview ? 6_240 : max(ComplicationData.steps, 0)
         completion(StepsEntry(date: Date(), steps: steps))
     }
 
     func getTimeline(in context: Context, completion: @escaping (Timeline<StepsEntry>) -> Void) {
         let entry = StepsEntry(date: Date(), steps: ComplicationData.steps)
-        // Refresh roughly every 15 minutes; the app also force-reloads on update.
+        // Refresh roughly every 15 min; the app also force-reloads when steps update.
         let next = Calendar.current.date(byAdding: .minute, value: 15, to: Date()) ?? Date()
         completion(Timeline(entries: [entry], policy: .after(next)))
     }
 }
 
-// MARK: - Views (one layout per supported complication family)
+// MARK: - View (adapts to each complication family)
 
-struct TrailMarkComplicationView: View {
+struct TrailMarkComplicationEntryView: View {
     @Environment(\.widgetFamily) private var family
     let entry: StepsEntry
 
@@ -77,7 +67,7 @@ struct TrailMarkComplicationView: View {
             Gauge(value: min(Double(entry.steps), 10_000), in: 0...10_000) {
                 Image(systemName: "figure.walk")
             } currentValueLabel: {
-                Text("\(entry.steps / 1000)k")
+                Text(shortSteps)
             }
             .gaugeStyle(.accessoryCircular)
 
@@ -96,17 +86,20 @@ struct TrailMarkComplicationView: View {
             }
         }
     }
+
+    private var shortSteps: String {
+        entry.steps >= 1000 ? "\(entry.steps / 1000)k" : "\(entry.steps)"
+    }
 }
 
 // MARK: - Widget
 
-@main
 struct TrailMarkComplication: Widget {
     let kind = "TrailMarkComplication"
 
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: StepsProvider()) { entry in
-            TrailMarkComplicationView(entry: entry)
+            TrailMarkComplicationEntryView(entry: entry)
                 .containerBackground(.fill.tertiary, for: .widget)
         }
         .configurationDisplayName("Steps")
@@ -118,4 +111,11 @@ struct TrailMarkComplication: Widget {
             .accessoryCorner
         ])
     }
+}
+
+#Preview(as: .accessoryRectangular) {
+    TrailMarkComplication()
+} timeline: {
+    StepsEntry(date: .now, steps: 6_240)
+    StepsEntry(date: .now, steps: 8_120)
 }

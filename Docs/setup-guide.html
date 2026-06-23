@@ -204,7 +204,7 @@
             <li><b>App Groups</b> with the same id on iOS app, watch app, <em>and</em> the complication target:</li>
           </ul>
           <pre><code>group.ramsesg.TrailMark</code></pre>
-          <p style="font-size:14px;color:var(--muted);margin:6px 0 0">The code reads/writes <span class="mono">today.steps</span> here. Until the group exists the complication shows a sample number — it still builds.</p>
+          <p style="font-size:14px;color:var(--muted);margin:6px 0 0">The code reads/writes <span class="mono">today.steps</span> here. Until the group exists the complication shows a sample number — it still builds. Full how-to in <a href="#appgroup">§6 → App Group</a>.</p>
         </div>
       </div>
       <h3>Signing</h3>
@@ -220,9 +220,35 @@
         <li><span class="st">New target</span> <b>File → New → Target… → watchOS → Widget Extension.</b></li>
         <li><span class="st">Name &amp; embed</span> Name it <span class="mono">TrailMarkComplication</span>, <b>uncheck</b> "Include Configuration App Intent", and ensure the embedding app is the <b>Watch App</b>.</li>
         <li><span class="st">Swap in the source</span> Replace the generated file's contents with the prewritten <span class="mono">TrailMarkComplication.swift</span>.</li>
-        <li><span class="st">App Group</span> Add the App Groups capability (<span class="mono">group.ramsesg.TrailMark</span>) to this target so it can read live steps.</li>
+        <li><span class="st">Configure the App Group</span> See the detailed step just below — the complication needs it to read live data.</li>
         <li><span class="st">Add to the face</span> Build the watch scheme. On the watch, long-press the face → <b>Edit</b> → add the TrailMark complication, or add it to the Smart Stack.</li>
       </ol>
+
+      <h3 id="appgroup">App Group — sharing data with the complication</h3>
+      <p>The complication runs in a <b>separate process</b> from the watch app, so they can't share memory or each other's storage. An <b>App Group</b> gives both a shared <span class="mono">UserDefaults</span> container. In TrailMark the watch app writes today's step count and the complication reads it to show on the face.</p>
+
+      <p><b>Group id used by the code:</b></p>
+      <pre><code>group.ramsesg.TrailMark      // suite name
+today.steps                  // key (Int)</code></pre>
+
+      <p>Enable the <b>App Groups</b> capability with this exact id on every target that touches it (<b>Signing &amp; Capabilities → + Capability → App Groups → +</b>):</p>
+      <table>
+        <tr><th>Target</th><th>Role</th><th>App Group?</th></tr>
+        <tr><td><span class="mono">TrailMarkCompanion Watch App</span></td><td>writes <span class="mono">today.steps</span></td><td class="yes">Required</td></tr>
+        <tr><td><span class="mono">TrailMarkComplication</span></td><td>reads <span class="mono">today.steps</span></td><td class="yes">Required</td></tr>
+        <tr><td><span class="mono">TrailMark</span> (iOS)</td><td>optional writer</td><td class="maybe">Recommended</td></tr>
+      </table>
+
+      <p><b>Where it's wired in code</b> (already written — no changes needed if you keep the id):</p>
+      <ul class="out">
+        <li><b>Writer</b> — <span class="mono">WatchModel.publishStepsToComplication()</span>: writes the suite/key, then calls <span class="mono">WidgetCenter.shared.reloadAllTimelines()</span>.</li>
+        <li><b>Reader</b> — <span class="mono">ComplicationData</span> in <span class="mono">TrailMarkComplication.swift</span>: reads the same suite/key for the timeline.</li>
+      </ul>
+
+      <div class="note tip">
+        <span class="t">Rules &amp; fallback</span>
+        All targets must use the <b>same group string</b> and the <b>same Team</b>. The id must start with <span class="mono">group.</span> — if you change your bundle prefix, rename it (e.g. <span class="mono">group.com.yourname.TrailMark</span>) in both code spots above. <b>It's optional:</b> until the group exists, the reads/writes are harmless no-ops and the complication shows its sample value, so everything still builds and previews.
+      </div>
     </section>
 
     <!-- 7 -->
