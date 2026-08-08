@@ -64,8 +64,7 @@ public final class LocationManager: NSObject, CLLocationManagerDelegate {
 
     // MARK: - CLLocationManagerDelegate
 
-    nonisolated public func locationManager(_ manager: CLLocationManager,
-                                            didChangeAuthorization status: CLAuthorizationStatus) {
+    nonisolated public func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         Task { @MainActor in
             self.authorizationStatus = status
         }
