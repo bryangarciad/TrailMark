@@ -26,15 +26,15 @@ struct RouteMapTestView: View {
         NavigationStack {
             // Any UI To display the selector
             // RouteMapView()
-            RouteMapView(track: selected.track, showsEndpointsshowsEndpoints: showEndpoints)
+            RouteMapView(track: selected.track, showsEndpoints: showEndpoints)
                 .ignoresSafeArea(edges: .bottom)
                 .overlay(alignment: .bottom) { statsCard }
                 .navigationTitle(selected.name)
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar {
                     ToolbarItem(placement: .topBarLeading) {
-                        Picker("Track", selections: $selectedIndex) {
-                            ForEach(samples.indices, id: ./self) {
+                        Picker("Track", selection: $selectedIndex) {
+                            ForEach(samples.indices, id: \.self) {index in
                                 Text(samples[index].name).tag(index)
                             }
                         }
@@ -54,7 +54,7 @@ struct RouteMapTestView: View {
     private var statsCard: some View {
         let track = selected.track
         
-        return HStack(alignment: .top, padding: 16) {
+        return HStack(alignment: .top, spacing: 16) {
             stat("Points", "\(track.points.count)")
             stat("Distance", "\(distanceText(track))")
             stat("Duration", "\(durationText(track))")
@@ -71,7 +71,7 @@ struct RouteMapTestView: View {
                 .font(.callout.weight(.medium))
                 .monospacedDigit()
         }
-        .frame(maxWidth: infinity, alignment: .leading)
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
     
     private func distanceText(_ track: RouteTrack) -> String {
