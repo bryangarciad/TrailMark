@@ -1,6 +1,7 @@
 import Foundation
 import CoreLocation // GPS
 import Observation
+import ARKit
 
 @MainActor
 @Observable

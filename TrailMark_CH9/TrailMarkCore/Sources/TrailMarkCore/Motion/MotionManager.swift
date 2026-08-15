@@ -11,7 +11,6 @@ public final class MotionManager {
         public var label: String { rawValue.capitalized } // Running, Walking
     }
     
-    
     // Pedometer Activity Manager Data
     public private(set) var stepsToday: Int = 0
     public private(set) var cadence: Double = 0
