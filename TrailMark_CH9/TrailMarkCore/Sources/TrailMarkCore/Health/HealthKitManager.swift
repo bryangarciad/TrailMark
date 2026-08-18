@@ -30,6 +30,41 @@ public final class HealthKitManager {
         }
     }
     
+    // MARK: - Activity Summary
+    public func refreshToday() async {
+        let startOfDay = Calendar.current.startOfDay(for: Date())
+        
+        async let steps = sumQuantity(stepType, unit: .count(), since: startOfDay)
+        async let distance = sumQuantity(distanceType, unit: .meter(), since: startOfDay)
+        async let energy = sumQuantity(energyType, unit: .kilocalorie(), since: startOfDay)
+        
+        todaySummary = ActivitySummary(
+            steps: await steps,
+            distanceMeters: await distance,
+            activeEnergyKcal: await energy,
+            date: startOfDay
+        )
+    }
+    
+    public func sumQuantity(_ type: HKQuantityType, unit: HKUnit, since start: Date) async -> Double {
+        guard authorizationStatus == .authorized else { return 0.0 }
+        
+        return await withCheckedContinuation { continuation in
+            let predicate = HKQuery.predicateForSamples(withStart: start, end: Date())
+            
+            let query = HKStatisticsQuery(
+                quantityType: type,
+                quantitySamplePredicate: predicate,
+                options: .cumulativeSum
+            ) { query, stats, _ in
+                let value = stats?.sumQuantity()?.doubleValue(for: unit) ?? 0
+                continuation.resume(returning: value)
+            }
+            
+            store.execute(query)
+        }
+    }
+    
     // MARK: - All Health Data Type That The App Interacts With
     private var stepType: HKQuantityType { HKQuantityType(.stepCount) }
     private var distanceType: HKQuantityType { HKQuantityType(.distanceWalkingRunning) }
@@ -64,6 +99,7 @@ public final class HealthKitManager {
         }
     }
     
+    
     // MARK: - Sleep Data Query
     public func refreshLastNightSleep() async {
         guard authorizationStatus == .authorized else { return }
@@ -86,7 +122,7 @@ public final class HealthKitManager {
                 predicate: predicate,
                 limit: HKObjectQueryNoLimit,
                 sortDescriptors: nil
-            ) { [weak self] query, results, error in // results is an [HKSample];
+            ) { _, results, _ in // results is an [HKSample];
                 continuation.resume(returning: (results as? [HKCategorySample]) ?? [])
             }
             
@@ -145,7 +181,88 @@ public final class HealthKitManager {
     
     // TODO: Create this func
     public func refreshEnergyTrendWithHKSampleQuery() async {
+        guard authorizationStatus == .authorized else { return }
+        let calendar = Calendar.current
         
+        let today = calendar.startOfDay(for: Date())
+        
+        guard let startDate = calendar.date(byAdding: .day, value: -6, to: today),
+              let endDate = calendar.date(byAdding: .day, value: 1, to: today ) else { return }
+        
+        let samples: [HKQuantitySample] = await withCheckedContinuation { continuation in
+            let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate)
+            
+            let query = HKSampleQuery(
+                sampleType: energyType,
+                predicate: predicate,
+                limit: HKObjectQueryNoLimit,
+                sortDescriptors: nil
+            ) { query, results, error in
+                continuation.resume(returning: (results as? [HKQuantitySample]) ?? [])
+            }
+        }
+        
+        var totals: [Date: Double] = [:]
+        for sample in samples {
+            let day = calendar.startOfDay(for: sample.startDate)
+            totals[day, default: 0] += sample.quantity.doubleValue(for: .kilocalorie())
+        }
+        
+        self.energyTrend = (0..<7).compactMap { offset in
+            guard let day = calendar.date(byAdding: .day, value: offset, to: startDate) else { return nil }
+            return EnergyTrendPoint(day: day, activeEnergyKcal: totals[day] ?? 0)
+        }
     }
     
+    
+    // MARK: - Live Vitals
+    
+    public func startLiveVitals() {
+        startHeartRateStream() // It will get heart rate real time and assign the value to the live vitals struct
+        Task {
+            await refreshTodaysVitals() // async it will try to fill energy and steps (not real time)
+        }
+    }
+    
+    public func stopLiveVitals() {
+        liveQueries.forEach { store.stop($0) }
+        liveQueries.removeAll()
+    }
+    
+    public func startHeartRateStream() {
+        let predicate = HKQuery.predicateForSamples(withStart: Calendar.current.startOfDay(for: Date()), end: nil)
+        
+        let dataHandler: @Sendable (HKAnchoredObjectQuery, [HKSample]?, [HKDeletedObject]?, HKQueryAnchor?, Error?) -> Void =
+        { [weak self] _, samples, _, _, _ in
+            guard let latest = (samples as? [HKQuantitySample])?.last else { return }
+            
+            let bpm = latest.quantity.doubleValue(for: HKUnit.count().unitDivided(by: .minute()))
+            
+            Task { @MainActor in
+                self?.liveVital.heartRateBPM = bpm
+            }
+        }
+        
+        // Web Sockets
+        let query = HKAnchoredObjectQuery(
+            type: hearthRateType,
+            predicate: predicate,
+            anchor: nil,
+            limit: HKObjectQueryNoLimit,
+            resultsHandler: dataHandler // First execution handler
+        )
+        query.updateHandler = dataHandler // Update Handler (every time except the first)
+        
+        store.execute(query)
+        liveQueries.append(query)
+    }
+    
+    // one shot refresh today steps plus energy used by the live vitals struct
+    public func refreshTodaysVitals() async {
+        let startOfDay = Calendar.current.startOfDay(for: Date())
+        async let steps = sumQuantity(stepType, unit: .count(), since: startOfDay)
+        async let energy = sumQuantity(energyType, unit: .kilocalorie(), since: startOfDay)
+        liveVital.steps = await steps
+        liveVital.activeEnergyKcal = await energy
+    }
 }

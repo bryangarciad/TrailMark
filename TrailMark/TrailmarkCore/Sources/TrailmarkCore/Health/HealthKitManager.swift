@@ -177,6 +177,8 @@ public final class HealthKitManager {
         }
         energyTrend = trend
     }
+    
+
 
     // MARK: - Write a workout (curriculum 1.3 / 3.2)
 
