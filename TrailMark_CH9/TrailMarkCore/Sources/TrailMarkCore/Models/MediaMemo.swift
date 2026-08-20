@@ -21,6 +21,7 @@ public enum MemoKind: String, Codable, Sendable, CaseIterable {
     }
 }
 
+// Liskov interchage principle
 public struct MediaMemo: Identifiable, Hashable, Sendable, Codable {
     public let id: UUID
     public var kind: MemoKind
@@ -73,5 +74,4 @@ public struct MediaMemo: Identifiable, Hashable, Sendable, Codable {
         
         return "\(kind.displayName)-\(df.string(from: date))" // Voice Memo-08-17-2026T19:08
     }
-    
 }

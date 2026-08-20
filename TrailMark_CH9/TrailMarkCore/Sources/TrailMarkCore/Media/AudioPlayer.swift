@@ -1,7 +1,45 @@
-//
-//  AudioPlayer.swift
-//  TrailMarkCore
-//
-//  Created by Ramses Garcia on 17/08/26.
-//
+import Foundation
+import AVFoundation
+import Observation
 
+@MainActor
+@Observable
+public final class AudioPlayer: NSObject {
+    public private(set) var isPlaying = false
+    
+    private var player: AVAudioPlayer?
+    
+    public override init() {
+        super.init()
+    }
+    
+    public func play(url: URL) {
+        do {
+            try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
+            try AVAudioSession.sharedInstance().setActive(true)
+            
+            let player = try AVAudioPlayer(contentsOf: url)
+            player.delegate = self
+            
+            player.play()
+            self.player = player
+            self.isPlaying = true
+        } catch  {
+            isPlaying = false
+        }
+    }
+    
+    public func stop() {
+        player?.stop()
+        player = nil
+        isPlaying = false
+    }
+}
+
+extension AudioPlayer: AVAudioPlayerDelegate {
+    nonisolated public func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, succesfully flag: Bool) {
+        Task { @MainActor in
+            self.stop()
+        }
+    }
+}

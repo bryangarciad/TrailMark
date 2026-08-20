@@ -11,7 +11,9 @@ public final class MediaStore {
     private let fileManager = FileManager.default
     private let indexFileName = "memos.json"
     
-    public init() {}
+    public init() {
+        loadIndex()
+    }
     
     public var mediaDirectory: URL {
         let base = fileManager.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
@@ -59,7 +61,13 @@ public final class MediaStore {
         return memo
     }
     
-    public func register(_ memo: MediaMemo) {}
+    public func register(_ memo: MediaMemo) {
+        guard !memos.contains(where: { $0.id == memo.id }) else { return }
+        memos.insert(memo, at: 0)
+        memos.sort { $0.createdAt > $1.createdAt }
+        persistIndex()
+        
+    }
     
     // MARK: - index Persistance
     private func loadIndex() {
