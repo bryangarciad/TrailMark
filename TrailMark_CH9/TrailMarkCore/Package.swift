@@ -6,7 +6,7 @@ import PackageDescription
 let package = Package(
     name: "TrailMarkCore",
     platforms: [
-        .iOS("17.0"),
+        .iOS("26.0"),
         .watchOS("10.0")
     ],
     products: [
