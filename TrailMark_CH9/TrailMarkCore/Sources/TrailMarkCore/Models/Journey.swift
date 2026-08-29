@@ -15,10 +15,10 @@ public struct Journey: Identifiable, Hashable, Sendable, Codable {
     // IDs for audio memos (storing the references for the files)
     public var memoIDs: [UUID]
     
-    // TODO: This will hold all the workout related data for the activity (health data)
-    public var workout: Double?
-    
-    
+    // The activity totals, if a workout was recorded alongside the route
+    public var workout: WorkoutRecord?
+
+
     public init(
         id: UUID = UUID(),
         title: String = "Untitled Journey",
@@ -26,7 +26,7 @@ public struct Journey: Identifiable, Hashable, Sendable, Codable {
         endedAt: Date? = nil,
         track: RouteTrack = RouteTrack(),
         memoIDs: [UUID] = [],
-        workout: Double? = nil
+        workout: WorkoutRecord? = nil
     ) {
         self.id = id
         self.title = title
@@ -38,4 +38,17 @@ public struct Journey: Identifiable, Hashable, Sendable, Codable {
     }
     
     // MARK: - Computed Properties
+
+    /// Prefer the workout's own distance when there is one — HealthKit measures it
+    /// better than summing GPS points does.
+    public var distanceMeters: Double {
+        workout?.distanceMeters ?? track.distanceMeters
+    }
+
+    public var dateText: String {
+        let df = DateFormatter()
+        df.dateStyle = .medium
+        df.timeStyle = .short
+        return df.string(from: startedAt)
+    }
 }

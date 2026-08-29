@@ -9,7 +9,7 @@ public final class WorkoutSessionManager: NSObject {
     public private(set) var isWorkoutInProgress = false
     public private(set) var heartRate: Double = 0
     public private(set) var activeEnergyKcal: Double = 0
-    public private(set) var distanceMeteres: Double = 0
+    public private(set) var distanceMeters: Double = 0
     public private(set) var startDate: Date?
     
     // Called when a session ends with the assembled record
@@ -72,8 +72,8 @@ public final class WorkoutSessionManager: NSObject {
         let record = WorkoutRecord(
             start: startDate ?? end,
             end: end,
-            activceEnergyKcal: activeEnergyKcal,
-            distanceMeters: distanceMeteres,
+            activeEnergyKcal: activeEnergyKcal,
+            distanceMeters: distanceMeters,
             averageHeartRate: heartRate > 0 ? heartRate : nil
         )
         isWorkoutInProgress = false
@@ -124,7 +124,7 @@ extension WorkoutSessionManager: HKLiveWorkoutBuilderDelegate {
     
             case HKQuantityType(.distanceWalkingRunning):
                 let meters = statistics.sumQuantity()?.doubleValue(for: .meter()) ?? 0
-                Task { @MainActor in self.distanceMeteres = meters }
+                Task { @MainActor in self.distanceMeters = meters }
                 
             default:
                 break

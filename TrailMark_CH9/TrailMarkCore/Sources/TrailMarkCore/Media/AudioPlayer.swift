@@ -37,7 +37,7 @@ public final class AudioPlayer: NSObject {
 }
 
 extension AudioPlayer: AVAudioPlayerDelegate {
-    nonisolated public func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, succesfully flag: Bool) {
+    nonisolated public func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
         Task { @MainActor in
             self.stop()
         }

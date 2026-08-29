@@ -367,8 +367,13 @@
 				DEVELOPMENT_TEAM = 33PDVR6SVF;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "TrailMark records short video memos for your field journal.";
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "this application tracks some heatlh insights and pushes that data to the healthstore";
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "this application tracks some heatlh insights and pushes that data to the healthstore";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "TrailMark records the route of your journey and geotags the memos you capture.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "TrailMark records voice memos for your field journal.";
+				INFOPLIST_KEY_NSMotionUsageDescription = "TrailMark reads motion data to detect your cadence and activity.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "TrailMark lets you attach a video from your photo library when no camera is available.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -402,8 +407,13 @@
 				DEVELOPMENT_TEAM = 33PDVR6SVF;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "TrailMark records short video memos for your field journal.";
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "this application tracks some heatlh insights and pushes that data to the healthstore";
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "this application tracks some heatlh insights and pushes that data to the healthstore";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "TrailMark records the route of your journey and geotags the memos you capture.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "TrailMark records voice memos for your field journal.";
+				INFOPLIST_KEY_NSMotionUsageDescription = "TrailMark reads motion data to detect your cadence and activity.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "TrailMark lets you attach a video from your photo library when no camera is available.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -440,6 +450,8 @@
 				INFOPLIST_KEY_CFBundleDisplayName = TrailMarkCompanion;
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "this application tracks some heatlh insights and pushes that data to the healthstore";
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "this application tracks some heatlh insights and pushes that data to the healthstore";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "TrailMark records voice memos on your wrist.";
+				INFOPLIST_KEY_NSMotionUsageDescription = "TrailMark reads motion data to detect your cadence and activity.";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "ramsesg.TrailMark-CH9";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -476,6 +488,8 @@
 				INFOPLIST_KEY_CFBundleDisplayName = TrailMarkCompanion;
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "this application tracks some heatlh insights and pushes that data to the healthstore";
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "this application tracks some heatlh insights and pushes that data to the healthstore";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "TrailMark records voice memos on your wrist.";
+				INFOPLIST_KEY_NSMotionUsageDescription = "TrailMark reads motion data to detect your cadence and activity.";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "ramsesg.TrailMark-CH9";
 				LD_RUNPATH_SEARCH_PATHS = (

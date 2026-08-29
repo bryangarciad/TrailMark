@@ -73,7 +73,7 @@ public final class HealthKitManager {
     private var hearthRateType: HKQuantityType { HKQuantityType(.heartRate) }
     
     private var readTypes: Set<HKObjectType> {
-        [stepType, distanceType, energyType, hearthRateType, HKObjectType.workoutType()]
+        [stepType, distanceType, energyType, hearthRateType, sleepType, HKObjectType.workoutType()]
     }
     
     private var shareTypes: Set<HKSampleType> {
@@ -215,8 +215,53 @@ public final class HealthKitManager {
     }
     
     
+    // MARK: - Write A Workout
+
+    /// Saves a finished activity to HealthKit as an `HKWorkout` using `HKWorkoutBuilder`.
+    /// Once this returns the workout shows up in the Health app.
+    public func save(_ record: WorkoutRecord, activity: HKWorkoutActivityType = .walking) async throws {
+        let configuration = HKWorkoutConfiguration()
+        configuration.activityType = activity
+
+        let builder = HKWorkoutBuilder(healthStore: store, configuration: configuration, device: .local())
+
+        try await builder.beginCollection(at: record.start)
+
+        // The builder only stores totals if we hand it the samples that back them.
+        var samples: [HKSample] = []
+        if record.activeEnergyKcal > 0 {
+            let quantity = HKQuantity(unit: .kilocalorie(), doubleValue: record.activeEnergyKcal)
+            samples.append(
+                HKCumulativeQuantitySample(
+                    type: energyType,
+                    quantity: quantity,
+                    start: record.start,
+                    end: record.end
+                )
+            )
+        }
+        if record.distanceMeters > 0 {
+            let quantity = HKQuantity(unit: .meter(), doubleValue: record.distanceMeters)
+            samples.append(
+                HKCumulativeQuantitySample(
+                    type: distanceType,
+                    quantity: quantity,
+                    start: record.start,
+                    end: record.end
+                )
+            )
+        }
+        if !samples.isEmpty {
+            try await builder.addSamples(samples)
+        }
+
+        try await builder.endCollection(at: record.end)
+        _ = try await builder.finishWorkout()
+    }
+
+
     // MARK: - Live Vitals
-    
+
     public func startLiveVitals() {
         startHeartRateStream() // It will get heart rate real time and assign the value to the live vitals struct
         Task {

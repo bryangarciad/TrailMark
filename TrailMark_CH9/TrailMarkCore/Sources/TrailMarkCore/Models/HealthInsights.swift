@@ -10,6 +10,15 @@ public struct SleepSummary: Equatable, Sendable, Codable {
     }
     
     public static let empty = SleepSummary()
+
+    public var hours: Double { asleepSeconds / 3600 }
+
+    public var durationText: String {
+        let formatter = DateComponentsFormatter()
+        formatter.allowedUnits = [.hour, .minute]
+        formatter.unitsStyle = .short
+        return formatter.string(from: asleepSeconds) ?? "—"
+    }
 }
 
 public struct EnergyTrendPoint: Equatable, Sendable, Codable, Identifiable {
@@ -36,6 +45,10 @@ public struct LiveVitals: Equatable, Sendable, Codable {
     }
     
     public static let empty = LiveVitals()
+
+    public var heartRateText: String {
+        heartRateBPM > 0 ? "\(Int(heartRateBPM.rounded()))" : "—"
+    }
 }
 
 public struct ActivitySummary: Equatable, Sendable, Codable {
@@ -52,4 +65,28 @@ public struct ActivitySummary: Equatable, Sendable, Codable {
     }
     
     public static let empty = ActivitySummary()
+    
+    public var stepsText: String {
+        Self.wholeNumber.string(from: NSNumber(value: steps)) ?? "0"
+    }
+    
+    public var activeEnergyText: String {
+        let value = Self.wholeNumber.string(from: NSNumber(value: activeEnergyKcal)) ?? "0"
+        return "\(value) k cal"
+    }
+    
+    public var distanceText: String {
+        let f = MeasurementFormatter()
+        f.unitOptions = .naturalScale
+        f.numberFormatter.maximumFractionDigits = 2
+        let measurement = Measurement(value: distanceMeters, unit: UnitLength.meters)
+        return f.string(from: measurement)
+    }
+    
+    private static let wholeNumber: NumberFormatter = {
+        let f = NumberFormatter()
+        f.numberStyle = .decimal
+        f.maximumFractionDigits = 0
+        return f
+    }()
 }

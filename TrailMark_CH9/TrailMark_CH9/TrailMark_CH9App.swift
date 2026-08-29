@@ -9,9 +9,12 @@ import SwiftUI
 
 @main
 struct TrailMark_CH9App: App {
+    @State private var model = AppModel()
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environment(model)
         }
     }
 }

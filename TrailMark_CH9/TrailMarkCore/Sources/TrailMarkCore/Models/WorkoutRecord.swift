@@ -4,24 +4,25 @@ public struct WorkoutRecord: Identifiable, Hashable, Sendable, Codable {
     public let id: UUID
     public var start: Date
     public var end: Date
-    public var activeEnergyKcal: Double?
-    public var distaceMeters: Double
-    public var avaregeHeartRate: Double?
-    
+    public var activeEnergyKcal: Double
+    public var distanceMeters: Double
+    /// Average heart rate over the session, if known.
+    public var averageHeartRate: Double?
+
     public init(
         id: UUID = UUID(),
         start: Date,
         end: Date,
-        activceEnergyKcal: Double = 0,
+        activeEnergyKcal: Double = 0,
         distanceMeters: Double = 0,
         averageHeartRate: Double? = nil
     ) {
         self.id = id
         self.start = start
         self.end = end
-        self.activeEnergyKcal = activceEnergyKcal
-        self.distaceMeters = distanceMeters
-        self.avaregeHeartRate = averageHeartRate
+        self.activeEnergyKcal = activeEnergyKcal
+        self.distanceMeters = distanceMeters
+        self.averageHeartRate = averageHeartRate
     }
     
     public var duration: TimeInterval { end.timeIntervalSince(start) }

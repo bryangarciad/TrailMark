@@ -11,7 +11,7 @@ extension LocationManager: CLLocationManagerDelegate {
         }
     }
     
-    nonisolated public func locationManager(_ manager: CLLocationManager, didUpdateLocation locations: [CLLocation]) {
+    nonisolated public func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let points = locations.map(TrackPoint.init(location:))
         let last = locations.last
         Task { @MainActor in

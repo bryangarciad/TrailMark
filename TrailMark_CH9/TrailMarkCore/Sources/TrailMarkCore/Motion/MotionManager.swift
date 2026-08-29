@@ -9,6 +9,17 @@ public final class MotionManager {
         case stationary, walking, running, cycling, automotive, unknown
         
         public var label: String { rawValue.capitalized } // Running, Walking
+
+        public var symbolName: String {
+            switch self {
+            case .stationary: "figure.stand"
+            case .walking: "figure.walk"
+            case .running: "figure.run"
+            case .cycling: "bicycle"
+            case .automotive: "car.fill"
+            case .unknown: "questionmark"
+            }
+        }
     }
     
     // Pedometer Activity Manager Data
@@ -19,7 +30,14 @@ public final class MotionManager {
     public private(set) var acceleration: (Double, Double, Double) = (0, 0, 0)
     // Raw Giro Data
     public private(set) var giroscope: (Double, Double, Double) = (0, 0, 0)
-    
+
+    /// Magnitude of user acceleration in g — the raw XYZ boiled down to one number
+    /// a view can actually show.
+    public var accelerationMagnitude: Double {
+        let (x, y, z) = acceleration
+        return (x * x + y * y + z * z).squareRoot()
+    }
+
     public init() {}
     
     public static var isPedometerAvailable: Bool { CMPedometer.isStepCountingAvailable() }
@@ -28,8 +46,21 @@ public final class MotionManager {
     private let pedometer = CMPedometer()
     private let activityManager = CMMotionActivityManager()
     private let motionManager = CMMotionManager()
-    
-    
+
+    // MARK: - Start / Stop
+
+    public func start() {
+        startPedometer()
+        startActivityUpdates()
+        startAccelerometer()
+    }
+
+    public func stop() {
+        pedometer.stopUpdates()
+        activityManager.stopActivityUpdates()
+        motionManager.stopDeviceMotionUpdates()
+    }
+
     private func startPedometer() {
         guard MotionManager.isPedometerAvailable else { return }
         let startOfDayToday = Calendar.current.startOfDay(for: Date()) // 2026-08-10T00:00:00.000-06:00

@@ -3,6 +3,10 @@ import AVFoundation
 import CoreLocation
 import Observation
 
+#if canImport(UIKit) && !os(watchOS)
+import UIKit
+#endif
+
 @MainActor
 @Observable
 public final class MediaStore {
@@ -29,7 +33,7 @@ public final class MediaStore {
     }
 
     public func url(for memo: MediaMemo) -> URL {
-        mediaDirectory.appendingPathExtension(memo.fileName)
+        mediaDirectory.appendingPathComponent(memo.fileName)
     }
     
     // MARK: - Saving
@@ -66,18 +70,57 @@ public final class MediaStore {
         memos.insert(memo, at: 0)
         memos.sort { $0.createdAt > $1.createdAt }
         persistIndex()
-        
+
     }
-    
+
+    /// Updates an existing memo's metadata (e.g. a geotag added after the fact).
+    public func update(_ memo: MediaMemo) {
+        guard let index = memos.firstIndex(where: { $0.id == memo.id }) else { return }
+        memos[index] = memo
+        persistIndex()
+    }
+
+    // MARK: - Deleting (also removes the file from disk)
+
+    public func delete(_ memo: MediaMemo) {
+        try? fileManager.removeItem(at: url(for: memo))
+        memos.removeAll { $0.id == memo.id }
+        persistIndex()
+    }
+
+    public func delete(at offsets: IndexSet) {
+        offsets.map { memos[$0] }.forEach(delete)
+    }
+
+    // MARK: - Thumbnails
+
+    #if canImport(UIKit) && !os(watchOS)
+    /// Generates a thumbnail for a video memo, nil for audio. iOS only: the watch
+    /// never captures video and AVAssetImageGenerator doesn't exist there.
+    public func thumbnail(for memo: MediaMemo) async -> UIImage? {
+        guard memo.kind == .video else { return nil }
+        let asset = AVURLAsset(url: url(for: memo))
+        let generator = AVAssetImageGenerator(asset: asset)
+        generator.appliesPreferredTrackTransform = true
+        generator.maximumSize = CGSize(width: 400, height: 400)
+        let time = CMTime(seconds: 0.1, preferredTimescale: 600)
+        do {
+            return UIImage(cgImage: try await generator.image(at: time).image)
+        } catch {
+            return nil
+        }
+    }
+    #endif
+
     // MARK: - index Persistance
     private func loadIndex() {
         guard let data = try? Data(contentsOf: indexURL) else { return }
-        let decoded = (try? JSONDecoder().decode([MediaMemo].self, from: data)) ?? []
+        let decoded = (try? JSONDecoder.trailmark.decode([MediaMemo].self, from: data)) ?? []
         memos = decoded.sorted { $0.createdAt > $1.createdAt } // This reconstructs the media arr with newest first (DESC Ord)
     }
-    
+
     private func persistIndex() {
-        guard let data = try? JSONEncoder().encode(memos) else { return }
+        guard let data = try? JSONEncoder.trailmark.encode(memos) else { return }
         try? data.write(to: indexURL, options: .atomic)
     }
 }

@@ -22,6 +22,9 @@ let package = Package(
         .target(
             name: "TrailMarkCore"
         ),
-
+        .testTarget(
+            name: "TrailMarkCoreTests",
+            dependencies: ["TrailMarkCore"]
+        )
     ]
 )
