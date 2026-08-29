@@ -1,102 +1,119 @@
-//
-//  ARModelView.swift
-//  TrailMark (iOS)
-//
-//  Pass-through camera, one USD model, placed by tapping where you want it. ARKit finds
-//  the surface; the tap decides where on it the object stands. Tap again to move it.
-//
-//  Needs a real device — world tracking does not exist on the Simulator.
-//
-
 import SwiftUI
 import RealityKit
 
 @MainActor
 struct ARModelView: View {
 
-    /// Bundle resource name, without the extension: `TrailSign.usdc` → `"TrailSign"`.
     var modelName: String
-
-    /// The object's height in real life, measured off the actual thing. The model is scaled
-    /// uniformly to match, which sidesteps USD units completely: it lands at true size whether
-    /// the file was authored in metres, centimetres, or whatever the exporter invented.
     var realHeight: Measurement<UnitLength>
+    var maxTapDistance: Measurement<UnitLength> = .init(value: 3, unit: .meters)
 
-    /// The pass-through camera alone only gives us device pose, so plane detection
-    /// has to be asked for separately — and the session has to outlive the request.
+
     @State private var session = SpatialTrackingSession()
 
-    /// Taps move this, not the loaded geometry, so the scale and grounding offset computed
-    /// once at load time survive every reposition.
-    @State private var pivot = Entity()
 
+    @State private var anchor = AnchorEntity(
+        .plane(.horizontal, classification: .any, minimumBounds: [0.1, 0.1]),
+        trackingMode: .once
+    )
+
+    @State private var isSurfaceReady = false
+    @State private var pivot = Entity()
+    @State private var surface = Entity()
     @State private var isPlaced = false
+
+    @State private var yaw: Float = 0
+    @State private var committedYaw: Float = 0
 
     var body: some View {
         RealityView { content in
             content.camera = .spatialTracking
-
-            let anchor = AnchorEntity(
-                .plane(.horizontal, classification: .any, minimumBounds: [0.2, 0.2]),
-                trackingMode: .once
-            )
             content.entities.append(anchor)
 
-            // An invisible slab lying over the detected surface. A tap needs *something* with
-            // a collision shape to land on, and the real-world plane isn't an entity — no
-            // ModelComponent, so it never renders, but hit testing still sees it.
-            let surface = Entity()
             surface.components.set(InputTargetComponent())
+
             surface.components.set(
-                CollisionComponent(shapes: [.generateBox(width: 40, height: 0.01, depth: 40)])
+                CollisionComponent(shapes: [
+                    .generateBox(width: 8, height: 0.01, depth: 8)
+                        .offsetBy(translation: [0, -0.005, 0])
+                ])
             )
             anchor.addChild(surface)
 
-            // Hidden until the first tap says where it goes.
             pivot.isEnabled = false
             anchor.addChild(pivot)
 
             if let model = try? await Entity(named: modelName) {
                 pivot.addChild(model)
 
-                // Measure what we got, scale so its height equals the real object's. One
-                // uniform factor, so width and depth stay in proportion.
+
                 let measured = model.visualBounds(relativeTo: pivot).extents.y
                 let target = Float(realHeight.converted(to: .meters).value)
                 if measured > 0 { model.scale *= target / measured }
 
-                // Re-measure after scaling, then centre the model over the pivot and sit it
-                // *on* the surface — so the tap lands under the object's feet, not its middle.
+
                 let bounds = model.visualBounds(relativeTo: pivot)
                 model.position.x -= bounds.center.x
                 model.position.y -= bounds.min.y
                 model.position.z -= bounds.center.z
+
+                let size = model.visualBounds(relativeTo: pivot).extents
+                pivot.components.set(InputTargetComponent())
+                pivot.components.set(
+                    CollisionComponent(shapes: [
+                        .generateBox(size: size).offsetBy(translation: [0, size.y / 2, 0])
+                    ])
+                )
             }
         }
         .ignoresSafeArea()
         .gesture(place)
+        .simultaneousGesture(spin)
         .overlay(alignment: .top) { hint }
-        .task { _ = await session.run(.init(tracking: [.plane])) }
+        .task {
+            _ = await session.run(.init(tracking: [.plane]))
+            while !Task.isCancelled && !anchor.isAnchored {
+                try? await Task.sleep(for: .milliseconds(200))
+            }
+            isSurfaceReady = anchor.isAnchored
+        }
     }
 
-    /// Tapping the invisible surface hands us a screen point, which unprojects back onto the
-    /// geometry that was actually hit — the spot on the floor under the user's finger.
     private var place: some Gesture {
         SpatialTapGesture()
-            .targetedToAnyEntity()
+            .targetedToEntity(surface)
             .onEnded { value in
-                guard let spot = value.unproject(\.location, to: .scene) else { return }
-                pivot.setPosition(spot, relativeTo: nil)
+                guard let spot = value.unproject(\.location, to: .scene),
+                      let fromLens = value.unproject(\.location, to: .camera),
+                      simd_length(fromLens) <= Float(maxTapDistance.converted(to: .meters).value)
+                else { return }
+
+
+                let floorY = surface.position(relativeTo: nil).y
+                pivot.setPosition([spot.x, floorY, spot.z], relativeTo: nil)
                 pivot.isEnabled = true
                 isPlaced = true
             }
     }
 
-    /// Without this the screen is a bare camera feed and nothing tells you to tap.
+
+    private var spin: some Gesture {
+        DragGesture(minimumDistance: 20)
+            .targetedToEntity(pivot)
+            .onChanged { value in
+                yaw = committedYaw + Float(value.translation.width) * 0.01
+                pivot.orientation = simd_quatf(angle: yaw, axis: [0, 1, 0])
+            }
+            .onEnded { _ in committedYaw = yaw }
+    }
+
     @ViewBuilder
     private var hint: some View {
         if !isPlaced {
-            Text("Aim at the floor, then tap to place")
+            Label(
+                isSurfaceReady ? "Tap the floor nearby to place it" : "Move the phone slowly over the floor",
+                systemImage: isSurfaceReady ? "hand.tap" : "viewfinder"
+            )
                 .font(.callout)
                 .padding(.vertical, 10)
                 .padding(.horizontal, 14)
